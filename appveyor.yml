@@ -8,4 +8,6 @@ install:
 test_script:
   - yarn test
 
+before_build:
+  - cd ./server
 build: off
