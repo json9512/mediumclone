@@ -7,11 +7,23 @@ matrix:
   include:
   - node_js: '15'
 
+services:
+  - postgresql
+
+addons:
+  postgresql: '10'
+  apt:
+    packages:
+      - postgresql-10
+      - postgresql-client-10
+
 cache:
   directories: [node_modules]
 
 before_install:
   - cd ./server
+  - sudo cp /etc/postgresql/{9.6, 10}/main/pg_hba.conf
+  - sudo /etc/init.d/postgresql restart
 
 install:
   yarn install --ignore-engines
@@ -20,6 +32,7 @@ after_success: yarn coverage
 
 before_script:
   - echo $PWD
+  - psql -C 'create database postgres;' -U postgres
   - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
   - chmod +x ./cc-test-reporter
   - ./cc-test-reporter before-build
