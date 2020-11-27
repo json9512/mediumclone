@@ -2,10 +2,8 @@ environment:
   matrix:
   - nodejs_version: '15'
 
-before_install:
-  - cd ./server
-
 install:
+  - cd ./server
   - yarn
 
 test_script:
