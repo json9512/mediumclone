@@ -4,7 +4,7 @@ environment:
 
 install:
   - cd ./server
-  - yarn
+  - yarn install --ignore-engines
 
 test_script:
   - yarn test
