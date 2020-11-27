@@ -25,6 +25,9 @@ A medium clone to learn how to make services like Medium
 - Redis
 - Psql
 - Docker
+- Travis (CI, Linux testing)
+- Appveyor (CI, Windows testing)
+- mocha, sinon-chai, chai, nyc, supertest, coveralls for Testing and visualization
 
 # Architecture
 

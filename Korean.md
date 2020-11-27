@@ -23,6 +23,9 @@ Medium 같은 서비스를 구현하는 방법을 배우고자 시작한 클론 
 - Redis
 - Psql
 - Docker
+- Travis (CI, Linux 환경 테스트)
+- Appveyor (CI, Windows 환경 테스트)
+- mocha, sinon-chai, chai, nyc, supertest, coveralls 테스트 및 visualization
 
 # 아키텍쳐 
 
