@@ -2,12 +2,13 @@ environment:
   matrix:
   - nodejs_version: '15'
 
+before_install:
+  - cd ./server
+
 install:
   - yarn
 
 test_script:
   - yarn test
 
-before_build:
-  - cd ./server
 build: off
