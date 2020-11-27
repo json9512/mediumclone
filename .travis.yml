@@ -5,7 +5,7 @@ env:
 
 matrix:
   include:
-  - node_js: '14'
+  - node_js: '15'
 
 cache:
   directories: [node_modules]
