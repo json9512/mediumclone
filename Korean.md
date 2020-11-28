@@ -36,3 +36,5 @@ Medium 같은 서비스를 구현하는 방법을 배우고자 시작한 클론 
 # 과정
 
 개발일지는 [여기](https://www.github.com/json9512/mediumclone/blob/master/Progress_kr.md)에 있습니다.
+
+# 결과

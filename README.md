@@ -38,3 +38,5 @@ In reality, the architecture would change either to MSA or SOA.
 # Progress
 
 Details can be found [here](https://www.github.com/json9512/mediumclone/blob/master/Progress.md)
+
+# Outcome
