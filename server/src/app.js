@@ -25,4 +25,8 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 
 
+app.use((err, req, res, next) => {
+    res.status(400).json({error: err.stack});
+});
+
 export default app;
