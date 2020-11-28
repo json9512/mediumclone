@@ -30,8 +30,9 @@ describe('Messages', () => {
                     expect(m).to.have.property('id');
                     expect(m).to.have.property('name', data.name);
                     expect(m).to.have.property('message', `SAYS: ${data.message}`);
-                });
-                done();
+                    done();
+                }).catch(done);
+                
             });
     });
 });
