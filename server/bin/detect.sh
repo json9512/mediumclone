@@ -3,5 +3,5 @@
 
 # used for inline heroku buildpack
 
-echo "server/"
+echo "My Subdir buildpack"
 exit 0
