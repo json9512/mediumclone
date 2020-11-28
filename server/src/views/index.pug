@@ -1,5 +1,26 @@
 extends layout
 
+block navbar
+  div(class="navbar-container")
+    div(class='navbar-logo') 
+      img(src='/images/logo_black.png' alt="logo" draggable='false')
+    div(class='navbar-tools')
+      div(class='navbar-buttons') login
+      div(class='navbar-buttons-impact') register
+      
+
 block content
-  h1= title
-  p Welcome to #{title}
+  div(class='main-container')
+    div(class='advert-container')
+      div(class='advert-image-container')
+        img(class='advert-image' src="/images/darth.png" alt="d_logo" draggable='false') 
+        img(class='advert-image' src="/images/maul.png" alt="d_logo" draggable='false')
+        img(class='advert-image' src="/images/r2.png" alt="d_logo" draggable='false')
+        img(class='advert-image' src="/images/storm.png" alt="d_logo" draggable='false')
+        img(class='advert-image' src="/images/yoda.png" alt="d_logo" draggable='false')
+
+      div(class='advert-word') A long time ago in a galaxy far, far away . . .
+  
+    div(class='trending-container')
+
+    

@@ -4,11 +4,11 @@ describe('Index page test', () => {
   it('gets base url', done => {
     server
       .get(`${BASE_URL}/`)
-      .expect(200)
       .end((err, res) => {
         expect(res.status).to.equal(200);
-        expect(res.body.title).to.equal(
-          'Test'
+        expect(res.headers['content-type']).to.equal('text/html; charset=utf-8')
+        expect(res.text).to.contains(
+          'content'
         );
         done();
       });
