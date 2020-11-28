@@ -1,4 +1,3 @@
-import { create } from 'domain';
 import {
     dropTables,
     createTables,
@@ -8,6 +7,7 @@ import {
 before(async() => {
     await createTables();
     await insertIntoTables();
+    
 });
 
 after(async () => {

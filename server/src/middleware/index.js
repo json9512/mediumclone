@@ -1,2 +1,2 @@
 export * from './modifyMessage';
-export * from './ayncTest';
+export * from './asyncTest';

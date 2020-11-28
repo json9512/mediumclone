@@ -5,7 +5,10 @@ dotenv.config();
 
 export const pool = new Pool({
     connectionString: PSQL_CONNECTION_STRING,
+    // Only when deploying to heroku
+    // Else, comment
+    /*
     ssl: {
         rejectUnauthorized: false
-    }
+    }*/
 });
