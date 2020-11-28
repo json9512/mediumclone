@@ -34,7 +34,8 @@ after_script:
 - "./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT"
 deploy:
   provider: heroku
-  app:
-    master: json9512-mediumclone
+  app: json9512-mediumclone
+    on:
+      branch: main 
   api_key:
     secure: IAeNXy08YNehPs+Dqbm/sUpPArDAPXoY3B+wYHy3/TwLjJEbmUqcwh3C9kOzVBZ0jL3lhZfmjIuhsSWQPpzQhFqKQ1PFElNAKrcS8OBf5MhrxbVOqdc2XOjdBfSBqHPIowg7iTDpRk+0zsHCKCwnKRI7A80/EqvxuZo36zCqZPe/b+EZawGHmBEpAp0jVyDVFMSNRf0S1FymrGf8uFUVIKw2dbQUY0xkGuDIy7DkXkf4ML8QO5Ou9AKtFBfcrAUkXVUI/ZneLsE/wTFn884HxvhrOY73L6GW4fZlq8uS0uBz83z7zkF+tQ1fh3GXy9dRU5oY/YdMXjvHFVZNm8NEyNn6Br6qsJTRhVJLRQImXAjiIFMfeTqPijPJbtPVn8+jXTTd2yZMpTQHu0HH8b49jM7QHDCf1lg00nQ0eiDhlsiWYyC3pUmaArocJs+XkLOX1N3vv+4Ys7VjkHpxwZ2zV3aaTkKo7wyc8DvQgIoXmOLdLf98uiW49a+1Z6z6W3jGb6u5FAp9G39Qewzu0dPvWq5ICc0gE/DqSxDg5E9NthDvQ0Y1XIq9iL+o2GBwQ79gh5+PnOXSkAZUZGfBYYAWReHvQOMBpWPcvpy2K3JlaL/9YCsaRDjTTjwd3c3oBg8fBJpVloEgDBvM2d230quuJfnXLRZBaokAurVnf9eGabg=
