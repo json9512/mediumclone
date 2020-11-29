@@ -7,8 +7,7 @@
   },
   "scripts": {
     "prestart": "babel ./src --out-dir build",
-    "start": "nodemon --exec babel-node ./src/bin/www",
-    "ogstart":"node ./build/bin/www",
+    "start": "node ./build/bin/www",
     "startdev": "nodemon --exec babel-node ./src/bin/www",
     "test": "nyc --reporter=html --reporter=text --reporter=lcov mocha -r @babel/register",
     "coverage": "nyc report --reporter=text-lcov | coveralls",
