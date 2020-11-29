@@ -1,2 +1,3 @@
 export * from './modifyMessage';
-export * from './ayncTest';
+export * from './asyncTest';
+export * from './authentications';

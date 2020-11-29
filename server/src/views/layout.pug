@@ -1,7 +1,27 @@
 doctype html
 html
   head
-    title= title
+    title=title
+    meta(charset='utf-8')
+    meta(name="viewport" content="width=device-width, initial-scale=1.0")
     link(rel='stylesheet', href='/stylesheets/style.css')
   body
+    block navbar
+      div(class="navbar-container")
+        div(class='navbar-logo') 
+          a(href='/')
+            img(src='/images/logo_black.png' alt="logo" draggable='false')
+        
+        if isAuthenticated
+          
+          div(class='navbar-buttons-impact') 
+            a(href='/myposts') my posts
+          
+          div(class='navbar-buttons') 
+            a(href='/logout') logout
+        else
+          
+          div(class='navbar-buttons-impact') 
+            a(href='/login') login
+    
     block content

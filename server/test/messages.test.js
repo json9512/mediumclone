@@ -1,4 +1,3 @@
-import { isMainThread } from 'worker_threads';
 import {expect, server, BASE_URL} from './setup';
 
 describe('Messages', () => {
@@ -17,7 +16,7 @@ describe('Messages', () => {
             });
     });
 
-    it('posts messages', done=>{
+    it('posts messages', done => {
         const data = {name: "test post", message: "test post message"};
         server
             .post(`${BASE_URL}/messages`)
@@ -30,9 +29,11 @@ describe('Messages', () => {
                     expect(m).to.have.property('id');
                     expect(m).to.have.property('name', data.name);
                     expect(m).to.have.property('message', `SAYS: ${data.message}`);
-                    done();
-                }).catch(done);
+                    
+                });
                 
-            });
+                done();
+                
+            }); 
     });
 });

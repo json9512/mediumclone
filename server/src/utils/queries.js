@@ -13,4 +13,14 @@ VALUES ('test', 'first message'),
     ('test2', 'second message');
 `;
 
+export const createUserTable = `
+DROP TABLE IF EXISTS users;
+CREATE TABLE IF NOT EXISTS users (
+    id SERIAL PRIMARY KEY,
+    username VARCHAR UNIQUE,
+    password VARCHAR(100),
+    type VARCHAR(50)
+)
+`;
+
 export const dropMessagesTable = `DROP TABLE messages;`;
