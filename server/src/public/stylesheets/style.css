@@ -127,6 +127,13 @@ div {
   
 }
 
+.navbar-tools > a{
+  outline: none;
+  position: relative;
+  text-decoration: none;
+  align-self: center;
+}
+
 .navbar-buttons{
   display: flex;
   flex-direction: column;
@@ -144,7 +151,7 @@ div {
   padding: 12px 10px 0px 10px;
   margin-bottom: 1vh;
   font-family: 'Josefin Sans', sans-serif;
-  transition-duration: 0.4s;
+  
 }
 
 .navbar-buttons-impact{
@@ -164,7 +171,6 @@ div {
   padding: 10px 10px 0px 10px;
   margin-bottom: 1vh;
   font-family: 'Josefin Sans', sans-serif;
-  transition-duration: 0.4s;
 }
 
 .navbar-buttons:hover{
@@ -300,6 +306,7 @@ div {
 */
 
 .content-container{
+  margin-top: 2vh;
   height: auto;
   width: 100%;
   display: grid;
@@ -404,6 +411,11 @@ div {
   display: grid;
   grid-template-columns: auto auto;
   border-bottom: 1px solid black;;
+}
+
+.footer-info-container > a{
+  text-decoration: none;
+  justify-self: end;
 }
 
 .github-icon{

@@ -1,15 +1,12 @@
 import { expect, server, BASE_URL } from './setup';
 
 describe('Users page test', () => {
-  it('gets users url', done => {
+  it('Access users page without login', done => {
     server
       .get(`${BASE_URL}/users`)
-      .expect(200)
+      .expect(302)
       .end((err, res) => {
-        expect(res.status).to.equal(200);
-        expect(res.body.message).to.equal(
-          'respond with a resource'
-        );
+        expect(res.status).to.equal(302);
         done();
       });
   });
