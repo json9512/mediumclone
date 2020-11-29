@@ -557,3 +557,31 @@ a{
   text-align: left;
   margin-bottom: 1vh;
 }
+
+/* Editor Page*/
+/* Myposts page*/
+.left-main-container-editor{
+  top: 13vh;
+  height: 100%;
+  background-color: white;
+  grid-column: 1/2;
+  display: flex;
+  flex-direction: column;
+}
+
+.center-main-container-editor{
+  height: 100%;
+  grid-column: 3/8;
+  display: flex;
+  flex-direction: column;
+  background-color: red;
+}
+
+.right-main-container-editor{
+  top: 13vh;
+  height: 100%;
+  background-color: white;
+  grid-column: 9/10;
+  display: flex;
+  flex-direction: column;
+}

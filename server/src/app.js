@@ -15,6 +15,7 @@ import indexRouter from './routes/index';
 import usersRouter from './routes/users';
 import authRouter from './routes/auth';
 import mypostsRouter from './routes/myposts';
+import editorRouter from './routes/editor';
 
 const app = express();
 
@@ -68,6 +69,7 @@ app.use('/', authRouter);
 app.use('/', indexRouter);
 app.use('/users', isSecured, usersRouter);
 app.use('/myposts', isSecured, mypostsRouter);
+app.use('/editor', isSecured, editorRouter);
 
 // Catch Errors
 app.use((err, req, res, next) => {

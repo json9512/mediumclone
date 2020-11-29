@@ -1,8 +1,7 @@
 import {testEnvVar} from '../settings';
 import {generateAccessToken} from '../utils/jwt';
 
-
-export const myPostsPage = (req, res) => {
+export const editorPage = (req, res) => {
     /**Create JWT token here if user is logged in
     if (req.user){
         console.log("Logged in at index")
@@ -13,5 +12,5 @@ export const myPostsPage = (req, res) => {
     }*/
 
 
-    return res.render('myposts',{})
+    return res.render('editor', {title: testEnvVar})
 }
