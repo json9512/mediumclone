@@ -1,6 +1,7 @@
 import express from 'express';
 import passport from 'passport';
-import {logoutFunc} from '../controllers'
+import {logoutFunc} from '../controllers';
+
 
 const router = express.Router();
 
@@ -30,9 +31,7 @@ router.get('/callback', (req, res, next) => {
             if (err) {
                 return next(err);
             }
-
-            console.log(user)
-
+            
             const returnTo = req.session.returnTo;
             delete req.session.returnTo;
             res.redirect(returnTo || "/");

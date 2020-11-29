@@ -1,7 +1,7 @@
 import {testEnvVar} from '../settings';
 import {generateAccessToken} from '../utils/jwt';
 
-export const indexPage = (req, res) => {
+export const myPostsPage = (req, res) => {
     /**Create JWT token here if user is logged in*/
     if (req.user){
         console.log("Logged in at index")
@@ -12,5 +12,5 @@ export const indexPage = (req, res) => {
     }
 
 
-    return res.render('home', {title: testEnvVar})
+    return res.render('myposts', {title: testEnvVar})
 }

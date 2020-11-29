@@ -14,6 +14,7 @@ import {isAuthenticated, isSecured} from './middleware'
 import indexRouter from './routes/index';
 import usersRouter from './routes/users';
 import authRouter from './routes/auth';
+import mypostsRouter from './routes/myposts';
 
 const app = express();
 
@@ -66,6 +67,7 @@ app.use(isAuthenticated)
 app.use('/', authRouter);
 app.use('/', indexRouter);
 app.use('/users', isSecured, usersRouter);
+app.use('/myposts', isSecured, mypostsRouter);
 
 // Catch Errors
 app.use((err, req, res, next) => {
