@@ -1,9 +1,12 @@
 extends layout
 
 block content
+  script(type='module' src='/javascripts/main.bundle.js')
   div(class='main-container')
     div(class='left-main-container-editor')
         div(class='test') This will have profile info?
     div(class='center-main-container-editor')
+      div(class='editor')
+        div(class='editor-content')
     div(class='right-main-container-editor')
         div(class='test') This will have profile info?

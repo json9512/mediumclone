@@ -12,5 +12,7 @@ export const editorPage = (req, res) => {
     }*/
 
 
+
+
     return res.render('editor', {title: testEnvVar})
 }
