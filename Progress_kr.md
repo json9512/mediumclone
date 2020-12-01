@@ -9,7 +9,7 @@ Medium 클론 코딩을 하며 배운 것들을 주별로 정리 한 문서입�
 |1|11/27|<ul><li>github 레포 만들기 및 프로젝트 구축</li></ul>|n/a|
 |1|11/28|<ul><li>Mocha, sinon-chai, supertests를 이용한 테스트 코드 작성</li><li>Travis, Appveyor를 이용한 CI pipepline 구축</li><li>Heroku 배포 환경설정</li></ul>|n/a|
 |1|11/29|<ul><li>Auth0를 이용한 user authentication</li></ul>|n/a|
-|1|11/30|<ul><li>ProseMirror docs 정독</li></ul>|에디터 구현|
+|1|11/30|<ul><li>ProseMirror docs 정독</li><li>기본 editor 구현 후 webpack으로 pug template에 적용</li></ul>|에디터 구현|
 
 
 # 구현 할 기능

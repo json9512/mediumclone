@@ -9,7 +9,7 @@ This readme shows the weekly progress of the development
 |1|11/27|<ul><li>Setup github and basic skeleton for the project</li></ul>|n/a|
 |1|11/28|<ul><li>Setup Test cases with Mocha, sinon-chai, supertests</li><li>Setup CI pipepline with Travis, Appveyor</li><li>Setup deployment environment on Heroku</li></ul>|n/a|
 |1|11/29|<ul><li>User authentication with Auth0</li></ul>|n/a|
-|1|11/30|<ul><li>Read the docs for ProseMirror</li></ul>|To create an editor|
+|1|11/30|<ul><li>Read the docs for ProseMirror</li><li>Implement basic ProseMirror editor and bundle with webpack for frontend</li></ul>|To create an editor|
 
 
 # Set of features to implement

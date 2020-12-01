@@ -27,5 +27,3 @@ export const AUTH0_CLIENT_SECRET = process.env.AUTH0_CLIENT_SECRET;
 export const AUTH0_DOMAIN = process.env.AUTH0_DOMAIN;
 export const SESSION_SECRET = process.env.SESSION_SECRET;
 export const AUTH0_CALLBACK_URL = process.env.AUTH0_CALLBACK_URL;
-export const TOKEN_SECRET = process.env.TOKEN_SECRET;
-export const TOKEN_LIFE = process.env.TOKEN_LIFE;

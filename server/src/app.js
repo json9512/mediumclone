@@ -20,7 +20,14 @@ import editorRouter from './routes/editor';
 const app = express();
 
 // HTTP Header settings with helmet
-app.use(helmet());
+app.use(helmet({
+    contentSecurityPolicy: {
+        directives: {
+            ...helmet.contentSecurityPolicy.getDefaultDirectives(),
+            "img-src": ["'self'", "https:", "data"]
+        }
+    }
+}));
 
 // view engine setup
 app.set('view engine', 'pug');
@@ -65,6 +72,7 @@ passport.deserializeUser((user, done)=>{
 })
 
 app.use(isAuthenticated)
+
 // Routes
 app.use('/', authRouter);
 app.use('/', indexRouter);

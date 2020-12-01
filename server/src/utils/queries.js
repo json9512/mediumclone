@@ -23,4 +23,16 @@ CREATE TABLE IF NOT EXISTS users (
 )
 `;
 
+export const createPostTable = `
+DROP TABLE IF EXISTS posts;
+CREATE TABLE IF NOT EXISTS posts (
+    id SERIAL PRIMARY KEY,
+    username VARCHAR,
+    document jsonb,
+    comments jsonb,
+    likes INTEGER
+)
+`
+
 export const dropMessagesTable = `DROP TABLE messages;`;
+export const dropPostsTable = `DROP TABLE posts;`;
