@@ -1,49 +1,31 @@
 extends layout
 
 block content
+  script(type='module/javascript' src='/javascripts/main.bundle.js')
   div(class='main-container')
     div(class='left-main-container')
-        div(class='test') This will have profile info?
+        div(class='create-post-container') Write article
     div(class='center-main-container')
         div(class='posts-maintitle') Posts
-        div(class='myposts-item-container') 
 
-            div(class='posts-title') Test ----- Title ------ Star Warsaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-            div(class='posts-description') Some description ----- Dark Star -------- Darth Vaderasssssssssssssssssssssssssssssssssssssssssssssssssss
-            div(class='posts-info') Some  meta tags or when this is written ----- 11 Nov at 14:53
+        if data.length > 0
+            each item in data
+                div(class='myposts-item-container') 
 
-        div(class='myposts-item-container') 
-            
+                    div(class='posts-title' onclick=`postClicked(${item.id})`) #{item.title}
+                    div(class='posts-description' onclick=`postClicked(${item.id})`) #{item.description}
+                    div(class='posts-info') #{item.updated_at}
+                
+        else
+            div(class='myposts-item-container') 
 
-            div(class='posts-title') Test ----- Title ------ Star Warsaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-            div(class='posts-description') Some description ----- Dark Star -------- Darth Vaderasssssssssssssssssssssssssssssssssssssssssssssssssss
-            div(class='posts-info') Some  meta tags or when this is written ----- 11 Nov at 14:53
-
-        div(class='myposts-item-container') 
-            
-
-            div(class='posts-title') Test ----- Title ------ Star Warsaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-            div(class='posts-description') Some description ----- Dark Star -------- Darth Vaderasssssssssssssssssssssssssssssssssssssssssssssssssss
-            div(class='posts-info') Some  meta tags or when this is written ----- 11 Nov at 14:53
-
-        div(class='myposts-item-container') 
-           
-            div(class='posts-title') Test ----- Title ------ Star Warsaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-            div(class='posts-description') Some description ----- Dark Star -------- Darth Vaderasssssssssssssssssssssssssssssssssssssssssssssssssss
-            div(class='posts-info') Some  meta tags or when this is written ----- 11 Nov at 14:53
-
-        div(class='myposts-item-container') 
-           
-            div(class='posts-title') Test ----- Title ------ Star Warsaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-            div(class='posts-description') Some description ----- Dark Star -------- Darth Vaderasssssssssssssssssssssssssssssssssssssssssssssssssss
-            div(class='posts-info') Some  meta tags or when this is written ----- 11 Nov at 14:53
-
-        div(class='myposts-item-container') 
-            
-            div(class='posts-title') Test ----- Title ------ Star Warsaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-            div(class='posts-description') Some description ----- Dark Star -------- Darth Vaderasssssssssssssssssssssssssssssssssssssssssssssssssss
-            div(class='posts-info') Some  meta tags or when this is written ----- 11 Nov at 14:53
+                div(class='posts-title-no-pointer') No posts yet ...
 
         div(class='footer-myposts') End 
 
     div(class="divider-myposts")
+    script.
+        const postClicked = (id) => {
+            window.location.href = `http://localhost:3000/editor?id=${id}`;
+        }
+                

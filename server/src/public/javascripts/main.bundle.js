@@ -17780,22 +17780,18 @@ axios__WEBPACK_IMPORTED_MODULE_6___default().post("http://localhost:3000/editor/
  * Saves the current state to the database
  */
 const saveClickFunc = () => {
-
-
-
-    // Get username info 
-    /*
+    // Get info 
     const document = window.view.state.toJSON();
     const comments = {test: "comments"};
-    const likes = "test";
-    const id = "none"; // This will come from myposts it can also be none if this is created from scratch
-    axios.post("http://localhost:3000/editor", {
+    const likes = 2;
+    const id = 2; // This will come from myposts it can also be none if this is created from scratch
+    axios__WEBPACK_IMPORTED_MODULE_6___default().post("http://localhost:3000/editor", {
         id, document, comments, likes
     }).then((res) => {
         console.log(res);
     }).catch((err) => {
         console.log(err);
-    })*/
+    })
 
 }
 
@@ -17803,6 +17799,22 @@ document.querySelector(".save-button").addEventListener('click', () => {
     saveClickFunc();
 });
 
+
+
+/***/ }),
+
+/***/ "./src/public/javascripts/index.js":
+/*!*****************************************!*\
+  !*** ./src/public/javascripts/index.js ***!
+  \*****************************************/
+/*! namespace exports */
+/*! exports [not provided] [no usage info] */
+/*! runtime requirements: __webpack_require__, __webpack_require__.r, __webpack_exports__, __webpack_require__.* */
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _editor__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./editor */ "./src/public/javascripts/editor.js");
 
 
 /***/ })
@@ -17876,7 +17888,7 @@ document.querySelector(".save-button").addEventListener('click', () => {
 /************************************************************************/
 /******/ 	// startup
 /******/ 	// Load entry module
-/******/ 	__webpack_require__("./src/public/javascripts/editor.js");
+/******/ 	__webpack_require__("./src/public/javascripts/index.js");
 /******/ 	// This entry module used 'exports' so it can't be inlined
 /******/ })()
 ;

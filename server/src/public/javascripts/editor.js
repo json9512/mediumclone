@@ -38,8 +38,8 @@ const saveClickFunc = () => {
     // Get info 
     const document = window.view.state.toJSON();
     const comments = {test: "comments"};
-    const likes = "test";
-    const id = "none"; // This will come from myposts it can also be none if this is created from scratch
+    const likes = 2;
+    const id = 2; // This will come from myposts it can also be none if this is created from scratch
     axios.post("http://localhost:3000/editor", {
         id, document, comments, likes
     }).then((res) => {

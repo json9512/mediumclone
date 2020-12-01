@@ -418,6 +418,31 @@ div {
   top: 13vh;
 }
 
+.create-post-container{
+  position: -webkit-sticky; /* Safari & IE */
+  position: sticky;
+  top: 16.5vh;
+  margin-top: 3vh;
+  color: white;
+
+  width: fit-content;
+  height: 4vh;
+  font-size: 1.3vw;
+  font-weight: 700;
+  cursor: pointer;
+  background-color: rgb(29, 29, 29);
+  border-radius: 10px;
+  text-align: center;
+  padding: 10px 10px 0px 10px;
+  font-family: 'Josefin Sans', sans-serif;
+  grid-column: 8;
+  align-self: center;
+}
+
+.create-post-container:hover{
+  background-color:black;
+}
+
 .footer-myposts{
   margin-top: 5vh;
   font-family: 'Press Start 2P', cursive;
@@ -450,6 +475,14 @@ div {
   margin-top: 2vh;
   margin-bottom: 2vh;
   cursor: pointer;
+}
+
+.posts-title-no-pointer{
+  width: auto;
+  font-family: 'Prompt', sans-serif;
+  font-size: 1.5vw;
+  margin-top: 2vh;
+  margin-bottom: 2vh;
 }
 
 .posts-description{

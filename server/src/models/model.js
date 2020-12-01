@@ -31,10 +31,9 @@ export default class Model {
             const id = values.split(",")[0]
             
             // Check if data with id exists
-            const checkq = `SELECT EXISTS(SELECT 1 FROM ${this.table} WHERE id=${id});`
-            const check = await this.pool.query(checkq)
+            const check = await this.select("*", ` WHERE id=${id};`);
             
-            if (check.rows[0].exists === false){
+            if (check.rowCount === 0){
                 return {rows: `Error: data with id: ${id} does not exists in database`, code: 400};
             }
 
@@ -56,6 +55,17 @@ export default class Model {
         }
 
         return this.pool.query(query);
+    }
+
+    async checkIfRowExists(){
+        const query = `SELECT * FROM ${this.table};`;
+        const result = await this.pool.query(query)
+        
+        if (result.rowCount < 1){
+            return false
+        }
+
+        return true
     }
 
 }

@@ -5,7 +5,10 @@ import {
     createMessageTable,
     createUserTable,
     createPostTable,
-    dropPostsTable
+    dropPostsTable,
+    createTimeStampFunction,
+    dropFunctionsAndTrigger,
+    createTimeStampTrigger
 } from './queries';
 
 export const executeQueryArray = async arr => new Promise(resolve => {
@@ -16,10 +19,9 @@ export const executeQueryArray = async arr => new Promise(resolve => {
     });
 });
 
-export const executeQuery = async(q) => {
-    await pool.query(q);
-}
 
 export const dropTables = () => executeQueryArray([dropMessagesTable, dropPostsTable]);
 export const createTables = () => executeQueryArray([createMessageTable, createUserTable, createPostTable]);
 export const insertIntoTables = () => executeQueryArray([insertMessages]);
+export const createFuncsAndTriggers = () => executeQueryArray([createTimeStampFunction, createTimeStampTrigger]);
+export const dropFunctionsAndTriggers = () => executeQueryArray([dropFunctionsAndTrigger])

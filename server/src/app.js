@@ -10,6 +10,7 @@ import {
 } from './settings';
 
 import {isAuthenticated, isSecured} from './middleware'
+import {NONCE_TOKEN} from './settings';
 
 import indexRouter from './routes/index';
 import usersRouter from './routes/users';
@@ -24,7 +25,9 @@ app.use(helmet({
     contentSecurityPolicy: {
         directives: {
             ...helmet.contentSecurityPolicy.getDefaultDirectives(),
-            "img-src": ["'self'", "https:", "data"]
+            "img-src": ["'self'", "https:", "data"],
+            "script-src": ["'self'", "'unsafe-inline'"],
+            "script-src-attr": ["'self'", "'unsafe-inline'"]
         }
     }
 }));
