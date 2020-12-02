@@ -64,19 +64,27 @@ div {
 }
 
 .navbar-logo{
+  position: fixed;
   display:flex;
-  flex-direction: row;
   height: 58px;
-  justify-self: center;
   padding-left: 0;
-  grid-column: 3;
   cursor: pointer;
   align-self: flex-end;
   margin-bottom: 2vh;
+  margin-left: 15vw;
+  margin-top: 4vh;
+}
+
+.navbar-buttons-container{
+  width: fit-content;
+  grid-column: 8/9;
+  display: grid;
+  grid-template-columns: auto auto;
+  grid-template-rows: auto; 
+  align-self: end;
 }
 
 .navbar-buttons{
-  flex-direction: column;
   width: auto;
   height: 4vh;
   font-size: 1.3vw;
@@ -86,24 +94,7 @@ div {
   text-align: center;
   padding: 12px 10px 0px 10px;
   font-family: 'Josefin Sans', sans-serif;
-  grid-column: 9;
-  align-self: flex-end;
-  margin-bottom: 1vh;
-}
-
-.navbar-buttons-impact{
-  width: fit-content;
-  height: 4vh;
-  font-size: 1.3vw;
-  font-weight: 700;
-  cursor: pointer;
-  background-color: rgb(29, 29, 29);
-  border-radius: 10px;
-  text-align: center;
-  padding: 10px 10px 0px 10px;
-  font-family: 'Josefin Sans', sans-serif;
-  grid-column: 8;
-  align-self: flex-end;
+  grid-row: 1;
   margin-bottom: 1vh;
 }
 
@@ -114,18 +105,8 @@ div {
 }
 
 
-.navbar-buttons-impact > a{
-  color: white;
-  outline: none;
-  text-decoration: none;
-}
-
 .navbar-buttons > a:hover{
   color: black;
-}
-
-.navbar-buttons-impact:hover{
-  background-color:black;
 }
 
 .main-container{
@@ -418,29 +399,25 @@ div {
   top: 13vh;
 }
 
-.create-post-container{
+.create-post-container, .edit-post-container{
   position: -webkit-sticky; /* Safari & IE */
   position: sticky;
   top: 16.5vh;
   margin-top: 3vh;
   color: white;
 
-  width: fit-content;
-  height: 4vh;
   font-size: 1.3vw;
   font-weight: 700;
   cursor: pointer;
-  background-color: rgb(29, 29, 29);
+  background-color: white;
   border-radius: 10px;
-  text-align: center;
-  padding: 10px 10px 0px 10px;
+  color: rgb(66, 66, 66);
   font-family: 'Josefin Sans', sans-serif;
-  grid-column: 8;
   align-self: center;
 }
 
-.create-post-container:hover{
-  background-color:black;
+.create-post-container:hover, .edit-post-container:hover{
+  color:black;
 }
 
 .footer-myposts{

@@ -14,16 +14,16 @@ html
           a(href='/')
             img(src='/images/logo_black.png' alt="logo" draggable='false')
         
-        if isAuthenticated
-          
-          div(class='navbar-buttons-impact') 
-            a(href='/myposts') my posts
-          
-          div(class='navbar-buttons') 
-            a(href='/logout') logout
-        else
-          
-          div(class='navbar-buttons-impact') 
-            a(href='/login') login
+        div(class='navbar-buttons-container')
+          if isAuthenticated
+            
+            div(class='navbar-buttons') 
+              a(href='/myposts') published
+            
+            div(class='navbar-buttons') 
+              a(href='/logout') logout
+          else
+            div(class='navbar-buttons') 
+              a(href='/login') login
     
     block content

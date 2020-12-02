@@ -17,6 +17,7 @@ import usersRouter from './routes/users';
 import authRouter from './routes/auth';
 import mypostsRouter from './routes/myposts';
 import editorRouter from './routes/editor';
+import postRouter from './routes/post';
 
 const app = express();
 
@@ -26,8 +27,8 @@ app.use(helmet({
         directives: {
             ...helmet.contentSecurityPolicy.getDefaultDirectives(),
             "img-src": ["'self'", "https:", "data"],
-            "script-src": ["'self'", "'unsafe-inline'"],
-            "script-src-attr": ["'self'", "'unsafe-inline'"]
+            //"script-src": ["'self'", "'unsafe-inline'"],
+            //"script-src-attr": ["'self'", "'unsafe-inline'"]
         }
     }
 }));
@@ -82,6 +83,7 @@ app.use('/', indexRouter);
 app.use('/users', isSecured, usersRouter);
 app.use('/myposts', isSecured, mypostsRouter);
 app.use('/editor', isSecured, editorRouter);
+app.use('/post',postRouter);
 
 // Catch Errors
 app.use((err, req, res, next) => {

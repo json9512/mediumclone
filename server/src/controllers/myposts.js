@@ -38,9 +38,6 @@ export const myPostsPage = async (req, res) => {
             }
             dataArr.push(temp)
 
-            // Instead of passing the data array;
-            // Create HTML elements and pass them
-
         });
     }
     

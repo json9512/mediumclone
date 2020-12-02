@@ -40,13 +40,3 @@ export const addPost = async (req, res) => {
         res.status(400).json({result: "Error saving data to database"});
     };
 };
-
-export const getPostWithID = async (req, res) => {
-    const {id} = req.body;
-    const result = await postsModel.select('*', ` WHERE id = ${id}`);
-    if (result.rows.length > 0){
-        res.status(200).json({result: result.rows})
-    }else{
-        res.status(400).json({result: "Data not found"})
-    }
-}
