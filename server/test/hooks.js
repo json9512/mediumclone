@@ -8,9 +8,8 @@ import {
 
 before(async() => {
     await createTables();
-    await insertIntoTables();
     await createFuncsAndTriggers();
-    
+    await insertIntoTables();
 });
 
 after(async () => {
