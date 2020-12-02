@@ -43,7 +43,7 @@ export const createTimeStampFunction = `
         NEW.updated_at = NOW();
         RETURN NEW;
     END;
-    $$ LANGUAGE plpgsql;
+    $$ LANGUAGE 'plpgsql';
     `
 export const createTimeStampTrigger = `
     CREATE TRIGGER set_timestamp
@@ -51,7 +51,6 @@ export const createTimeStampTrigger = `
     FOR EACH ROW
     EXECUTE PROCEDURE trigger_set_timestamp();
 `
-
 
 export const dropMessagesTable = `DROP TABLE messages;`;
 export const dropPostsTable = `DROP TABLE posts;`;
