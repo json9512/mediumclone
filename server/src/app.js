@@ -10,17 +10,28 @@ import {
 } from './settings';
 
 import {isAuthenticated, isSecured} from './middleware'
+import {NONCE_TOKEN} from './settings';
 
 import indexRouter from './routes/index';
 import usersRouter from './routes/users';
 import authRouter from './routes/auth';
 import mypostsRouter from './routes/myposts';
 import editorRouter from './routes/editor';
+import postRouter from './routes/post';
 
 const app = express();
 
 // HTTP Header settings with helmet
-app.use(helmet());
+app.use(helmet({
+    contentSecurityPolicy: {
+        directives: {
+            ...helmet.contentSecurityPolicy.getDefaultDirectives(),
+            "img-src": ["'self'", "https:", "data"],
+            //"script-src": ["'self'", "'unsafe-inline'"],
+            //"script-src-attr": ["'self'", "'unsafe-inline'"]
+        }
+    }
+}));
 
 // view engine setup
 app.set('view engine', 'pug');
@@ -65,12 +76,14 @@ passport.deserializeUser((user, done)=>{
 })
 
 app.use(isAuthenticated)
+
 // Routes
 app.use('/', authRouter);
 app.use('/', indexRouter);
 app.use('/users', isSecured, usersRouter);
 app.use('/myposts', isSecured, mypostsRouter);
 app.use('/editor', isSecured, editorRouter);
+app.use('/post',postRouter);
 
 // Catch Errors
 app.use((err, req, res, next) => {

@@ -1,4 +1,5 @@
 export const isAuthenticated = (req, res, next) => {
+    // Passport's auth0 authentication check
     res.locals.isAuthenticated = req.isAuthenticated();
     next();
 }

@@ -18,7 +18,7 @@ export const addMessage = async (req, res) => {
     const values = `'${name}', '${message}'`;
 
     try{
-        const data = await messageModel.insertWithReturn(columns, values);
+        const data = await messageModel.insertWithReturn(columns, values, true);
         res.status(200).json({messages: data.rows});
     } catch (err) {
         res.status(200).json({messages: err.stack});

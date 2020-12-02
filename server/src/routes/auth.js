@@ -30,7 +30,7 @@ router.get('/callback', (req, res, next) => {
         req.logIn(user, (err) => {
             if (err) {
                 return next(err);
-            }
+            }        
             
             const returnTo = req.session.returnTo;
             delete req.session.returnTo;

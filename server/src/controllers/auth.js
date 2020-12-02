@@ -20,9 +20,8 @@ export const logoutFunc = (req, res) => {
     const searchString = querystring.stringify({
         returnTo: returnTo,
         client_id: AUTH0_CLIENT_ID
-        
     });
-
+    
     logoutUrl.search = searchString;
 
     res.redirect(logoutUrl);
