@@ -4,8 +4,9 @@ import Model from '../models/model';
 const postsModel = new Model('posts');
 
 export const postPage = (req, res) => {
+    console.log(req.user ? req.user : "no user");
     
-
+    
     return res.render('post', {})
 }
 

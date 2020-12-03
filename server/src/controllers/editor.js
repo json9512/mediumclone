@@ -30,8 +30,10 @@ export const addPost = async (req, res) => {
 
     try{
         const data = await postsModel.insertWithReturn(columns, values, createNew);
-        if (data.code){
-            res.status(data.code).json({result: data.rows});
+        
+        // If result does not contain a document key -> HTTP 400 error
+        if (!("document" in data.rows[0])){
+            res.status(400).json({result: data.rows});
         }else{
             res.status(200).json({result: data.rows});
         }

@@ -1,7 +1,7 @@
 /*
   fonts.google.com
 */
-@import url('https://fonts.googleapis.com/css2?family=Goldman:wght@700&family=Josefin+Sans&family=Overpass:ital,wght@0,400;1,100&family=Press+Start+2P&family=Prompt&family=Raleway:wght@300&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Oswald&family=Goldman:wght@700&family=Josefin+Sans&family=Overpass:ital,wght@0,400;1,100&family=Press+Start+2P&family=Prompt&family=Raleway:wght@300&display=swap');
 
 
 /*
@@ -547,4 +547,30 @@ div {
 
 .editor{
   margin-top: 3vh;
+}
+
+.like-button{
+  position: -webkit-sticky; /* Safari & IE */
+  position: sticky;
+  width: 2em;
+  height: auto;
+  align-self: center;
+  top: 16vh;
+  cursor: pointer;
+  opacity: 0.3;
+}
+
+.like-button:hover{
+  opacity: 1;
+  width: 2.5em;
+  top: 15.5vh;
+}
+
+.like-counter{
+  position: -webkit-sticky; /* Safari & IE */
+  position: sticky;
+  height: 1rem;
+  align-self: center;
+  top: 20vh;
+  font-family: 'Oswald', sans-serif;
 }

@@ -102,8 +102,8 @@ const loadEditor = async (id, classTag) => {
         }
 
         // Get content of the post
-        comments = dataObj.comments;
-        likes = dataObj.likes;
+        comments = dataObj.comments ? dataObj.comments : {};
+        likes = dataObj.likes ? dataObj.likes : 0;
 
         // Set the editor to disabled when this func is called from /post
         if (classTag === ".post-viewer"){
@@ -136,6 +136,14 @@ const loadEditor = async (id, classTag) => {
                     saveClickFunc(id, comments, likes);
                 });
             }
+        }
+
+        // Populate number of likes
+        if (classTag === ".post-viewer"){
+            const likeCounter = document.createElement("span")
+            likeCounter.className = "like-counter"
+            likeCounter.innerHTML = likes;
+            document.querySelector(".left-main-container-editor").appendChild(likeCounter);
         }
     
     } else {
@@ -201,6 +209,24 @@ if (window.location.href.indexOf("/post") !== -1){
         document.querySelector('.create-post-container').addEventListener('click', () => {
             window.location.href = `http://localhost:3000/editor?id=${id}`;
         })
+    }
+
+    // Attach like button
+    if (document.querySelector('.left-main-container-editor')){
+        
+        const likeButton = document.createElement('img');
+        likeButton.src = "/images/like.png";
+        likeButton.alt = "like_button";
+        likeButton.draggable = false;
+        likeButton.className = "like-button";
+
+        likeButton.addEventListener('click', async () => {
+            const q = await axios.post("http://localhost:3000/like", {id})
+            document.querySelector(".like-counter").innerHTML = q.data.result[0].likes
+            
+        })
+
+        document.querySelector('.left-main-container-editor').appendChild(likeButton);
     }
 
     /**Check if post with id has content */
