@@ -99,7 +99,7 @@ div {
 }
 
 .navbar-buttons > a{
-  color: rgb(66, 66, 66);
+  color: rgb(121, 121, 121);
   outline: none;
   text-decoration: none;
 }
@@ -403,17 +403,16 @@ div {
   position: -webkit-sticky; /* Safari & IE */
   position: sticky;
   top: 16.5vh;
-  margin-top: 3vh;
   color: white;
-
   font-size: 1.3vw;
   font-weight: 700;
   cursor: pointer;
   background-color: white;
   border-radius: 10px;
-  color: rgb(66, 66, 66);
+  color: rgb(121, 121, 121);
   font-family: 'Josefin Sans', sans-serif;
-  align-self: center;
+  align-self: flex-start;
+  margin: 2vw;
 }
 
 .create-post-container:hover, .edit-post-container:hover{
@@ -501,26 +500,51 @@ div {
   top: 13vh;
   height: 100%;
   background-color: white;
-  grid-column: 9/10;
+  grid-column: 10;
+}
+
+.editor-button-container{
+  position: -webkit-sticky; /* Safari & IE */
+  position: sticky;
+  top: 16vh;
+  height: 30vh;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: first baseline;
+  margin-left: 3vw;
 }
 
 .save-button{
-  position: -webkit-sticky;
-  position: sticky;
-  margin-top: 3vh;
-  align-self: center;
   font-size: 1.3vw;
   font-weight: 700;
   cursor: pointer;
   background-color: white;
   border-radius: 10px;
-  color: rgb(66, 66, 66);
+  color: rgb(121, 121, 121);
   font-family: 'Josefin Sans', sans-serif;
+  margin-bottom: 3vh;
+  margin-top: 2vh;
 }
 
 .save-button:hover{
   color: black;
+}
+
+.delete-button {
+  font-size: 1.3vw;
+  font-weight: 700;
+  cursor: pointer;
+  background-color: white;
+  border-radius: 10px;
+  color: rgb(240, 170, 170);
+  font-family: 'Josefin Sans', sans-serif;
+  margin-bottom: 3vh;
+}
+
+.delete-button:hover{
+  color: rgb(230, 0, 0);
+}
+
+.editor{
+  margin-top: 3vh;
 }

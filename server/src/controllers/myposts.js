@@ -18,22 +18,24 @@ export const myPostsPage = async (req, res) => {
             let words = [];
             // Check for paragraph or heading
             doc.forEach((obj) => {
-                if (obj.type === "paragraph"){
+                console.log(obj)
+                if (obj.type === "heading"){
+                    if (isString(obj.content[0].text)){
+                        words.push(obj.content[0].text )
+                    }
+                } else if (obj.type === "paragraph"){
                     if (obj.content && isString(obj.content[0].text)){
                         words.push(obj.content[0].text)
                     }
-                }else if (obj.type === "heading"){
-                    if (isString(obj.text)){
-                        words.push(obj.text )
-                    }
-                }
+                } 
+                
             });
 
             const temp = {
                 id: item.id,
                 username: item.username,
                 title: words[0],
-                description: words.slice(1, words.length),
+                description: words.slice(1, words.length < 5? words.length : 5),
                 updated_at : item.updated_at
             }
             dataArr.push(temp)
@@ -41,5 +43,5 @@ export const myPostsPage = async (req, res) => {
         });
     }
     
-    return res.render('myposts',{data: dataArr})
+    return res.render('myposts',{data: dataArr, title: "My Posts | M-Clone"})
 }

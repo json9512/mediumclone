@@ -17773,7 +17773,11 @@ __webpack_require__.r(__webpack_exports__);
 
 const retrieveID = (substring) => {
     if (window.location.href.indexOf(`${substring}?id`) !== -1){
-        return window.location.href.split('?id=')[1];
+        let temp = window.location.href.split('?id=')[1];
+        if (temp.indexOf("#")){
+            temp = temp.split("#")[0]
+        }
+        return temp;
     }
     return "none";
 }
@@ -17784,7 +17788,7 @@ const mySchema = new prosemirror_model__WEBPACK_IMPORTED_MODULE_2__.Schema({
 });
 
 const createEditButton = (id) => {
-    const editButton = document.createElement('div')
+    const editButton = document.createElement('span')
     editButton.className = 'edit-post-container';
     editButton.innerHTML = 'Edit';
     editButton.addEventListener('click', () => {
@@ -17798,6 +17802,9 @@ const createEditButton = (id) => {
  * Saves the current state to the database
  */
 const saveClickFunc = (id, comments, likes) => {
+    if (likes === undefined || likes === null || likes === {}){
+        likes = 0;
+    }
     // Get info 
     const document = window.view.state.toJSON();
     // This will come from myposts it can also be none if this is created from scratch
@@ -17817,9 +17824,8 @@ const saveClickFunc = (id, comments, likes) => {
 const loadEditor = async (id, classTag) => {
     // Initialize vars
     let dataObj = "";
-    let author = "";
     let comments = "";
-    let likes = "";
+    let likes = 0;
     let editable = true;
 
     // Check if post with id exists
@@ -17835,7 +17841,7 @@ const loadEditor = async (id, classTag) => {
                     // if isAuthor, populate edit button
                     if (res.data.isAuthor){
                         if (classTag === ".post-viewer"){
-                            document.querySelector(".left-main-container-editor").appendChild(createEditButton(id)) 
+                            document.querySelector(".right-main-container-editor").appendChild(createEditButton(id)) 
                         }
 
                         isAuthor = await res.data.isAuthor;
@@ -17858,8 +17864,7 @@ const loadEditor = async (id, classTag) => {
 
         // Get content of the post
         console.log(dataObj.document);
-        author = dataObj.username;
-        comments = dataObj.comments
+        comments = dataObj.comments;
         likes = dataObj.likes;
 
         // Set the editor to disabled when this func is called from /post
@@ -17972,6 +17977,25 @@ if (window.location.href.indexOf("/editor") !== -1){
 
     /**Populate editor with content if post exists */
     loadEditor(id, ".editor")
+
+    /**Add delete event on delete button */
+    if (document.querySelector(".delete-button")){
+        document.querySelector(".delete-button").addEventListener('click', () => {
+            if(confirm("Do you want to delete the post?")){
+                axios__WEBPACK_IMPORTED_MODULE_6___default().post("http://localhost:3000/editor/delete", {id: id})
+                .then((res) => {
+                    console.log(res.status);
+                    if (res.status === 200){
+                        alert("Post deleted");
+                    }
+                })
+                .catch((err) => {
+                    alert(`Failed to delete post:\n ${err}`);
+                })
+                
+            }
+        })
+    }
 }
 
 

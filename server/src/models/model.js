@@ -39,14 +39,17 @@ export default class Model {
 
             // Update
             const cols = columns.split(",")
-            const vals = values.split(", ")
+            const vals = values.split(", '")
 
             // Construct sql query
             for (let i = 0; i < cols.length; i++){
                 if (i == cols.length-1){
-                    query += cols[i] + " = " + vals[i] + ` WHERE id = ${id} RETURNING id, ${columns};`;
-                }else{
-                    query += cols[i] + " = " + vals[i] + ","
+                    query += cols[i] + "='" + vals[i] + ` WHERE id=${id} RETURNING ${columns};`;
+                }else if (i===0){
+                    query += cols[i] + "="+vals[i]+",";
+                }
+                else{
+                    query += cols[i] + "='" + vals[i] + ",";
                 }
                 
             }
@@ -68,4 +71,9 @@ export default class Model {
         return true
     }
 
+    async dropRowWithId(columns, id){
+        const q = `DELETE FROM ${this.table} WHERE ${columns}='${id}' RETURNING *;`
+        console.log(`Delete data from ${this.table} with query: \n${q}`);
+        return this.pool.query(q);
+    }
 }
