@@ -1,7 +1,7 @@
 /*
   fonts.google.com
 */
-@import url('https://fonts.googleapis.com/css2?family=Goldman:wght@700&family=Josefin+Sans&family=Overpass:ital,wght@0,400;1,100&family=Press+Start+2P&family=Prompt&family=Raleway:wght@300&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Oswald&family=Goldman:wght@700&family=Josefin+Sans&family=Overpass:ital,wght@0,400;1,100&family=Press+Start+2P&family=Prompt&family=Raleway:wght@300&display=swap');
 
 
 /*
@@ -75,6 +75,10 @@ div {
   margin-top: 4vh;
 }
 
+.logo-image{
+  width: 120px;
+}
+
 .navbar-buttons-container{
   width: fit-content;
   grid-column: 8/9;
@@ -99,7 +103,7 @@ div {
 }
 
 .navbar-buttons > a{
-  color: rgb(66, 66, 66);
+  color: rgb(121, 121, 121);
   outline: none;
   text-decoration: none;
 }
@@ -217,6 +221,7 @@ div {
   display: flex;
   flex-direction: column;
   height: auto;
+  cursor: pointer;
 }
 
 .trending-items-author{
@@ -262,6 +267,8 @@ div {
   margin-bottom: 1vh;
 }
 
+
+
 .lcontent-item-container{
   display: flex;
   flex-direction: column;
@@ -275,17 +282,17 @@ div {
 
 .rcontent-item-container{
   width: 10vw;
-  justify-self: right;
   grid-column: 3;
   grid-row: 1;
+  display: block;
+  margin: auto auto auto auto;
 }
 
 .article-image{
-  width: 10vw;
-  justify-self: center;
-  height: auto;
+  display: block;
+  margin: auto auto auto auto;
+  width: 100%;
 }
-
 
 .item-author-icon{
   grid-column: 1;
@@ -307,11 +314,17 @@ div {
 .item-post-title{
   font-family: 'Prompt', sans-serif;
   font-size: 1.5vw;
+  cursor: pointer;
 }
 
 .item-post-description{
   font-family: 'Raleway', sans-serif;
   font-size: 1vw;
+  cursor: pointer;
+}
+
+.item-post-meta{
+  font-size: 1.5vh;
 }
 
 /* right container */
@@ -403,17 +416,16 @@ div {
   position: -webkit-sticky; /* Safari & IE */
   position: sticky;
   top: 16.5vh;
-  margin-top: 3vh;
   color: white;
-
   font-size: 1.3vw;
   font-weight: 700;
   cursor: pointer;
   background-color: white;
   border-radius: 10px;
-  color: rgb(66, 66, 66);
+  color: rgb(121, 121, 121);
   font-family: 'Josefin Sans', sans-serif;
-  align-self: center;
+  align-self: flex-start;
+  margin: 2vw;
 }
 
 .create-post-container:hover, .edit-post-container:hover{
@@ -501,26 +513,77 @@ div {
   top: 13vh;
   height: 100%;
   background-color: white;
-  grid-column: 9/10;
+  grid-column: 10;
+}
+
+.editor-button-container{
+  position: -webkit-sticky; /* Safari & IE */
+  position: sticky;
+  top: 16vh;
+  height: 30vh;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: first baseline;
+  margin-left: 3vw;
 }
 
 .save-button{
-  position: -webkit-sticky;
-  position: sticky;
-  margin-top: 3vh;
-  align-self: center;
   font-size: 1.3vw;
   font-weight: 700;
   cursor: pointer;
   background-color: white;
   border-radius: 10px;
-  color: rgb(66, 66, 66);
+  color: rgb(121, 121, 121);
   font-family: 'Josefin Sans', sans-serif;
+  margin-bottom: 3vh;
+  margin-top: 2vh;
 }
 
 .save-button:hover{
   color: black;
+}
+
+.delete-button {
+  font-size: 1.3vw;
+  font-weight: 700;
+  cursor: pointer;
+  background-color: white;
+  border-radius: 10px;
+  color: rgb(240, 170, 170);
+  font-family: 'Josefin Sans', sans-serif;
+  margin-bottom: 3vh;
+}
+
+.delete-button:hover{
+  color: rgb(230, 0, 0);
+}
+
+.editor{
+  margin-top: 3vh;
+}
+
+.like-button{
+  position: -webkit-sticky; /* Safari & IE */
+  position: sticky;
+  width: 2em;
+  height: auto;
+  align-self: center;
+  top: 16vh;
+  cursor: pointer;
+  opacity: 0.3;
+}
+
+.like-button:hover{
+  opacity: 1;
+  width: 2.5em;
+  top: 15.5vh;
+}
+
+.like-counter{
+  position: -webkit-sticky; /* Safari & IE */
+  position: sticky;
+  height: 1rem;
+  align-self: center;
+  top: 20vh;
+  font-family: 'Oswald', sans-serif;
 }

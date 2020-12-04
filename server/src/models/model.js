@@ -26,35 +26,11 @@ export default class Model {
             `;
 
             console.log(`Insert data into ${this.table} with query: ${query}`)
+            return this.pool.query(query);
         }else{
-            query = `UPDATE ${this.table} SET `;
-            const id = values.split(",")[0]
             
-            // Check if data with id exists
-            const check = await this.select("*", ` WHERE id=${id};`);
-            
-            if (check.rowCount === 0){
-                return {rows: `Error: data with id: ${id} does not exists in database`, code: 400};
-            }
-
-            // Update
-            const cols = columns.split(",")
-            const vals = values.split(", ")
-
-            // Construct sql query
-            for (let i = 0; i < cols.length; i++){
-                if (i == cols.length-1){
-                    query += cols[i] + " = " + vals[i] + ` WHERE id = ${id} RETURNING id, ${columns};`;
-                }else{
-                    query += cols[i] + " = " + vals[i] + ","
-                }
-                
-            }
-            console.log(`Update data into ${this.table} with query: ${query}`)
-            
+            return this.updateData(columns, values)
         }
-
-        return this.pool.query(query);
     }
 
     async checkIfRowExists(){
@@ -67,5 +43,57 @@ export default class Model {
 
         return true
     }
+
+    async dropRowWithId(columns, id){
+        const q = `DELETE FROM ${this.table} WHERE ${columns}='${id}' RETURNING *;`
+        console.log(`Delete data from ${this.table} with query: \n${q}`);
+        return this.pool.query(q);
+    }
+
+    async updateData(columns, values){
+        const stripString = (q, values, columns, splitVal, appendVal) => {
+            let query = q;
+            const cols = columns.split(",")
+            const vals = values.split(splitVal) 
+            
+            // Construct sql query
+            for (let i = 0; i < cols.length; i++){
+                if (i == cols.length-1){
+                    query += cols[i] + appendVal + vals[i] + ` WHERE id=${id} RETURNING ${columns};`;
+                }else if (i===0){
+                    query += cols[i] + "="+vals[i]+",";
+                }
+                else{
+                    query += cols[i] + appendVal + vals[i] + ",";
+                }   
+            }
+            return query;
+        }
+
+
+
+
+        let query = `UPDATE ${this.table} SET `;
+        const id = values.split(",")[0]
+        
+        // Check if data with id exists
+        const check = await this.select("*", ` WHERE id=${id};`);
+        
+        if (check.rowCount === 0){
+            return {rows: `Error: data with id: ${id} does not exists in database`};
+        }else{
+            // Update
+            if(columns.indexOf("document") !== -1){
+                query = await stripString(query, values, columns, ", '", "='")
+            }else{
+                query = await stripString(query, values, columns, ", ", "=")
+            }
+            
+            console.log(`Update data into ${this.table} with query: ${query}`)
+            
+            return this.pool.query(query);
+        }
+    }
+
 
 }

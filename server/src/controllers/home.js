@@ -1,5 +1,87 @@
-import {testEnvVar} from '../settings';
+import Model from '../models/model';
+import { isString } from '../utils/helper';
+import fs  from 'fs';
+import path from 'path';
 
-export const indexPage = (req, res) => {
-    return res.render('home', {title: testEnvVar})
+const postsModel = new Model('posts');
+
+export const indexPage = async (req, res) => {
+    let finalJson = {};
+
+    let trending = await getTrendingPosts();
+    let randomPosts = await getRandomPosts();
+
+    finalJson = {
+        trending,
+        randomPosts
+    }
+
+    console.log(finalJson)
+    return res.render('home', {title: "M-Clone", data: finalJson})
+}
+
+const getRandomImage = (name, withAuthor=false) => {
+    let files = fs.readdirSync(name);
+    let filename = files[Math.floor(Math.random() * files.length)];
+    let creator = ""
+    if (withAuthor){
+        let temp = filename.split(" ")
+        creator += temp[0] + " " + temp[1] + " from Unsplash"
+    }
+    return {filename, creator}
+}
+
+const extractDataForPug = (data) => {
+
+    if (data.rowCount > 0){
+        let arr = [];
+        data.rows.forEach((item) => {
+            let temp = {};
+            // Extract id, username, doc.content, created_at
+            let content = []
+            item.document.doc.content.forEach((node) =>{
+                // If node has a text extract it
+                if (node.type === 'paragraph' || node.type === 'heading'){
+                    if (node.content){
+                        if (isString(node.content[0].text)){
+                            content.push(node.content[0].text)
+                        }
+                    }
+                }
+            })
+
+            // Create json to store data
+            let tempDescr = content.slice(1, content.length < 3? content.length : 3)
+            tempDescr.push(". . .")
+            temp = {
+                id: item.id,
+                username: item.username,
+                title: content[0],
+                description: tempDescr,
+                created_at: item.created_at,
+                img: getRandomImage('./src/public/images/profile'),
+                content_img: getRandomImage('./src/public/images/background', true)
+            }
+            console.log(temp.content_img)
+
+            arr.push(temp)
+        })
+
+        return arr;
+
+    }else{
+        console.log("No posts");
+        return null;
+    }
+
+}
+
+const getTrendingPosts = async () => {
+    const data =  await postsModel.select('*', ' ORDER BY likes DESC LIMIT 6;')
+    return extractDataForPug(data)
+}
+
+const getRandomPosts = async () => {
+    const data = await postsModel.select('*', ' ORDER BY RANDOM() LIMIT 20;')
+    return extractDataForPug(data);
 }

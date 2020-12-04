@@ -1,140 +1,64 @@
 extends layout
     
 block content
+  script(type='module' src='/javascripts/main.bundle.js').
   div(class='main-container')
     div(class='advert-container')
       div(class='advert-image-container')
-        img(class='advert-image' src="/images/darth.png" alt="d_logo" draggable='false') 
-        img(class='advert-image' src="/images/maul.png" alt="d_logo" draggable='false')
-        img(class='advert-image' src="/images/r2.png" alt="d_logo" draggable='false')
-        img(class='advert-image' src="/images/storm.png" alt="d_logo" draggable='false')
-        img(class='advert-image' src="/images/yoda.png" alt="d_logo" draggable='false')
+        img(class='advert-image' src="/images/profile/darth.png" alt="d_logo" draggable='false') 
+        img(class='advert-image' src="/images/profile/maul.png" alt="d_logo" draggable='false')
+        img(class='advert-image' src="/images/profile/r2.png" alt="d_logo" draggable='false')
+        img(class='advert-image' src="/images/profile/storm.png" alt="d_logo" draggable='false')
+        img(class='advert-image' src="/images/profile/yoda.png" alt="d_logo" draggable='false')
 
       div(class='advert-word') A long time ago in a galaxy far, far away . . .
   
     div(class='trending-container')
       div(class='trending-inner-container')
-        div(class='trending-items')
-          div(class='trending-items-number') 01
-          img(class='trending-items-author-img' src='/images/storm.png' alt='author')
-            
-          div(class='trending-box')
-            div(class='trending-items-author') StromTrooper from Starwars
-            div(class='trending-items-title') Stop Using Light Sabers ! 
+        if data.trending
+          if data.trending.length > 0
+            each item, index in data.trending
+              div(class='trending-items')
+                div(class='trending-items-number') #{index+1}
+                img(class='trending-items-author-img' src=`/images/profile/${item.img.filename}` alt='author')
+                  
+                div(class='trending-box' id=`${item.id}`)
+                  div(class='trending-items-author') Written by #{item.username}
+                  div(class='trending-items-title') #{item.title}
 
-        div(class='trending-items')
-          div(class='trending-items-number') 02
-          img(class='trending-items-author-img' src='/images/storm.png' alt='author')
-          div(class='trending-box')
-            div(class='trending-items-author') StromTrooper from Starwars
-            div(class='trending-items-title') Top 10 Most Used Light Sabers in Dark Star
-
-        div(class='trending-items')
-          div(class='trending-items-number') 03
-          img(class='trending-items-author-img' src='/images/storm.png' alt='author')
-            
-          div(class='trending-box')
-            div(class='trending-items-author') StromTrooper from Starwars
-            div(class='trending-items-title') Beginner's Hack: Configuring R2D2
-
-        div(class='trending-items')
-          div(class='trending-items-number') 04
-          img(class='trending-items-author-img' src='/images/storm.png' alt='author')
-            
-          div(class='trending-box')
-            div(class='trending-items-author') StromTrooper from Starwars
-            div(class='trending-items-title') Top Trends: Advancing to Imperial Army
-
-        div(class='trending-items')
-          div(class='trending-items-number') 05
-          img(class='trending-items-author-img' src='/images/storm.png' alt='author')
-            
-          div(class='trending-box')
-            div(class='trending-items-author') StromTrooper from Starwars
-            div(class='trending-items-title') 7 Top Techniques to dodge a Jedi
-
-        div(class='trending-items')
-          div(class='trending-items-number') 06
-          img(class='trending-items-author-img' src='/images/storm.png' alt='author')
-            
-          div(class='trending-box')
-            div(class='trending-items-author') StromTrooper from Starwars
-            div(class='trending-items-title') Darth Vader, the war hero ...
+          else
+            div(class='trending-items-none') No trending posts . . .
+        else
+          div(class='trending-items-none') No trending posts . . .
 
     div(class='content-container')
       div(class='left-content-container')
-        div(class='content-item-container') 
-          img(class='item-author-icon' src='/images/storm.png' alt='autho' draggable='false')
-          div(class='lcontent-item-container')
-            div(class='item-author-title') Imperial Trooper from Rise of SkyWalker
-            div(class='item-post-title')
-              p This is some long-----Title
-            div(class='item-post-description')
-              p This is some description that is written in this section of the post
-          div(class='rcontent-item-container')
-            img(class='article-image' src='/images/r2.png' alt='r2d2' draggable='false')
+        if data.randomPosts
+          if data.randomPosts.length > 0
+            each item in data.randomPosts
+              div(class='content-item-container') 
+                img(class='item-author-icon' src=`/images/profile/${item.img.filename}` alt='author_icon' draggable='false')
+                div(class='lcontent-item-container')
+                  div(class='item-author-title') Written by #{item.username}
+                  div(class='item-post-title' id=`${item.id}`)
+                    p #{item.title}
+                  div(class='item-post-description' id=`${item.id}`)
+                    p #{item.description}
+                  div(class='item-post-meta')
+                    p #{item.created_at}
+                div(class='rcontent-item-container')
+                  img(class='article-image' src=`/images/background/${item.content_img.filename}` alt='r2d2' draggable='false')
+                  i #{item.content_img.creator}
+          else
+            div(class='content-item-container') No posts . . .
+        else
+          div(class='content-item-container') No posts . . .
 
-
-        div(class='content-item-container') 
-          img(class='item-author-icon' src='/images/storm.png' alt='autho' draggable='false')
-          div(class='lcontent-item-container')
-            div(class='item-author-title') Imperial Trooper from Rise of SkyWalker
-            div(class='item-post-title')
-              p This is some long-----Title
-            div(class='item-post-description')
-              p This is some description that is written in this section of the post
-          div(class='rcontent-item-container')
-            img(class='article-image' src='/images/r2.png' alt='r2d2' draggable='false')
-
-        div(class='content-item-container') 
-          img(class='item-author-icon' src='/images/storm.png' alt='autho' draggable='false')
-          div(class='lcontent-item-container')
-            div(class='item-author-title') Imperial Trooper from Rise of SkyWalker
-            div(class='item-post-title')
-              p This is some long-----Title
-            div(class='item-post-description')
-              p This is some description that is written in this section of the post
-          div(class='rcontent-item-container')
-            img(class='article-image' src='/images/r2.png' alt='r2d2' draggable='false')
-
-        div(class='content-item-container') 
-          img(class='item-author-icon' src='/images/storm.png' alt='autho' draggable='false')
-          div(class='lcontent-item-container')
-            div(class='item-author-title') Imperial Trooper from Rise of SkyWalker
-            div(class='item-post-title')
-              p This is some long-----Title
-            div(class='item-post-description')
-              p This is some description that is written in this section of the post
-          div(class='rcontent-item-container')
-            img(class='article-image' src='/images/r2.png' alt='r2d2' draggable='false')
-        
-        div(class='content-item-container') 
-          img(class='item-author-icon' src='/images/storm.png' alt='autho' draggable='false')
-          div(class='lcontent-item-container')
-            div(class='item-author-title') Imperial Trooper from Rise of SkyWalker
-            div(class='item-post-title')
-              p This is some long-----Title
-            div(class='item-post-description')
-              p This is some description that is written in this section of the post
-          div(class='rcontent-item-container')
-            img(class='article-image' src='/images/r2.png' alt='r2d2' draggable='false')
-        
-
-        div(class='content-item-container') 
-          img(class='item-author-icon' src='/images/storm.png' alt='autho' draggable='false')
-          div(class='lcontent-item-container')
-            div(class='item-author-title') Imperial Trooper from Rise of SkyWalker
-            div(class='item-post-title')
-              p This is some long-----Title
-            div(class='item-post-description')
-              p This is some description that is written in this section of the post
-          div(class='rcontent-item-container')
-            img(class='article-image' src='/images/r2.png' alt='r2d2' draggable='false')
 
 
       div(class='right-content-container')
         div(class='right-content-sticky') 
-          p Clone coded with <del>blood, sweat, and tears</del> by Son
+          p Clone coded by json9512 <br><br>Any bug reports to:
           div(class='footer-info-container')
             a(href='https://github.com/json9512' target='_blank')
               img(class='github-icon' src='/images/github.png' alt='github' draggable='false' )

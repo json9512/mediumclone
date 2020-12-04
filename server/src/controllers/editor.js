@@ -30,8 +30,10 @@ export const addPost = async (req, res) => {
 
     try{
         const data = await postsModel.insertWithReturn(columns, values, createNew);
-        if (data.code){
-            res.status(data.code).json({result: data.rows});
+        
+        // If result does not contain a document key -> HTTP 400 error
+        if (!("document" in data.rows[0])){
+            res.status(400).json({result: data.rows});
         }else{
             res.status(200).json({result: data.rows});
         }
@@ -39,4 +41,26 @@ export const addPost = async (req, res) => {
         console.log(err)
         res.status(400).json({result: "Error saving data to database"});
     };
+
 };
+
+export const deletePost = async (req, res) => {
+    const username = req.user._json.nickname;
+    const {id} = req.body;
+
+    if (id !== "none"){
+        try{
+            const check = await postsModel.select('COUNT(id)', ` WHERE username='${username}' AND id='${id}';`)
+            if (check.rowCount > 0){
+                const data = await postsModel.dropRowWithId('id', id)
+                res.status(200).json({result: data.rows})
+            }else{
+                res.status(400).json({result: `Error deleting post with ${id}, ${username} from database`})
+            }
+            
+        }catch (err) {
+            console.log(err)
+            res.status(400).json({result: "Error deleting data from database"})
+        }
+    }
+}

@@ -10,7 +10,6 @@ import {
 } from './settings';
 
 import {isAuthenticated, isSecured} from './middleware'
-import {NONCE_TOKEN} from './settings';
 
 import indexRouter from './routes/index';
 import usersRouter from './routes/users';
@@ -18,6 +17,7 @@ import authRouter from './routes/auth';
 import mypostsRouter from './routes/myposts';
 import editorRouter from './routes/editor';
 import postRouter from './routes/post';
+import likesRouter from './routes/likes';
 
 const app = express();
 
@@ -83,7 +83,8 @@ app.use('/', indexRouter);
 app.use('/users', isSecured, usersRouter);
 app.use('/myposts', isSecured, mypostsRouter);
 app.use('/editor', isSecured, editorRouter);
-app.use('/post',postRouter);
+app.use('/post', postRouter);
+app.use('/like', likesRouter);
 
 // Catch Errors
 app.use((err, req, res, next) => {

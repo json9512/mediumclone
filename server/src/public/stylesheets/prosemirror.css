@@ -156,10 +156,10 @@ li.ProseMirror-selectednode:after {
 .ProseMirror-menubar {
   position: -webkit-sticky; /* Safari & IE */
   position: sticky;
-  top: 13.5vh;
+  top: 13vh;
   border-top-left-radius: inherit;
   border-top-right-radius: inherit;
-  min-height: 1em;
+  min-height: 3em;
   color: #666;
   padding: 1px 6px;
   left: 0; right: 0;
@@ -244,6 +244,7 @@ li.ProseMirror-selectednode:after {
 
 .ProseMirror-example-setup-style img {
   cursor: default;
+  width: 100%; /*Static width of 100% for now -> all images will be of size 100%*/
 }
 
 .ProseMirror-prompt {

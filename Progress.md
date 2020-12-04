@@ -12,6 +12,8 @@ This readme shows the weekly progress of the development
 |1|11/30|<ul><li>Read the docs for ProseMirror</li><li>Implement basic ProseMirror editor and bundle with webpack for frontend</li></ul>|To create an editor|
 |1|12/01|<ul><li>save & update posts to database from editor page</li></ul>|n/a|
 |1|12/02|<ul><li>onclick events to navigate to each post from myposts page</li><li>~~Problem encountered with Helmet's CSP, webpack, and pug.~~ Solved</li><li>Render content on Post/Editor pages from database</li><ul>|n/a|
+|1|12/03|<ul><li>Like functionality for each post</li><li>Post deletion</li></ul>|n/a|
+|2|12/04|<ul><li>Dynamic content load on main page</li><li>Application functionality completed</li><li>Apply last design touches</li></ul>|n/a|
 
 
 # Set of features to implement
@@ -24,7 +26,7 @@ I expect this to be a minimal version of Medium that supports the following:
 2. Trending stories in mediumclone (based on number of times visited)
 3. user can only post if they are authenticated (Need editor)
 4. user can like post (only when they are logged in)
-5. user can comment post (only when they are logged in)
+5. ~~user can comment post (only when they are logged in)~~
 
 ## More
 
