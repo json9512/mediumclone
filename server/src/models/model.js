@@ -54,8 +54,8 @@ export default class Model {
         const stripString = (q, values, columns, splitVal, appendVal) => {
             let query = q;
             const cols = columns.split(",")
-            const vals = values.split(splitVal) // This line of code does not make the function dynamic -> this is fixed to the posts table
-
+            const vals = values.split(splitVal) 
+            
             // Construct sql query
             for (let i = 0; i < cols.length; i++){
                 if (i == cols.length-1){

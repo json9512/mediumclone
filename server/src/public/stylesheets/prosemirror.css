@@ -244,6 +244,7 @@ li.ProseMirror-selectednode:after {
 
 .ProseMirror-example-setup-style img {
   cursor: default;
+  width: 100%; /*Static width of 100% for now -> all images will be of size 100%*/
 }
 
 .ProseMirror-prompt {

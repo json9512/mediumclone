@@ -217,6 +217,7 @@ div {
   display: flex;
   flex-direction: column;
   height: auto;
+  cursor: pointer;
 }
 
 .trending-items-author{
@@ -261,6 +262,8 @@ div {
   margin-right: 2vw;
   margin-bottom: 1vh;
 }
+
+
 
 .lcontent-item-container{
   display: flex;
@@ -307,10 +310,16 @@ div {
 .item-post-title{
   font-family: 'Prompt', sans-serif;
   font-size: 1.5vw;
+  cursor: pointer;
 }
 
 .item-post-description{
   font-family: 'Raleway', sans-serif;
+  font-size: 1vw;
+  cursor: pointer;
+}
+
+.item-post-meta{
   font-size: 1vw;
 }
 

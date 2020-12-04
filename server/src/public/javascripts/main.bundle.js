@@ -17798,6 +17798,40 @@ const createEditButton = (id) => {
     return editButton;
 }
 
+// Define onclick functions
+const attachPostClicked = (item, id) => {
+    item.addEventListener('click', ()=>{
+        window.location.href = `http://localhost:3000/post?id=${id}`;
+    })
+}
+
+const attachPostClickedDynamic = (className, type) => {
+    // Dynamically attach onclick events to each article post
+
+    // box types
+    if (type === "box"){
+        if (document.getElementsByClassName(className).length > 0){
+            const items = document.getElementsByClassName(className)
+            for(let i = 0; i < items.length; i++){
+                attachPostClicked(items[i], items[i].id)
+            }
+        }
+    }else{
+        // Title, description type
+        const title = className+'-title';
+        const description = className+'-description'
+        if (document.getElementsByClassName(title).length > 0){
+            const titleItems = document.getElementsByClassName(title)
+            const descriptionItems = document.getElementsByClassName(description)
+            for(let i = 0; i < titleItems.length; i++){
+                attachPostClicked(titleItems[i], titleItems[i].id)
+                attachPostClicked(descriptionItems[i], descriptionItems[i].id)
+            }
+        }
+    }
+    
+}
+
 /**
  * Saves the current state to the database
  */
@@ -17813,6 +17847,7 @@ const saveClickFunc = (id, comments, likes) => {
     }).then((res) => {
         console.log(res);
         alert("Save complete")
+        window.location.href = "http://localhost:3000/myposts";
     }).catch((err) => {
         console.log(err);
         alert("Save failed")
@@ -17935,22 +17970,8 @@ const loadEditor = async (id, classTag) => {
  */
 
 if (window.location.href.indexOf("/myposts") !== -1){
-    // Define onclick functions
-    const attachPostClicked = (item, id) => {
-        item.addEventListener('click', ()=>{
-            window.location.href = `http://localhost:3000/post?id=${id}`;
-        })
-    }
-
-    // Dynamically attach onclick events to each article post
-    if (document.getElementsByClassName("posts-title").length > 0){
-        const titleArr = document.getElementsByClassName('posts-title')
-        const descriptionArr = document.getElementsByClassName('posts-description')
-        for(let i = 0; i < titleArr.length; i++){
-            attachPostClicked(titleArr[i], titleArr[i].id)
-            attachPostClicked(descriptionArr[i], descriptionArr[i].id)
-        }
-    }
+    
+    attachPostClickedDynamic('posts', "individual")
 
     // attach on click event for create post button
     if (document.querySelector('.create-post-container')){
@@ -18006,24 +18027,35 @@ if (window.location.href.indexOf("/editor") !== -1){
     /**Add delete event on delete button */
     if (document.querySelector(".delete-button")){
         document.querySelector(".delete-button").addEventListener('click', () => {
-            if(confirm("Do you want to delete the post?")){
-                axios__WEBPACK_IMPORTED_MODULE_6___default().post("http://localhost:3000/editor/delete", {id: id})
-                .then((res) => {
-                    console.log(res.status);
-                    if (res.status === 200){
-                        alert("Post deleted");
-                        window.location.href = "http://localhost:3000/myposts";
-                    }
-                })
-                .catch((err) => {
-                    alert(`Failed to delete post:\n ${err}`);
-                })
-                
+            if (id === "none"){
+                alert("You must first save the post")
+            }else{
+                if(confirm("Do you want to delete the post?")){
+                    axios__WEBPACK_IMPORTED_MODULE_6___default().post("http://localhost:3000/editor/delete", {id: id})
+                    .then((res) => {
+                        console.log(res.status);
+                        if (res.status === 200){
+                            alert("Post deleted");
+                            window.location.href = "http://localhost:3000/myposts";
+                        }
+                    })
+                    .catch((err) => {
+                        alert(`Failed to delete post:\n ${err}`);
+                    })
+                    
+                }
             }
+            
         })
     }
 }
 
+
+/** For Index (home) Page */
+if (window.location.pathname === "/"){
+    attachPostClickedDynamic("trending-box", 'box')
+    attachPostClickedDynamic("item-post", 'individual')
+}
 
 
 
