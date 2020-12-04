@@ -8,15 +8,15 @@ const postsModel = new Model('posts');
 export const indexPage = async (req, res) => {
     let finalJson = {};
 
-    const trending = await getTrendingPosts();
-    const randomPosts = await getRandomPosts();
-    
+    let trending = await getTrendingPosts();
+    let randomPosts = await getRandomPosts();
 
     finalJson = {
         trending,
         randomPosts
     }
 
+    console.log(finalJson)
     return res.render('home', {title: "M-Clone", data: finalJson})
 }
 
