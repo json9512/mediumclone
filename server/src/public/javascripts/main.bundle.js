@@ -17724,6 +17724,80 @@ function keyName(event) {
 
 /***/ }),
 
+/***/ "./src/public/javascripts/editor.js":
+/*!******************************************!*\
+  !*** ./src/public/javascripts/editor.js ***!
+  \******************************************/
+/*! namespace exports */
+/*! exports [not provided] [no usage info] */
+/*! runtime requirements: __webpack_require__, __webpack_require__.n, __webpack_require__.r, __webpack_exports__, __webpack_require__.* */
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./utils */ "./src/public/javascripts/utils.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_1__);
+
+
+
+/**Editor */
+if (window.location.href.indexOf("/editor") !== -1){
+    let id = (0,_utils__WEBPACK_IMPORTED_MODULE_0__.retrieveID)('editor');
+
+    /**Populate editor with content if post exists */
+    (0,_utils__WEBPACK_IMPORTED_MODULE_0__.loadEditor)(id, ".editor")
+
+    /**Add delete event on delete button */
+    if (document.querySelector(".delete-button")){
+        document.querySelector(".delete-button").addEventListener('click', () => {
+            if (id === "none"){
+                alert("You must first save the post")
+            }else{
+                if(confirm("Do you want to delete the post?")){
+                    axios__WEBPACK_IMPORTED_MODULE_1___default().post("http://localhost:3000/editor/delete", {id: id})
+                    .then((res) => {
+                        console.log(res.status);
+                        if (res.status === 200){
+                            alert("Post deleted");
+                            window.location.href = "http://localhost:3000/myposts";
+                        }
+                    })
+                    .catch((err) => {
+                        alert(`Failed to delete post:\n ${err}`);
+                    })
+                    
+                }
+            }
+            
+        })
+    }
+}
+
+/***/ }),
+
+/***/ "./src/public/javascripts/home.js":
+/*!****************************************!*\
+  !*** ./src/public/javascripts/home.js ***!
+  \****************************************/
+/*! namespace exports */
+/*! exports [not provided] [no usage info] */
+/*! runtime requirements: __webpack_require__, __webpack_require__.r, __webpack_exports__, __webpack_require__.* */
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./utils */ "./src/public/javascripts/utils.js");
+
+
+/** For Index (home) Page */
+if (window.location.pathname === "/"){
+    (0,_utils__WEBPACK_IMPORTED_MODULE_0__.attachPostClickedDynamic)("trending-box", 'box')
+    ;(0,_utils__WEBPACK_IMPORTED_MODULE_0__.attachPostClickedDynamic)("item-post", 'individual')
+}
+
+/***/ }),
+
 /***/ "./src/public/javascripts/index.js":
 /*!*****************************************!*\
   !*** ./src/public/javascripts/index.js ***!
@@ -17740,10 +17814,42 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./src/public/javascripts/script.js":
-/*!******************************************!*\
-  !*** ./src/public/javascripts/script.js ***!
-  \******************************************/
+/***/ "./src/public/javascripts/myposts.js":
+/*!*******************************************!*\
+  !*** ./src/public/javascripts/myposts.js ***!
+  \*******************************************/
+/*! namespace exports */
+/*! exports [not provided] [no usage info] */
+/*! runtime requirements: __webpack_require__, __webpack_require__.r, __webpack_exports__, __webpack_require__.* */
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./utils */ "./src/public/javascripts/utils.js");
+
+
+/**
+ * My posts
+ */
+
+if (window.location.href.indexOf("/myposts") !== -1){
+    
+    (0,_utils__WEBPACK_IMPORTED_MODULE_0__.attachPostClickedDynamic)('posts', "individual")
+
+    // attach on click event for create post button
+    if (document.querySelector('.create-post-container')){
+        document.querySelector('.create-post-container').addEventListener('click', () => {
+            window.location.href = "http://localhost:3000/editor?id=none";
+        })
+    }
+}
+
+/***/ }),
+
+/***/ "./src/public/javascripts/posts.js":
+/*!*****************************************!*\
+  !*** ./src/public/javascripts/posts.js ***!
+  \*****************************************/
 /*! namespace exports */
 /*! exports [not provided] [no usage info] */
 /*! runtime requirements: __webpack_require__, __webpack_require__.n, __webpack_require__.r, __webpack_exports__, __webpack_require__.* */
@@ -17751,6 +17857,112 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./utils */ "./src/public/javascripts/utils.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_1__);
+
+
+
+/** Posts */
+if (window.location.href.indexOf("/post") !== -1){
+
+    let id = (0,_utils__WEBPACK_IMPORTED_MODULE_0__.retrieveID)('post');
+    
+    // attach on click event for create post button
+    if (document.querySelector('.create-post-container')){
+        document.querySelector('.create-post-container').addEventListener('click', () => {
+            window.location.href = `http://localhost:3000/editor?id=${id}`;
+        })
+    }
+
+    // Attach like button
+    if (document.querySelector('.left-main-container-editor')){
+        
+        const likeButton = document.createElement('img');
+        likeButton.src = "/images/like.png";
+        likeButton.alt = "like_button";
+        likeButton.draggable = false;
+        likeButton.className = "like-button";
+
+        likeButton.addEventListener('click', async () => {
+            const q = await axios__WEBPACK_IMPORTED_MODULE_1___default().post("http://localhost:3000/like", {id})
+            document.querySelector(".like-counter").innerHTML = q.data.result[0].likes
+            
+        })
+
+        document.querySelector('.left-main-container-editor').appendChild(likeButton);
+    }
+
+    /**Check if post with id has content */
+    //.post-viewer
+
+    (0,_utils__WEBPACK_IMPORTED_MODULE_0__.loadEditor)(id, '.post-viewer');
+}
+
+/***/ }),
+
+/***/ "./src/public/javascripts/script.js":
+/*!******************************************!*\
+  !*** ./src/public/javascripts/script.js ***!
+  \******************************************/
+/*! namespace exports */
+/*! exports [not provided] [no usage info] */
+/*! runtime requirements: __webpack_require__, __webpack_require__.r, __webpack_exports__, __webpack_require__.* */
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./utils */ "./src/public/javascripts/utils.js");
+/* harmony import */ var _home__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./home */ "./src/public/javascripts/home.js");
+/* harmony import */ var _editor__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./editor */ "./src/public/javascripts/editor.js");
+/* harmony import */ var _myposts__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./myposts */ "./src/public/javascripts/myposts.js");
+/* harmony import */ var _posts__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./posts */ "./src/public/javascripts/posts.js");
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/***/ }),
+
+/***/ "./src/public/javascripts/utils.js":
+/*!*****************************************!*\
+  !*** ./src/public/javascripts/utils.js ***!
+  \*****************************************/
+/*! namespace exports */
+/*! export attachPostClicked [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export attachPostClickedDynamic [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export createEditButton [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export loadEditor [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export mySchema [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export retrieveID [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export saveClickFunc [provided] [no usage info] [missing usage info prevents renaming] */
+/*! other exports [not provided] [no usage info] */
+/*! runtime requirements: __webpack_require__, __webpack_require__.n, __webpack_require__.r, __webpack_exports__, __webpack_require__.d, __webpack_require__.* */
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "mySchema": () => /* binding */ mySchema,
+/* harmony export */   "retrieveID": () => /* binding */ retrieveID,
+/* harmony export */   "createEditButton": () => /* binding */ createEditButton,
+/* harmony export */   "attachPostClicked": () => /* binding */ attachPostClicked,
+/* harmony export */   "attachPostClickedDynamic": () => /* binding */ attachPostClickedDynamic,
+/* harmony export */   "saveClickFunc": () => /* binding */ saveClickFunc,
+/* harmony export */   "loadEditor": () => /* binding */ loadEditor
+/* harmony export */ });
 /* harmony import */ var prosemirror_state__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! prosemirror-state */ "./node_modules/prosemirror-state/dist/index.es.js");
 /* harmony import */ var prosemirror_view__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! prosemirror-view */ "./node_modules/prosemirror-view/dist/index.es.js");
 /* harmony import */ var prosemirror_model__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! prosemirror-model */ "./node_modules/prosemirror-model/dist/index.es.js");
@@ -17767,6 +17979,11 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+const mySchema = new prosemirror_model__WEBPACK_IMPORTED_MODULE_2__.Schema({
+    nodes : (0,prosemirror_schema_list__WEBPACK_IMPORTED_MODULE_4__.addListNodes)(prosemirror_schema_basic__WEBPACK_IMPORTED_MODULE_3__.schema.spec.nodes, "paragraph block*", "block"),
+    marks: prosemirror_schema_basic__WEBPACK_IMPORTED_MODULE_3__.schema.spec.marks
+});
+
 /**
  * TODO: separate this file into sub files
  */
@@ -17782,10 +17999,6 @@ const retrieveID = (substring) => {
     return "none";
 }
 
-const mySchema = new prosemirror_model__WEBPACK_IMPORTED_MODULE_2__.Schema({
-    nodes : (0,prosemirror_schema_list__WEBPACK_IMPORTED_MODULE_4__.addListNodes)(prosemirror_schema_basic__WEBPACK_IMPORTED_MODULE_3__.schema.spec.nodes, "paragraph block*", "block"),
-    marks: prosemirror_schema_basic__WEBPACK_IMPORTED_MODULE_3__.schema.spec.marks
-});
 
 const createEditButton = (id) => {
     const editButton = document.createElement('span')
@@ -17963,100 +18176,6 @@ const loadEditor = async (id, classTag) => {
         }
     }
 }
-
-
-/**
- * My posts
- */
-
-if (window.location.href.indexOf("/myposts") !== -1){
-    
-    attachPostClickedDynamic('posts', "individual")
-
-    // attach on click event for create post button
-    if (document.querySelector('.create-post-container')){
-        document.querySelector('.create-post-container').addEventListener('click', () => {
-            window.location.href = "http://localhost:3000/editor?id=none";
-        })
-    }
-}
-
-/** Posts */
-if (window.location.href.indexOf("/post") !== -1){
-
-    let id = retrieveID('post');
-    
-    // attach on click event for create post button
-    if (document.querySelector('.create-post-container')){
-        document.querySelector('.create-post-container').addEventListener('click', () => {
-            window.location.href = `http://localhost:3000/editor?id=${id}`;
-        })
-    }
-
-    // Attach like button
-    if (document.querySelector('.left-main-container-editor')){
-        
-        const likeButton = document.createElement('img');
-        likeButton.src = "/images/like.png";
-        likeButton.alt = "like_button";
-        likeButton.draggable = false;
-        likeButton.className = "like-button";
-
-        likeButton.addEventListener('click', async () => {
-            const q = await axios__WEBPACK_IMPORTED_MODULE_6___default().post("http://localhost:3000/like", {id})
-            document.querySelector(".like-counter").innerHTML = q.data.result[0].likes
-            
-        })
-
-        document.querySelector('.left-main-container-editor').appendChild(likeButton);
-    }
-
-    /**Check if post with id has content */
-    //.post-viewer
-
-    loadEditor(id, '.post-viewer');
-}
-
-/**Editor */
-if (window.location.href.indexOf("/editor") !== -1){
-    let id = retrieveID('editor');
-
-    /**Populate editor with content if post exists */
-    loadEditor(id, ".editor")
-
-    /**Add delete event on delete button */
-    if (document.querySelector(".delete-button")){
-        document.querySelector(".delete-button").addEventListener('click', () => {
-            if (id === "none"){
-                alert("You must first save the post")
-            }else{
-                if(confirm("Do you want to delete the post?")){
-                    axios__WEBPACK_IMPORTED_MODULE_6___default().post("http://localhost:3000/editor/delete", {id: id})
-                    .then((res) => {
-                        console.log(res.status);
-                        if (res.status === 200){
-                            alert("Post deleted");
-                            window.location.href = "http://localhost:3000/myposts";
-                        }
-                    })
-                    .catch((err) => {
-                        alert(`Failed to delete post:\n ${err}`);
-                    })
-                    
-                }
-            }
-            
-        })
-    }
-}
-
-
-/** For Index (home) Page */
-if (window.location.pathname === "/"){
-    attachPostClickedDynamic("trending-box", 'box')
-    attachPostClickedDynamic("item-post", 'individual')
-}
-
 
 
 /***/ })

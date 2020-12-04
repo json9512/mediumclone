@@ -20,9 +20,15 @@ export const indexPage = async (req, res) => {
     return res.render('home', {title: "M-Clone", data: finalJson})
 }
 
-const getRandomAuthorImage = () => {
-    let files = fs.readdirSync('./src/public/images/profile');
-    return files[Math.floor(Math.random() * files.length)];
+const getRandomImage = (name, withAuthor=false) => {
+    let files = fs.readdirSync(name);
+    let filename = files[Math.floor(Math.random() * files.length)];
+    let creator = ""
+    if (withAuthor){
+        let temp = filename.split(" ")
+        creator += temp[0] + " " + temp[1] + " from Unsplash"
+    }
+    return {filename, creator}
 }
 
 const extractDataForPug = (data) => {
@@ -45,14 +51,18 @@ const extractDataForPug = (data) => {
             })
 
             // Create json to store data
+            let tempDescr = content.slice(1, content.length < 3? content.length : 3)
+            tempDescr.push(". . .")
             temp = {
                 id: item.id,
                 username: item.username,
                 title: content[0],
-                description: content.slice(1, content.length),
+                description: tempDescr,
                 created_at: item.created_at,
-                img: getRandomAuthorImage()
+                img: getRandomImage('./src/public/images/profile'),
+                content_img: getRandomImage('./src/public/images/background', true)
             }
+            console.log(temp.content_img)
 
             arr.push(temp)
         })

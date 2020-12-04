@@ -31,11 +31,14 @@ export const myPostsPage = async (req, res) => {
                 
             });
 
+            let tempDescr = words.slice(1, words.length < 3? words.length : 3)
+            tempDescr.push(". . .")
+
             const temp = {
                 id: item.id,
                 username: item.username,
                 title: words[0],
-                description: words.slice(1, words.length < 5? words.length : 5),
+                description: tempDescr,
                 updated_at : item.updated_at
             }
             dataArr.push(temp)

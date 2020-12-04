@@ -75,6 +75,10 @@ div {
   margin-top: 4vh;
 }
 
+.logo-image{
+  width: 120px;
+}
+
 .navbar-buttons-container{
   width: fit-content;
   grid-column: 8/9;
@@ -278,17 +282,17 @@ div {
 
 .rcontent-item-container{
   width: 10vw;
-  justify-self: right;
   grid-column: 3;
   grid-row: 1;
+  display: block;
+  margin: auto auto auto auto;
 }
 
 .article-image{
-  width: 10vw;
-  justify-self: center;
-  height: auto;
+  display: block;
+  margin: auto auto auto auto;
+  width: 100%;
 }
-
 
 .item-author-icon{
   grid-column: 1;
@@ -320,7 +324,7 @@ div {
 }
 
 .item-post-meta{
-  font-size: 1vw;
+  font-size: 1.5vh;
 }
 
 /* right container */

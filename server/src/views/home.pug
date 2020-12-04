@@ -20,7 +20,7 @@ block content
             each item, index in data.trending
               div(class='trending-items')
                 div(class='trending-items-number') #{index+1}
-                img(class='trending-items-author-img' src=`/images/profile/${item.img}` alt='author')
+                img(class='trending-items-author-img' src=`/images/profile/${item.img.filename}` alt='author')
                   
                 div(class='trending-box' id=`${item.id}`)
                   div(class='trending-items-author') Written by #{item.username}
@@ -37,7 +37,7 @@ block content
           if data.randomPosts.length > 0
             each item in data.randomPosts
               div(class='content-item-container') 
-                img(class='item-author-icon' src=`/images/profile/${item.img}` alt='author_icon' draggable='false')
+                img(class='item-author-icon' src=`/images/profile/${item.img.filename}` alt='author_icon' draggable='false')
                 div(class='lcontent-item-container')
                   div(class='item-author-title') Written by #{item.username}
                   div(class='item-post-title' id=`${item.id}`)
@@ -47,7 +47,8 @@ block content
                   div(class='item-post-meta')
                     p #{item.created_at}
                 div(class='rcontent-item-container')
-                  img(class='article-image' src='/images/profile/r2.png' alt='r2d2' draggable='false')
+                  img(class='article-image' src=`/images/background/${item.content_img.filename}` alt='r2d2' draggable='false')
+                  i #{item.content_img.creator}
           else
             div(class='content-item-container') No posts . . .
         else

@@ -10,7 +10,6 @@ import {
 } from './settings';
 
 import {isAuthenticated, isSecured} from './middleware'
-import {NONCE_TOKEN} from './settings';
 
 import indexRouter from './routes/index';
 import usersRouter from './routes/users';
