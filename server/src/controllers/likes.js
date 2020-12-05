@@ -10,7 +10,7 @@ export const addLikes = async (req, res) => {
         return res.status(400).json({result: `Post with id:${id} does not exist`})
         
     } else {
-        const result = await postsModel.insertWithReturn('id, likes', `${id}, likes + 1`)
+        const result = await postsModel.updateData('id, likes', `${id}, likes + 1`)
         if (!("likes" in result.rows[0])){
             return res.status(400).json({result: "Error adding like to post"})
         }else{

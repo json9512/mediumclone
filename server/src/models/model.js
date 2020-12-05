@@ -16,7 +16,6 @@ export default class Model {
     async insertWithReturn(columns, values, createNew) {
         // First check if id exists (can be done at higher level)
         // Check if post exists
-        // Either update or insert new data into database
         let query = "";
         if (createNew) {
             query = `
@@ -25,11 +24,10 @@ export default class Model {
             RETURNING id, ${columns};
             `;
 
-            console.log(`Insert data into ${this.table} with query: ${query}`)
+            //console.log(`Insert data into ${this.table} with query: ${query}`)
             return this.pool.query(query);
         }else{
-            
-            return this.updateData(columns, values)
+            return {rows: "Insertion Error"}
         }
     }
 
@@ -46,7 +44,7 @@ export default class Model {
 
     async dropRowWithId(columns, id){
         const q = `DELETE FROM ${this.table} WHERE ${columns}='${id}' RETURNING *;`
-        console.log(`Delete data from ${this.table} with query: \n${q}`);
+        //console.log(`Delete data from ${this.table} with query: \n${q}`);
         return this.pool.query(q);
     }
 
@@ -89,7 +87,7 @@ export default class Model {
                 query = await stripString(query, values, columns, ", ", "=")
             }
             
-            console.log(`Update data into ${this.table} with query: ${query}`)
+            //console.log(`Update data into ${this.table} with query: ${query}`)
             
             return this.pool.query(query);
         }

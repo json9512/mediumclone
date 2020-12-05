@@ -252,22 +252,19 @@ div {
   background-color: white;
   display: flex;
   flex-direction: column;
-  width: 65vw;
+  width: 68vw;
 }
 
 .content-item-container{
   height: 15vw;
-  width: 40vw;
+  width: 38vw;
   background-color: white;
   display: grid;
-  grid-template-columns: auto auto auto;
-  margin-left: auto;
+  grid-template-columns: auto 30vw 20vw;
+  margin-left: 20vw;
   margin-top: 1vh;
-  margin-right: 2vw;
   margin-bottom: 1vh;
 }
-
-
 
 .lcontent-item-container{
   display: flex;
@@ -278,6 +275,7 @@ div {
   margin-right: 1.3vw;
   word-wrap: break-word;
   word-break: break-all;
+  width: 100%;
 }
 
 .rcontent-item-container{
@@ -286,6 +284,7 @@ div {
   grid-row: 1;
   display: block;
   margin: auto auto auto auto;
+  font-size: 1vh;
 }
 
 .article-image{
@@ -324,7 +323,7 @@ div {
 }
 
 .item-post-meta{
-  font-size: 1.5vh;
+  font-size: 1.2vh;
 }
 
 /* right container */
@@ -335,6 +334,7 @@ div {
   background-color: white;
   display: flex;
   flex-direction: column;
+  margin-left: 3vw;
 }
 
 .right-content-sticky{

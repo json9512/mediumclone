@@ -1,18 +1,14 @@
 import {
     dropTables,
     createTables,
-    insertIntoTables,
-    dropFunctionsAndTriggers,
-    createFuncsAndTriggers
+    insertIntoTables
 } from '../src/utils/queryFunctions';
 
-before(async() => {
-    await createTables();
-    await createFuncsAndTriggers();
-    await insertIntoTables();
+before(() => {
+    createTables();
+    insertIntoTables();
 });
 
-after(async () => {
-    await dropFunctionsAndTriggers();
-    await dropTables();
+after(() => {
+    dropTables();
 })

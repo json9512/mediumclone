@@ -8,7 +8,7 @@ describe('Index page test', () => {
         expect(res.status).to.equal(200);
         expect(res.headers['content-type']).to.equal('text/html; charset=utf-8')
         expect(res.text).to.contains(
-          'Son'
+          'A long time ago in a galaxy far, far away . .'
         );
         done();
       });

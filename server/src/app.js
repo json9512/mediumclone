@@ -26,9 +26,7 @@ app.use(helmet({
     contentSecurityPolicy: {
         directives: {
             ...helmet.contentSecurityPolicy.getDefaultDirectives(),
-            "img-src": ["'self'", "https:", "data"],
-            //"script-src": ["'self'", "'unsafe-inline'"],
-            //"script-src-attr": ["'self'", "'unsafe-inline'"]
+            "img-src": ["'self'", "https:", "data"]
         }
     }
 }));
@@ -55,8 +53,8 @@ const session = {
 }
 
 if (app.get('env') === 'production'){
-    session.cookie.secure = true
-    app.set('trust proxy', 1)
+    session.cookie.secure = true;
+    app.set('trust proxy', 1);
 }
 
 app.use(expressSession(session));
@@ -77,12 +75,17 @@ passport.deserializeUser((user, done)=>{
 
 app.use(isAuthenticated)
 
+
 // Routes
 app.use('/', authRouter);
 app.use('/', indexRouter);
+
+
 app.use('/users', isSecured, usersRouter);
 app.use('/myposts', isSecured, mypostsRouter);
 app.use('/editor', isSecured, editorRouter);
+
+
 app.use('/post', postRouter);
 app.use('/like', likesRouter);
 
@@ -91,4 +94,4 @@ app.use((err, req, res, next) => {
     res.status(400).json({error: err.stack});
 });
 
-export default app;
+module.exports = app;

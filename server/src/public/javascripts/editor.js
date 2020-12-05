@@ -15,7 +15,7 @@ if (window.location.href.indexOf("/editor") !== -1){
                 alert("You must first save the post")
             }else{
                 if(confirm("Do you want to delete the post?")){
-                    axios.post("http://localhost:3000/editor/delete", {id: id})
+                    axios.delete("http://localhost:3000/editor/delete", {data: {id: id}})
                     .then((res) => {
                         console.log(res.status);
                         if (res.status === 200){

@@ -283,7 +283,7 @@ li.ProseMirror-selectednode:after {
 }
 
 .ProseMirror-prompt-close:after {
-  content: "��";
+  content: "✕";
   font-size: 12px;
 }
 
@@ -336,4 +336,4 @@ li.ProseMirror-selectednode:after {
   outline: none;
 }
 
-.ProseMirror p { margin-bottom: 1em }
+.ProseMirror p { margin-bottom: 1em; font-size: large; }

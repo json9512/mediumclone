@@ -33,16 +33,46 @@ export const addPost = async (req, res) => {
         
         // If result does not contain a document key -> HTTP 400 error
         if (!("document" in data.rows[0])){
-            res.status(400).json({result: data.rows});
+            res.status(500).json({result: data.rows});
         }else{
-            res.status(200).json({result: data.rows});
+            res.status(201).json({result: data.rows});
         }
     } catch (err) {
         console.log(err)
-        res.status(400).json({result: "Error saving data to database"});
+        res.status(500).json({result: "Error saving data to database"});
     };
 
 };
+
+export const updatePost = async (req, res) => {
+    const username = req.user._json.nickname;
+    const {id, document, comments, likes} = req.body;
+
+    let columns = "";
+    let values = "";
+    // Check if id exists
+    if (id !== "none"){
+        columns = 'id, username, document, comments, likes';
+        values = `'${id}', '${username}', '${JSON.stringify(document)}', '${JSON.stringify(comments)}', '${likes}'`;
+
+        try{
+            const data = await postsModel.updateData(columns, values);
+            
+            // If result does not contain a document key -> HTTP 500 error
+            if (!("document" in data.rows[0])){
+                res.status(500).json({error: "Error updating data to database"});
+            }else{
+                res.status(200).json({result: data.rows});
+            }
+        } catch (err) {
+            console.log(err)
+            res.status(500).json({error: "Error updating data to database"});
+        };
+
+    }else{
+        res.status(500).json({error: "Error updating data to database"});;
+    }
+}
 
 export const deletePost = async (req, res) => {
     const username = req.user._json.nickname;
@@ -53,14 +83,18 @@ export const deletePost = async (req, res) => {
             const check = await postsModel.select('COUNT(id)', ` WHERE username='${username}' AND id='${id}';`)
             if (check.rowCount > 0){
                 const data = await postsModel.dropRowWithId('id', id)
-                res.status(200).json({result: data.rows})
+                if (data.rowCount == 1){
+                    res.status(200).json({message: "Post deleted"})
+                }else{
+                    res.status(500).json({error: `Error deleting post with ${id}, ${username} from database`})
+                }
             }else{
-                res.status(400).json({result: `Error deleting post with ${id}, ${username} from database`})
+                res.status(500).json({error: `Error deleting post with ${id}, ${username} from database`})
             }
             
         }catch (err) {
             console.log(err)
-            res.status(400).json({result: "Error deleting data from database"})
+            res.status(500).json({error: "Error deleting data from database"})
         }
     }
 }

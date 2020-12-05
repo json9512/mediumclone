@@ -3,12 +3,9 @@ import {
     insertMessages,
     dropMessagesTable,
     createMessageTable,
-    createUserTable,
     createPostTable,
     dropPostsTable,
-    createTimeStampFunction,
-    dropFunctionsAndTrigger,
-    createTimeStampTrigger
+    insertPosts,
 } from './queries';
 
 export const executeQueryArray = async arr => new Promise(resolve => {
@@ -21,7 +18,5 @@ export const executeQueryArray = async arr => new Promise(resolve => {
 
 
 export const dropTables = () => executeQueryArray([dropMessagesTable, dropPostsTable]);
-export const createTables = () => executeQueryArray([createMessageTable, createUserTable, createPostTable]);
-export const insertIntoTables = () => executeQueryArray([insertMessages]);
-export const createFuncsAndTriggers = () => executeQueryArray([createTimeStampFunction, createTimeStampTrigger]);
-export const dropFunctionsAndTriggers = () => executeQueryArray([dropFunctionsAndTrigger])
+export const createTables = () => executeQueryArray([createMessageTable, createPostTable]);
+export const insertIntoTables = () => executeQueryArray([insertMessages, insertPosts]);
