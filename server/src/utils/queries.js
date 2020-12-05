@@ -34,7 +34,7 @@ export const createTimeStampFunction = `
         NEW.updated_at = NOW();
         RETURN NEW;
     END;
-    $$ LANGUAGE 'plpgsql';
+    $$ LANGUAGE plpgsql;
     `
 export const createTimeStampTrigger = `
     CREATE TRIGGER set_timestamp
