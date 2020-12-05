@@ -15,8 +15,6 @@ export const indexPage = async (req, res) => {
         trending,
         randomPosts
     }
-
-    console.log(finalJson)
     return res.render('home', {title: "M-Clone", data: finalJson})
 }
 
@@ -35,6 +33,7 @@ const extractDataForPug = (data) => {
 
     if (data.rowCount > 0){
         let arr = [];
+        // Potential room for improvement here n^3 time complexity
         data.rows.forEach((item) => {
             let temp = {};
             // Extract id, username, doc.content, created_at
@@ -43,26 +42,27 @@ const extractDataForPug = (data) => {
                 // If node has a text extract it
                 if (node.type === 'paragraph' || node.type === 'heading'){
                     if (node.content){
-                        if (isString(node.content[0].text)){
-                            content.push(node.content[0].text)
-                        }
+                        node.content.map(item => {
+                            if (isString(item.text)){
+                                content.push(item.text)
+                            }
+                        })
                     }
                 }
             })
 
             // Create json to store data
             let tempDescr = content.slice(1, content.length < 3? content.length : 3)
-            tempDescr.push(". . .")
+            tempDescr.push(" . . .")
             temp = {
                 id: item.id,
                 username: item.username,
                 title: content[0],
-                description: tempDescr,
+                description: tempDescr.join(''),
                 created_at: item.created_at,
                 img: getRandomImage('./src/public/images/profile'),
                 content_img: getRandomImage('./src/public/images/background', true)
             }
-            console.log(temp.content_img)
 
             arr.push(temp)
         })
