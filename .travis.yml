@@ -24,7 +24,7 @@ install: yarn install --ignore-engines
 after_success: yarn coverage
 before_script:
 - echo $PWD
-- psql -c 'create database testdb;' -U postgres
+- psql -c 'create database mediumclone;' -U postgres
 - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
 - chmod +x ./cc-test-reporter
 - "./cc-test-reporter before-build"
