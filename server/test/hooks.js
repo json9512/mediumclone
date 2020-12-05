@@ -2,7 +2,6 @@ import {
     dropTables,
     createTables,
     insertIntoTables,
-    dropFunctionsAndTriggers,
     createFuncsAndTriggers
 } from '../src/utils/queryFunctions';
 
@@ -13,6 +12,5 @@ before(async() => {
 });
 
 after(async () => {
-    await dropFunctionsAndTriggers();
     await dropTables();
 })

@@ -18,7 +18,6 @@ export const myPostsPage = async (req, res) => {
             let words = [];
             // Check for paragraph or heading
             doc.forEach((obj) => {
-                console.log(obj)
                 if (obj.type === "heading"){
                     if (isString(obj.content[0].text)){
                         words.push(obj.content[0].text )
