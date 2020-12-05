@@ -1,11 +1,10 @@
 import {pool} from '../models/pools';
 import {
-    insertMessages,
-    dropMessagesTable,
-    createMessageTable,
     createPostTable,
     dropPostsTable,
+    createTimeStampFunction,
     insertPosts,
+    createTimeStampTrigger
 } from './queries';
 
 export const executeQueryArray = async arr => new Promise(resolve => {
@@ -17,6 +16,6 @@ export const executeQueryArray = async arr => new Promise(resolve => {
 });
 
 
-export const dropTables = () => executeQueryArray([dropMessagesTable, dropPostsTable]);
-export const createTables = () => executeQueryArray([createMessageTable, createPostTable]);
-export const insertIntoTables = () => executeQueryArray([insertMessages, insertPosts]);
+export const dropTables = () =>  executeQueryArray([dropPostsTable]);
+export const createTables = () =>  executeQueryArray([createPostTable, createTimeStampFunction ,createTimeStampTrigger]);
+export const insertIntoTables = () =>  executeQueryArray([insertPosts]);

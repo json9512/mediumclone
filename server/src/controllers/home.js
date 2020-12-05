@@ -1,7 +1,6 @@
 import Model from '../models/model';
 import { isString } from '../utils/helper';
 import fs  from 'fs';
-import path from 'path';
 
 const postsModel = new Model('posts');
 
@@ -15,6 +14,7 @@ export const indexPage = async (req, res) => {
         trending,
         randomPosts
     }
+    
     return res.render('home', {title: "M-Clone", data: finalJson})
 }
 

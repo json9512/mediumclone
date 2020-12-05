@@ -37,7 +37,7 @@ export const myPostsPage = async (req, res) => {
                 id: item.id,
                 username: item.username,
                 title: words[0],
-                description: tempDescr,
+                description: tempDescr.join(''),
                 updated_at : item.updated_at
             }
             dataArr.push(temp)
