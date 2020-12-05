@@ -16,7 +16,6 @@ export default class Model {
     async insertWithReturn(columns, values, createNew) {
         // First check if id exists (can be done at higher level)
         // Check if post exists
-        // Either update or insert new data into database
         let query = "";
         if (createNew) {
             query = `
@@ -28,8 +27,7 @@ export default class Model {
             console.log(`Insert data into ${this.table} with query: ${query}`)
             return this.pool.query(query);
         }else{
-            
-            return this.updateData(columns, values)
+            return {rows: "Insertion Error"}
         }
     }
 

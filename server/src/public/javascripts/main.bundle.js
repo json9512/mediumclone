@@ -17755,7 +17755,7 @@ if (window.location.href.indexOf("/editor") !== -1){
                 alert("You must first save the post")
             }else{
                 if(confirm("Do you want to delete the post?")){
-                    axios__WEBPACK_IMPORTED_MODULE_1___default().post("http://localhost:3000/editor/delete", {id: id})
+                    axios__WEBPACK_IMPORTED_MODULE_1___default().delete("http://localhost:3000/editor/delete", {data: {id: id}})
                     .then((res) => {
                         console.log(res.status);
                         if (res.status === 200){
@@ -17885,7 +17885,7 @@ if (window.location.href.indexOf("/post") !== -1){
         likeButton.className = "like-button";
 
         likeButton.addEventListener('click', async () => {
-            const q = await axios__WEBPACK_IMPORTED_MODULE_1___default().post("http://localhost:3000/like", {id})
+            const q = await axios__WEBPACK_IMPORTED_MODULE_1___default().patch("http://localhost:3000/like", {id})
             document.querySelector(".like-counter").innerHTML = q.data.result[0].likes
             
         })
@@ -18054,17 +18054,31 @@ const saveClickFunc = (id, comments, likes) => {
     }
     // Get info 
     const document = window.view.state.toJSON();
-    // This will come from myposts it can also be none if this is created from scratch
-    axios__WEBPACK_IMPORTED_MODULE_6___default().post("http://localhost:3000/editor", {
-        id, document, comments, likes
-    }).then((res) => {
-        console.log(res);
-        alert("Save complete")
-        window.location.href = "http://localhost:3000/myposts";
-    }).catch((err) => {
-        console.log(err);
-        alert("Save failed")
-    })
+    // none - this is created from scratch
+    if (id === "none"){
+        axios__WEBPACK_IMPORTED_MODULE_6___default().post("http://localhost:3000/editor", {
+            id, document, comments, likes
+        }).then((res) => {
+            console.log(res);
+            alert("Save complete")
+            window.location.href = "http://localhost:3000/myposts";
+        }).catch((err) => {
+            console.log(err);
+            alert("Save failed")
+        })
+    }else{
+        axios__WEBPACK_IMPORTED_MODULE_6___default().put("http://localhost:3000/editor/update", {
+            id, document, comments, likes
+        }).then((res) => {
+            console.log(res);
+            alert("Save complete")
+            window.location.href = "http://localhost:3000/myposts";
+        }).catch((err) => {
+            console.log(err);
+            alert("Save failed")
+        })
+    }
+
 
 }
 

@@ -23,7 +23,7 @@ if (window.location.href.indexOf("/post") !== -1){
         likeButton.className = "like-button";
 
         likeButton.addEventListener('click', async () => {
-            const q = await axios.post("http://localhost:3000/like", {id})
+            const q = await axios.patch("http://localhost:3000/like", {id})
             document.querySelector(".like-counter").innerHTML = q.data.result[0].likes
             
         })

@@ -3,7 +3,6 @@ import {addLikes, checkLikes} from '../controllers';
 
 const router = express.Router();
 
-/* POST */
-router.post('/', addLikes); // Change to post
+router.patch('/', addLikes); 
 
 export default router;

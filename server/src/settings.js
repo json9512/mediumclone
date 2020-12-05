@@ -15,9 +15,6 @@ const strategy = new Auth0Strategy(
     }
 );
 
-
-
-
 export const passportStrategy = strategy;
 
 export const testEnvVar = process.env.TEST_ENV_VAR;

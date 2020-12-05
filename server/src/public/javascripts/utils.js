@@ -81,17 +81,31 @@ export const saveClickFunc = (id, comments, likes) => {
     }
     // Get info 
     const document = window.view.state.toJSON();
-    // This will come from myposts it can also be none if this is created from scratch
-    axios.post("http://localhost:3000/editor", {
-        id, document, comments, likes
-    }).then((res) => {
-        console.log(res);
-        alert("Save complete")
-        window.location.href = "http://localhost:3000/myposts";
-    }).catch((err) => {
-        console.log(err);
-        alert("Save failed")
-    })
+    // none - this is created from scratch
+    if (id === "none"){
+        axios.post("http://localhost:3000/editor", {
+            id, document, comments, likes
+        }).then((res) => {
+            console.log(res);
+            alert("Save complete")
+            window.location.href = "http://localhost:3000/myposts";
+        }).catch((err) => {
+            console.log(err);
+            alert("Save failed")
+        })
+    }else{
+        axios.put("http://localhost:3000/editor/update", {
+            id, document, comments, likes
+        }).then((res) => {
+            console.log(res);
+            alert("Save complete")
+            window.location.href = "http://localhost:3000/myposts";
+        }).catch((err) => {
+            console.log(err);
+            alert("Save failed")
+        })
+    }
+
 
 }
 
