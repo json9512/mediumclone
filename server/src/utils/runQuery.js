@@ -1,7 +1,6 @@
-import {createTables, insertIntoTables, createFuncsAndTriggers} from './queryFunctions';
+import {createTables, insertIntoTables} from './queryFunctions';
 
 (() => {
-     createTables();
-     createFuncsAndTriggers();
+     createTables();;
      insertIntoTables();
 })();

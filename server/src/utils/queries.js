@@ -25,22 +25,19 @@ CREATE TABLE IF NOT EXISTS posts (
     created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
     updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
-`
 
-export const createTimeStampFunction = `
-    CREATE OR REPLACE FUNCTION public.trigger_set_timestamp()
-    RETURNS TRIGGER AS $$
-    BEGIN
-        NEW.updated_at = NOW();
-        RETURN NEW;
-    END;
-    $$ LANGUAGE plpgsql;
-    `
-export const createTimeStampTrigger = `
-    CREATE TRIGGER set_timestamp
-    BEFORE UPDATE ON posts
-    FOR EACH ROW
-    EXECUTE PROCEDURE trigger_set_timestamp();
+CREATE OR REPLACE FUNCTION public.trigger_set_timestamp()
+RETURNS TRIGGER AS $$
+BEGIN
+    NEW.updated_at = NOW();
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER set_timestamp
+BEFORE UPDATE ON posts
+FOR EACH ROW
+EXECUTE PROCEDURE trigger_set_timestamp();
 `
 
 export const insertPosts = `
