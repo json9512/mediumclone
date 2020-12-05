@@ -1,7 +1,8 @@
 import supertest from 'supertest';
 import chai from 'chai';
 import sinonChai from 'sinon-chai';
-import app from '../src/app'
+process.env.NODE_ENV = 'test';
+import app from '../src/app';
 import {TEST_USERNAME} from '../src/settings';
 
 

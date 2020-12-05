@@ -19,8 +19,6 @@ import editorRouter from './routes/editor';
 import postRouter from './routes/post';
 import likesRouter from './routes/likes';
 
-process.env.NODE_ENV = 'production'; // production
-
 const app = express();
 
 // HTTP Header settings with helmet

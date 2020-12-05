@@ -4,7 +4,7 @@ CREATE TABLE IF NOT EXISTS messages (
     id SERIAL PRIMARY KEY,
     name VARCHAR DEFAULT '',
     message VARCHAR NOT NULL
-)
+);
 `;
 
 export const insertMessages = `
@@ -24,7 +24,7 @@ CREATE TABLE IF NOT EXISTS posts (
     likes INTEGER,
     created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
     updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
-)
+);
 `
 
 export const createTimeStampFunction = `
