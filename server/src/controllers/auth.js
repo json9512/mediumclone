@@ -8,7 +8,7 @@ export const logoutFunc = (req, res) => {
     };
 
     req.logOut();
-
+    
     let returnTo = req.protocol + "://" + req.hostname;
     const port = req.connection.localPort;
 
