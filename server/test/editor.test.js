@@ -46,6 +46,46 @@ describe('Editor page test', () => {
       })
   });
 
+  it('POST /editor: Add new post into database with invalid id', done => {
+    const id = 3;
+    const document = sample_document;
+    const comments = {msg: "Testing"};
+    const likes = 0;
+    const data = {id, document, comments, likes}
+
+    server
+      .post(`${BASE_URL}/editor`)
+      .send(data)
+      .expect(500)
+      .end((err, res) => {
+        if (err) return done(err);
+        expect(res.status).to.equal(500);        
+        expect(res.body).to.have.property('error');
+        expect(res.body.error).to.equal('Given input not valid');
+        done();
+      })
+  });
+
+  it('POST /editor: Add new post into database with invalid data', done => {
+    const id = "none";
+    const document = "test";
+    const comments = 3;
+    const likes = 0;
+    const data = {id, document, comments, likes}
+
+    server
+      .post(`${BASE_URL}/editor`)
+      .send(data)
+      .expect(500)
+      .end((err, res) => {
+        if (err) return done(err);
+        expect(res.status).to.equal(500);
+        expect(res.body).to.have.property('error');
+        expect(res.body.error).to.equal('Given input not valid');
+        done();
+      })
+  });
+
   it('PUT /editor: Update post in database', done => {
     let id = "none";
     const document = sample_document;
@@ -125,5 +165,38 @@ describe('Editor page test', () => {
       })
   });
 
+  it('DELETE /editor: Delete post in database with invalid id', done => {
+    let id = 999;
+
+    // delete
+    server
+      .delete(`${BASE_URL}/editor/delete`)
+      .send({id:id})     
+      .expect(500)
+      .end((err, res) => {
+        if (err) return done(err);
+        expect(res.status).equal(500)
+        expect(res.body).to.have.property('error')
+        expect(res.body.error).to.equal(`Error deleting post with ${id}, ${sample_username} from database`)
+        done();
+      })
+  });
+
+  it('DELETE /editor: Delete post in database with invalid id type', done => {
+    let id = "string";
+
+    // delete
+    server
+      .delete(`${BASE_URL}/editor/delete`)
+      .send({id:id})     
+      .expect(500)
+      .end((err, res) => {
+        if (err) return done(err);
+        expect(res.status).equal(500)
+        expect(res.body).to.have.property('error')
+        expect(res.body.error).to.equal(`Given input not valid`)
+        done();
+      })
+  });
 
 });

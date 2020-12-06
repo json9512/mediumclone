@@ -13,22 +13,20 @@ export default class Model {
         return this.pool.query(query);
     }
 
-    async insertWithReturn(columns, values, createNew) {
+    async insertWithReturn(columns, values) {
         // First check if id exists (can be done at higher level)
         // Check if post exists
         let query = "";
-        if (createNew) {
-            query = `
-            INSERT INTO ${this.table}(${columns})
-            VALUES(${values})
-            RETURNING id, ${columns};
-            `;
+        
+        query = `
+        INSERT INTO ${this.table}(${columns})
+        VALUES(${values})
+        RETURNING id, ${columns};
+        `;
 
-            //console.log(`Insert data into ${this.table} with query: ${query}`)
-            return this.pool.query(query);
-        }else{
-            return {rows: "Insertion Error"}
-        }
+        //console.log(`Insert data into ${this.table} with query: ${query}`)
+        return this.pool.query(query);
+        
     }
 
     async checkIfRowExists(){

@@ -4,10 +4,10 @@ import {
     insertIntoTables
 } from '../src/utils/queryFunctions';
 
-before(async function mochaBefore(){
+beforeEach(async function mochaBeforeEach(){
     await createTables();
     await insertIntoTables();
-});
+})
 
 after(async function mochaAfter(){
     await dropTables();
