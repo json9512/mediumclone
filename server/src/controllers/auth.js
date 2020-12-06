@@ -2,6 +2,11 @@ import {AUTH0_CLIENT_ID, AUTH0_DOMAIN} from '../settings';
 import querystring from 'querystring';
 
 export const logoutFunc = (req, res) => {
+    if (process.env.NODE_ENV === 'test'){
+        res.redirect('/');
+        return;
+    };
+
     req.logOut();
 
     let returnTo = req.protocol + "://" + req.hostname;

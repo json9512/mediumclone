@@ -1,19 +1,3 @@
-export const createMessageTable = `
-DROP TABLE IF EXISTS messages;
-CREATE TABLE IF NOT EXISTS messages (
-    id SERIAL PRIMARY KEY,
-    name VARCHAR DEFAULT '',
-    message VARCHAR NOT NULL
-);
-`;
-
-export const insertMessages = `
-INSERT INTO messages(name, message)
-VALUES ('test', 'first message'),
-    ('test2', 'second message');
-`;
-
-
 export const createPostTable = `
 DROP TABLE IF EXISTS posts;
 CREATE TABLE IF NOT EXISTS posts (
@@ -25,19 +9,22 @@ CREATE TABLE IF NOT EXISTS posts (
     created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
     updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
+`
 
-CREATE OR REPLACE FUNCTION public.trigger_set_timestamp()
-RETURNS TRIGGER AS $$
-BEGIN
-    NEW.updated_at = NOW();
-    RETURN NEW;
-END;
-$$ LANGUAGE plpgsql;
-
-CREATE TRIGGER set_timestamp
-BEFORE UPDATE ON posts
-FOR EACH ROW
-EXECUTE PROCEDURE trigger_set_timestamp();
+export const createTimeStampFunction = `
+    CREATE OR REPLACE FUNCTION public.trigger_set_timestamp()
+    RETURNS TRIGGER AS $$
+    BEGIN
+        NEW.updated_at = NOW();
+        RETURN NEW;
+    END;
+    $$ LANGUAGE plpgsql;
+    `
+export const createTimeStampTrigger = `
+    CREATE TRIGGER set_timestamp
+    BEFORE UPDATE ON posts
+    FOR EACH ROW
+    EXECUTE PROCEDURE trigger_set_timestamp();
 `
 
 export const insertPosts = `
@@ -341,5 +328,4 @@ export const insertPosts = `
     }', '{}', 16)
 `
 
-export const dropMessagesTable = `DROP TABLE messages;`;
 export const dropPostsTable = `DROP TABLE posts;`;

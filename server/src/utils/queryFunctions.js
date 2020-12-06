@@ -1,22 +1,30 @@
 import {pool} from '../models/pools';
 import {
-    insertMessages,
-    dropMessagesTable,
-    createMessageTable,
     createPostTable,
     dropPostsTable,
+    createTimeStampFunction,
     insertPosts,
+    createTimeStampTrigger
 } from './queries';
 
-export const executeQueryArray = async arr => new Promise(resolve => {
-    const stop = arr.length;
-    arr.forEach(async (q, index)=> {
-        await pool.query(q);
-        if (index + 1 === stop) resolve();
+export const dropTables = async() => {
+    return await new Promise(async (resolve) => {
+        await pool.query(dropPostsTable)
+        resolve();
     });
-});
+} 
 
+export const createTables = async() => {
+    return await new Promise(async(resolve) => {
+        await pool.query(createPostTable).catch(err => console.log(err));
+        await pool.query(createTimeStampFunction).catch(err => console.log(err));
+        await pool.query(createTimeStampTrigger).catch(err => console.log(err));
+        resolve();
+    })
+}
 
-export const dropTables = () => executeQueryArray([dropMessagesTable, dropPostsTable]);
-export const createTables = () => executeQueryArray([createMessageTable, createPostTable]);
-export const insertIntoTables = () => executeQueryArray([insertMessages, insertPosts]);
+export const insertIntoTables = async() =>  {
+    return await new Promise(async(resolve) => {
+        await pool.query(insertPosts).catch(err => console.log(err));
+        resolve();
+})}

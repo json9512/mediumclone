@@ -4,13 +4,14 @@ import sinonChai from 'sinon-chai';
 process.env.NODE_ENV = 'test';
 import app from '../src/app';
 import {TEST_USERNAME} from '../src/settings';
+import {dropTables, createTables, insertIntoTables} from '../src/utils/queryFunctions';
 
 
 chai.use(sinonChai);
 export const { expect } = chai;
 export const BASE_URL = '';
 export const server = supertest.agent(app);
-export const sample_username = TEST_USERNAME
+export const sample_username = TEST_USERNAME;
 export const sample_document = {
     "doc": {
         "type": "doc",
@@ -105,4 +106,14 @@ export const sample_document = {
         "anchor": 30
     }
   }
+
+export const setupBeforeAfter = () => {
+    beforeEach(async function beforeInSuite(){
+        await createTables();
+    })
+
+    after(async function afterInSuite(){
+        await dropTables();
+    })
+}
   

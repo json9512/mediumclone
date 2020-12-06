@@ -5,7 +5,7 @@ const postsModel = new Model('posts');
 
 export const myPostsPage = async (req, res) => {
 
-    // First check if posts exists for this usersname
+    // First check if posts exists 
     let check = await postsModel.checkIfRowExists();
     let dataArr = [];
 
@@ -37,7 +37,7 @@ export const myPostsPage = async (req, res) => {
                 id: item.id,
                 username: item.username,
                 title: words[0],
-                description: tempDescr,
+                description: tempDescr.join(''),
                 updated_at : item.updated_at
             }
             dataArr.push(temp)

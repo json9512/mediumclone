@@ -13,22 +13,20 @@ export default class Model {
         return this.pool.query(query);
     }
 
-    async insertWithReturn(columns, values, createNew) {
+    async insertWithReturn(columns, values) {
         // First check if id exists (can be done at higher level)
         // Check if post exists
         let query = "";
-        if (createNew) {
-            query = `
-            INSERT INTO ${this.table}(${columns})
-            VALUES(${values})
-            RETURNING id, ${columns};
-            `;
+        
+        query = `
+        INSERT INTO ${this.table}(${columns})
+        VALUES(${values})
+        RETURNING id, ${columns};
+        `;
 
-            //console.log(`Insert data into ${this.table} with query: ${query}`)
-            return this.pool.query(query);
-        }else{
-            return {rows: "Insertion Error"}
-        }
+        //console.log(`Insert data into ${this.table} with query: ${query}`)
+        return this.pool.query(query);
+        
     }
 
     async checkIfRowExists(){
@@ -68,14 +66,11 @@ export default class Model {
             return query;
         }
 
-
-
-
         let query = `UPDATE ${this.table} SET `;
         const id = values.split(",")[0]
         
         // Check if data with id exists
-        const check = await this.select("*", ` WHERE id=${id};`);
+        const check = await this.select("*", ` WHERE id=${id};`)
         
         if (check.rowCount === 0){
             return {rows: `Error: data with id: ${id} does not exists in database`};
@@ -89,7 +84,7 @@ export default class Model {
             
             //console.log(`Update data into ${this.table} with query: ${query}`)
             
-            return this.pool.query(query);
+            return this.pool.query(query)
         }
     }
 
