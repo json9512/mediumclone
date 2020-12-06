@@ -17,7 +17,6 @@ const strategy = new Auth0Strategy(
 
 export const passportStrategy = strategy;
 
-export const testEnvVar = process.env.TEST_ENV_VAR;
 export const PSQL_CONNECTION_STRING = process.env.PSQL_CONNECTION_STRING;
 export const AUTH0_CLIENT_ID = process.env.AUTH0_CLIENT_ID;
 export const AUTH0_CLIENT_SECRET = process.env.AUTH0_CLIENT_SECRET;

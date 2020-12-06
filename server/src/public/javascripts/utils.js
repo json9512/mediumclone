@@ -6,6 +6,9 @@ import {addListNodes} from 'prosemirror-schema-list';
 import {exampleSetup} from 'prosemirror-example-setup';
 import axios from 'axios';
 
+export const URL = window.location.origin + "/";
+
+
 export const mySchema = new Schema({
     nodes : addListNodes(schema.spec.nodes, "paragraph block*", "block"),
     marks: schema.spec.marks
@@ -32,7 +35,7 @@ export const createEditButton = (id) => {
     editButton.className = 'edit-post-container';
     editButton.innerHTML = 'Edit';
     editButton.addEventListener('click', () => {
-        window.location.href = `http://localhost:3000/editor?id=${id}`
+        window.location.href = `${URL}editor?id=${id}`
     });
 
     return editButton;
@@ -41,7 +44,7 @@ export const createEditButton = (id) => {
 // Define onclick functions
 export const attachPostClicked = (item, id) => {
     item.addEventListener('click', ()=>{
-        window.location.href = `http://localhost:3000/post?id=${id}`;
+        window.location.href = `${URL}post?id=${id}`;
     })
 }
 
@@ -83,23 +86,23 @@ export const saveClickFunc = (id, comments, likes) => {
     const document = window.view.state.toJSON();
     // none - this is created from scratch
     if (id === "none"){
-        axios.post("http://localhost:3000/editor", {
+        axios.post(`${URL}editor`, {
             id, document, comments, likes
         }).then((res) => {
             console.log(res);
             alert("Save complete")
-            window.location.href = "http://localhost:3000/myposts";
+            window.location.href = `${URL}myposts`;
         }).catch((err) => {
             console.log(err);
             alert("Save failed")
         })
     }else{
-        axios.put("http://localhost:3000/editor/update", {
+        axios.put(`${URL}editor/update`, {
             id, document, comments, likes
         }).then((res) => {
             console.log(res);
             alert("Save complete")
-            window.location.href = "http://localhost:3000/myposts";
+            window.location.href = `${URL}myposts`;
         }).catch((err) => {
             console.log(err);
             alert("Save failed")
@@ -122,7 +125,7 @@ export const loadEditor = async (id, classTag) => {
         let isAuthor = false;
 
         // Load data to dataObj
-        dataObj = await axios.post("http://localhost:3000/post/id", {
+        dataObj = await axios.post(`${URL}post/id`, {
             id: id
             })
             .then(async (res) => {

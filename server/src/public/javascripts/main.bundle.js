@@ -17755,12 +17755,12 @@ if (window.location.href.indexOf("/editor") !== -1){
                 alert("You must first save the post")
             }else{
                 if(confirm("Do you want to delete the post?")){
-                    axios__WEBPACK_IMPORTED_MODULE_1___default().delete("http://localhost:3000/editor/delete", {data: {id: id}})
+                    axios__WEBPACK_IMPORTED_MODULE_1___default().delete(`${_utils__WEBPACK_IMPORTED_MODULE_0__.URL}editor/delete`, {data: {id: id}})
                     .then((res) => {
                         console.log(res.status);
                         if (res.status === 200){
                             alert("Post deleted");
-                            window.location.href = "http://localhost:3000/myposts";
+                            window.location.href = `${_utils__WEBPACK_IMPORTED_MODULE_0__.URL}myposts`;
                         }
                     })
                     .catch((err) => {
@@ -17839,7 +17839,7 @@ if (window.location.href.indexOf("/myposts") !== -1){
     // attach on click event for create post button
     if (document.querySelector('.create-post-container')){
         document.querySelector('.create-post-container').addEventListener('click', () => {
-            window.location.href = "http://localhost:3000/editor?id=none";
+            window.location.href = `${_utils__WEBPACK_IMPORTED_MODULE_0__.URL}editor?id=none`;
         })
     }
 }
@@ -17871,7 +17871,7 @@ if (window.location.href.indexOf("/post") !== -1){
     // attach on click event for create post button
     if (document.querySelector('.create-post-container')){
         document.querySelector('.create-post-container').addEventListener('click', () => {
-            window.location.href = `http://localhost:3000/editor?id=${id}`;
+            window.location.href = `${process.env.API_URL}editor?id=${id}`;
         })
     }
 
@@ -17885,7 +17885,7 @@ if (window.location.href.indexOf("/post") !== -1){
         likeButton.className = "like-button";
 
         likeButton.addEventListener('click', async () => {
-            const q = await axios__WEBPACK_IMPORTED_MODULE_1___default().patch("http://localhost:3000/like", {id})
+            const q = await axios__WEBPACK_IMPORTED_MODULE_1___default().patch(`${_utils__WEBPACK_IMPORTED_MODULE_0__.URL}like`, {id})
             document.querySelector(".like-counter").innerHTML = q.data.result[0].likes
             
         })
@@ -17941,6 +17941,7 @@ __webpack_require__.r(__webpack_exports__);
   !*** ./src/public/javascripts/utils.js ***!
   \*****************************************/
 /*! namespace exports */
+/*! export URL [provided] [no usage info] [missing usage info prevents renaming] */
 /*! export attachPostClicked [provided] [no usage info] [missing usage info prevents renaming] */
 /*! export attachPostClickedDynamic [provided] [no usage info] [missing usage info prevents renaming] */
 /*! export createEditButton [provided] [no usage info] [missing usage info prevents renaming] */
@@ -17955,6 +17956,7 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "URL": () => /* binding */ URL,
 /* harmony export */   "mySchema": () => /* binding */ mySchema,
 /* harmony export */   "retrieveID": () => /* binding */ retrieveID,
 /* harmony export */   "createEditButton": () => /* binding */ createEditButton,
@@ -17977,6 +17979,9 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+
+const URL = window.location.origin + "/";
 
 
 const mySchema = new prosemirror_model__WEBPACK_IMPORTED_MODULE_2__.Schema({
@@ -18005,7 +18010,7 @@ const createEditButton = (id) => {
     editButton.className = 'edit-post-container';
     editButton.innerHTML = 'Edit';
     editButton.addEventListener('click', () => {
-        window.location.href = `http://localhost:3000/editor?id=${id}`
+        window.location.href = `${URL}editor?id=${id}`
     });
 
     return editButton;
@@ -18014,7 +18019,7 @@ const createEditButton = (id) => {
 // Define onclick functions
 const attachPostClicked = (item, id) => {
     item.addEventListener('click', ()=>{
-        window.location.href = `http://localhost:3000/post?id=${id}`;
+        window.location.href = `${URL}post?id=${id}`;
     })
 }
 
@@ -18056,23 +18061,23 @@ const saveClickFunc = (id, comments, likes) => {
     const document = window.view.state.toJSON();
     // none - this is created from scratch
     if (id === "none"){
-        axios__WEBPACK_IMPORTED_MODULE_6___default().post("http://localhost:3000/editor", {
+        axios__WEBPACK_IMPORTED_MODULE_6___default().post(`${URL}editor`, {
             id, document, comments, likes
         }).then((res) => {
             console.log(res);
             alert("Save complete")
-            window.location.href = "http://localhost:3000/myposts";
+            window.location.href = `${URL}myposts`;
         }).catch((err) => {
             console.log(err);
             alert("Save failed")
         })
     }else{
-        axios__WEBPACK_IMPORTED_MODULE_6___default().put("http://localhost:3000/editor/update", {
+        axios__WEBPACK_IMPORTED_MODULE_6___default().put(`${URL}editor/update`, {
             id, document, comments, likes
         }).then((res) => {
             console.log(res);
             alert("Save complete")
-            window.location.href = "http://localhost:3000/myposts";
+            window.location.href = `${URL}myposts`;
         }).catch((err) => {
             console.log(err);
             alert("Save failed")
@@ -18095,7 +18100,7 @@ const loadEditor = async (id, classTag) => {
         let isAuthor = false;
 
         // Load data to dataObj
-        dataObj = await axios__WEBPACK_IMPORTED_MODULE_6___default().post("http://localhost:3000/post/id", {
+        dataObj = await axios__WEBPACK_IMPORTED_MODULE_6___default().post(`${URL}post/id`, {
             id: id
             })
             .then(async (res) => {

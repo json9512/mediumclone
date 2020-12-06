@@ -1,4 +1,4 @@
-import {loadEditor, retrieveID} from "./utils";
+import {loadEditor, retrieveID, URL} from "./utils";
 import axios from "axios"
 
 /**Editor */
@@ -15,12 +15,12 @@ if (window.location.href.indexOf("/editor") !== -1){
                 alert("You must first save the post")
             }else{
                 if(confirm("Do you want to delete the post?")){
-                    axios.delete("http://localhost:3000/editor/delete", {data: {id: id}})
+                    axios.delete(`${URL}editor/delete`, {data: {id: id}})
                     .then((res) => {
                         console.log(res.status);
                         if (res.status === 200){
                             alert("Post deleted");
-                            window.location.href = "http://localhost:3000/myposts";
+                            window.location.href = `${URL}myposts`;
                         }
                     })
                     .catch((err) => {
