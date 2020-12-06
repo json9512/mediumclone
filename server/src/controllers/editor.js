@@ -2,6 +2,14 @@ import Model from '../models/model';
 
 const postsModel = new Model('posts');
 
+const checkDataType = (document, comments, likes) => {
+    if (typeof document !== 'object' || typeof comments !== 'object' || typeof likes !== 'number') {
+        
+        return false;
+    }
+    return true;
+}
+
 export const editorPage = (req, res) => {
     
 
@@ -13,10 +21,10 @@ export const addPost = async (req, res) => {
     const username = req.user._json.nickname;
     const {id, document, comments, likes} = req.body;
 
-    if (typeof document !== 'object' || typeof comments !== 'object' || typeof likes !== 'number') {
+    if (!checkDataType(document, comments, likes)){
         res.status(500).json({error: "Given input not valid"})
         return;
-    }
+    } 
 
     let columns = "";
     let values = "";
@@ -48,10 +56,10 @@ export const updatePost = async (req, res) => {
     const username = req.user._json.nickname;
     const {id, document, comments, likes} = req.body;
 
-    if (typeof document !== 'object' || typeof comments !== 'object' || typeof likes !== 'number') {
+    if (!checkDataType(document, comments, likes)){
         res.status(500).json({error: "Given input not valid"})
         return;
-    }
+    } 
 
     let columns = "";
     let values = "";

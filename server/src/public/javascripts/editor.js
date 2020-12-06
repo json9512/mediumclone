@@ -25,11 +25,9 @@ if (window.location.href.indexOf("/editor") !== -1){
                     })
                     .catch((err) => {
                         alert(`Failed to delete post:\n ${err}`);
-                    })
-                    
+                    })  
                 }
             }
-            
         })
     }
 }

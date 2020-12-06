@@ -94,4 +94,9 @@ app.use((err, req, res, next) => {
     res.status(400).json({error: err.stack});
 });
 
+// Redirect other none existing routes to home
+app.get('*', (req, res, next) => {
+    res.redirect('/')
+});
+
 module.exports = app;

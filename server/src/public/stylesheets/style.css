@@ -236,6 +236,7 @@ div {
   flex-direction: column;
   height: auto;
   cursor: pointer;
+
 }
 
 .trending-items-author{
@@ -246,6 +247,7 @@ div {
 .trending-items-title{
   font-family: 'Prompt', sans-serif;
   font-size: 2vh;
+
 }
 
 /*
@@ -328,6 +330,16 @@ div {
   font-family: 'Prompt', sans-serif;
   font-size: 1.5vw;
   cursor: pointer;
+  text-decoration: none;
+  background-image: linear-gradient(to right, rgb(121, 121, 121), rgb(121, 121, 121));
+  background-position: bottom left;
+  background-repeat: no-repeat;
+  background-size: 10% 2px;
+  transition: background-size .3s ease;
+}
+
+.item-post-title:hover{
+  background-size: 80% 2px;
 }
 
 .item-post-title > p {
@@ -445,10 +457,17 @@ div {
   font-family: var(--ui-font);
   align-self: flex-start;
   margin: 2vw;
+  text-decoration: none;
+  background-image: linear-gradient(to right, rgb(121, 121, 121), rgb(121, 121, 121));
+  background-position: bottom left;
+  background-repeat: no-repeat;
+  background-size: 30% 2px;
+  transition: background-size .3s ease;
 }
 
 .create-post-container:hover, .edit-post-container:hover{
   color:black;
+  background-size: 100% 2px;
 }
 
 .footer-myposts{
@@ -588,6 +607,7 @@ div {
   top: 16vh;
   cursor: pointer;
   opacity: 0.3;
+  transition: top .3s ease;
 }
 
 .like-button:hover{

@@ -1,3 +1,6 @@
+'user strict';
+
+// Import necessary modules
 import {EditorState} from 'prosemirror-state';
 import {EditorView} from 'prosemirror-view';
 import {Schema, DOMParser} from 'prosemirror-model';
@@ -6,18 +9,20 @@ import {addListNodes} from 'prosemirror-schema-list';
 import {exampleSetup} from 'prosemirror-example-setup';
 import axios from 'axios';
 
+// State the current URL as the server's origin address
 export const URL = window.location.origin + "/";
 
-
+// Export schema object for prosemirror editor
 export const mySchema = new Schema({
     nodes : addListNodes(schema.spec.nodes, "paragraph block*", "block"),
     marks: schema.spec.marks
 });
 
 /**
- * TODO: separate this file into sub files
+ * Retrieve the post ID from the URL
+ * 
+ * @param {string} substring - current URL endpoint. eg. post?id= editor?id= 
  */
-
 export const retrieveID = (substring) => {
     if (window.location.href.indexOf(`${substring}?id`) !== -1){
         let temp = window.location.href.split('?id=')[1];
@@ -29,7 +34,11 @@ export const retrieveID = (substring) => {
     return "none";
 }
 
-
+/**
+ * Create the "Edit" button on the post
+ * 
+ * @param {number || string} id - post id 
+ */
 export const createEditButton = (id) => {
     const editButton = document.createElement('span')
     editButton.className = 'edit-post-container';
@@ -41,17 +50,31 @@ export const createEditButton = (id) => {
     return editButton;
 }
 
-// Define onclick functions
+/**
+ * Attach redirect on click event to relevent post with its post id
+ * 
+ * @param {object} item - HTML element to attach "click" event to
+ * @param {number || string} id - post id 
+ */
 export const attachPostClicked = (item, id) => {
     item.addEventListener('click', ()=>{
         window.location.href = `${URL}post?id=${id}`;
     })
 }
 
+/**
+ * Attach redirect on click event to the children of the given HTML element by its classname
+ * 
+ * @param {string} className - HTML element classname
+ * @param {string} type - indicate the HTML container type
+ */
 export const attachPostClickedDynamic = (className, type) => {
-    // Dynamically attach onclick events to each article post
-
-    // box types
+    /**
+     * Dynamically attach onclick events to each article post 
+     * 
+     * type box = only one element to add event listener
+     * type other = 2 elements to add event listeners
+     * */ 
     if (type === "box"){
         if (document.getElementsByClassName(className).length > 0){
             const items = document.getElementsByClassName(className)
@@ -64,159 +87,235 @@ export const attachPostClickedDynamic = (className, type) => {
         const title = className+'-title';
         const description = className+'-description'
         if (document.getElementsByClassName(title).length > 0){
+            
             const titleItems = document.getElementsByClassName(title)
             const descriptionItems = document.getElementsByClassName(description)
+
             for(let i = 0; i < titleItems.length; i++){
                 attachPostClicked(titleItems[i], titleItems[i].id)
                 attachPostClicked(descriptionItems[i], descriptionItems[i].id)
             }
         }
     }
-    
 }
 
 /**
- * Saves the current state to the database
+ * Either Save or Update the post with given data
+ * 
+ * @param {function} func - axios function call: POST || PUT 
+ * @param {number} id - post id
+ * @param {object} document - post document
+ * @param {object} comments - post comments
+ * @param {number} likes - post likes
+ * @param {string} endpoint - API endpoint to hit
+ */
+const saveOrUpdate = (func, id, document, comments, likes, endpoint) => {
+    func(`${URL}${endpoint}`, {
+        id, document, comments, likes
+    }).then((res) => {
+        //console.log(res);
+        alert("Save complete")
+        window.location.href = `${URL}myposts`;
+    }).catch((err) => {
+        //console.log(err);
+        alert("Save failed")
+    })
+}
+
+/**
+ * Save function to run when "Save" button is clicked
+ * 
+ * @param {number} id 
+ * @param {object} comments 
+ * @param {number} likes 
  */
 export const saveClickFunc = (id, comments, likes) => {
+    // Reset likes to 0 if undefined
     if (likes === undefined || likes === null || likes === {}){
         likes = 0;
     }
-    // Get info 
+    // Get editor information and turn into JSON 
     const document = window.view.state.toJSON();
-    // none - this is created from scratch
+    
     if (id === "none"){
-        axios.post(`${URL}editor`, {
-            id, document, comments, likes
-        }).then((res) => {
-            console.log(res);
-            alert("Save complete")
-            window.location.href = `${URL}myposts`;
-        }).catch((err) => {
-            console.log(err);
-            alert("Save failed")
-        })
+        // Create new post
+        saveOrUpdate(axios.post, id, document, comments, likes, "editor")
     }else{
-        axios.put(`${URL}editor/update`, {
-            id, document, comments, likes
-        }).then((res) => {
-            console.log(res);
-            alert("Save complete")
-            window.location.href = `${URL}myposts`;
-        }).catch((err) => {
-            console.log(err);
-            alert("Save failed")
-        })
-    }
-
+        // Update exists post
+        saveOrUpdate(axios.put, id, document, comments, likes, "editor/update")
+    } 
 
 }
 
+/**
+ * Helper functions for load editor
+ */
 
+ /**
+  * Attach edit button on HTML element
+  * 
+  * @param {string} classTag - HTML classname
+  * @param {number} id - post id
+  */
+const attachEditButton = (classTag, id) => {
+    if (classTag === ".post-viewer"){
+        document.querySelector(".right-main-container-editor").appendChild(createEditButton(id)) 
+    }
+}
+
+/**
+ * Return data with given id from database
+ * 
+ * @param {number} id - post id
+ */
+const loadData = async(id) => {
+    return await axios.post(`${URL}post/id` , {id: id})
+}
+
+/**
+ * Show alert(error) message when condition is fullfilled
+ * Redirect to origin afterwards
+ * 
+ * @param {boolean} condition 
+ * @param {string} message 
+ */
+const displayErrorAndReturn = (condition, message) => {
+    if (condition) {
+        alert(message)
+        window.location.href = window.location.href.split(":3000")[0] + ":3000/";
+        return true;
+    }
+    return false;
+}
+
+/**
+ * Attach editor with predefined data and conditions on the given classTag
+ * 
+ * @param {string} classTag - HTML classname
+ * @param {object} document_data - post data
+ * @param {boolean} editable - boolean to indicate if content is editable
+ * @param {object} schema - schema for editor
+ */
+const attachEditor = (classTag, document_data, editable, schema) => {
+    // Get content of the post
+    if (document.querySelector(`${classTag}`)){
+        window.view = new EditorView(document.querySelector(`${classTag}`), {
+            state : EditorState.create({
+                doc: schema.nodeFromJSON(document_data),
+                plugins: exampleSetup({schema: schema})
+            }),
+            editable: () => {return editable}
+            
+        })
+    }
+}
+
+/**
+ * Attach additionaly HTML elements for given page
+ * 
+ * @param {string} classTag - HTML classname used to locate current page
+ * @param {number} id - post id
+ * @param {object} comments - post comments
+ * @param {number} likes - post likes
+ */
+const attachSupplementaryUI = (classTag, id, comments, likes) => {
+    // Disable menubar when called from /post
+    if (classTag === ".post-viewer"){
+        // Disable menu bar
+        document.querySelector(".ProseMirror-menubar").style.visibility = "hidden";
+    }
+
+    // Populate save button when called from /editor
+    if (classTag === ".editor"){
+        if (document.querySelector(".save-button")){
+            document.querySelector(".save-button").addEventListener('click', () => {
+                saveClickFunc(id, comments, likes);
+            });
+        }
+    }
+
+    // Populate number of likes
+    if (classTag === ".post-viewer"){
+        const likeCounter = document.createElement("span")
+        likeCounter.className = "like-counter"
+        likeCounter.innerHTML = likes;
+        document.querySelector(".left-main-container-editor").appendChild(likeCounter);
+    }
+
+}
+
+/**
+ * Create new Editor component and attach to page
+ * 
+ * @param {number} id 
+ */
+const createNewEditor = (id) => {
+    // Then populate emtpy editor
+    if (document.querySelector(".editor")){
+        window.view = new EditorView(document.querySelector(".editor"), {
+            state : EditorState.create({
+                doc: DOMParser.fromSchema(mySchema).parse(document.querySelector(".editor-content")),
+                plugins: exampleSetup({schema: mySchema})
+            })
+        })
+    }
+
+    if (document.querySelector(".save-button")){
+        document.querySelector(".save-button").addEventListener('click', () => {
+            saveClickFunc(id, {}, 0);
+        });
+    }
+}
+
+/**
+ * [Load || Create new] Editor depending on post id and page location
+ * 
+ * @param {number} id - post id
+ * @param {string} classTag - HTML classname to indicate current page location
+ */
 export const loadEditor = async (id, classTag) => {
-    // Initialize vars
+    // Initialize variables
     let dataObj = "";
     let comments = "";
     let likes = 0;
     let editable = true;
 
-    // Check if post with id exists
+    // if id is not none: Load from database else: create new Editor
     if (id !== "none"){
-        let isAuthor = false;
 
         // Load data to dataObj
-        dataObj = await axios.post(`${URL}post/id`, {
-            id: id
-            })
-            .then(async (res) => {
-                if (res.data){
-                    // if isAuthor, populate edit button
-                    if (res.data.isAuthor){
-                        if (classTag === ".post-viewer"){
-                            document.querySelector(".right-main-container-editor").appendChild(createEditButton(id)) 
-                        }
-
-                        isAuthor = await res.data.isAuthor;
-                    }
-                    
-                    return res.data.result[0];
-                }
+        dataObj = await loadData(id)
+        // Check if result is error
+        if (displayErrorAndReturn(dataObj.data && dataObj.data.error, "Error loading post")) return;
         
-            })
-            .catch((err) => {
-                console.log(`Author check failed: ${err}`);
-                return null;
-            })
-            
-        if (isAuthor === false && classTag === `.editor`){
-            alert("You do not have rights to edit this post !")
-            window.location.href = window.location.href.split(":3000")[0] + ":3000/";
-            return;
+        // Check if unauthorized user is trying to edit the post
+        if (displayErrorAndReturn(dataObj.data.isAuthor === false && classTag === `.editor`, 
+        "You do not have rights to edit this post !")) return;
+
+        // attach edit button on post if this user is the author
+        if (dataObj.data.isAuthor){
+            attachEditButton(classTag, dataObj.data.result[0].id);
         }
 
         // Get content of the post
-        comments = dataObj.comments ? dataObj.comments : {};
-        likes = dataObj.likes ? dataObj.likes : 0;
+        comments = dataObj.data.result[0].comments ? dataObj.data.result[0].comments : {};
+        likes = dataObj.data.result[0].likes ? dataObj.data.result[0].likes : 0;
 
         // Set the editor to disabled when this func is called from /post
         if (classTag === ".post-viewer"){
             editable = false;
         }
+
+        // Load editor
+        attachEditor(classTag, dataObj.data.result[0].document.doc, editable, mySchema);
         
-        // Get content of the post
-        if (document.querySelector(`${classTag}`)){
-            window.view = await new EditorView(document.querySelector(`${classTag}`), {
-                state : EditorState.create({
-                    doc: mySchema.nodeFromJSON(dataObj.document.doc),
-                    plugins: exampleSetup({schema: mySchema})
-                }),
-                editable: () => {return editable}
-                
-            })
-            
-        }
-
-        // Disable menubar when called from /post
-        if (classTag === ".post-viewer"){
-            // Disable menu bar
-            document.querySelector(".ProseMirror-menubar").style.visibility = "hidden";
-        }
-
-        // Populate save button when called from /editor
-        if (classTag === ".editor"){
-            if (document.querySelector(".save-button")){
-                document.querySelector(".save-button").addEventListener('click', () => {
-                    saveClickFunc(id, comments, likes);
-                });
-            }
-        }
-
-        // Populate number of likes
-        if (classTag === ".post-viewer"){
-            const likeCounter = document.createElement("span")
-            likeCounter.className = "like-counter"
-            likeCounter.innerHTML = likes;
-            document.querySelector(".left-main-container-editor").appendChild(likeCounter);
-        }
+        // Attach supplementary UI
+        attachSupplementaryUI(classTag, id, comments, likes)
     
     } else {
         // If id === none, it means the page is on editor
         if (window.location.href.indexOf("/editor") !== -1){
-            // Then populate emtpy editor
-            if (document.querySelector(".editor")){
-                window.view = await new EditorView(document.querySelector(".editor"), {
-                    state : EditorState.create({
-                        doc: DOMParser.fromSchema(mySchema).parse(document.querySelector(".editor-content")),
-                        plugins: exampleSetup({schema: mySchema})
-                    })
-                })
-            }
-
-            if (document.querySelector(".save-button")){
-                document.querySelector(".save-button").addEventListener('click', () => {
-                    saveClickFunc(id, {}, 0);
-                });
-            }
+            createNewEditor(id)
         }
     }
 }
