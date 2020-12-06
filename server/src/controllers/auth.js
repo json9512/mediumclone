@@ -14,7 +14,7 @@ export const logoutFunc = (req, res) => {
 
     if (port !== undefined && port !== 80 && port !== 443) {
         returnTo = process.env.NODE_ENV === "production" 
-        ? `${returnTo}/`
+        ? `${returnTo}`
         : `${returnTo}:${port}/`
     };
 
