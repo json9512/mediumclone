@@ -66,14 +66,11 @@ export default class Model {
             return query;
         }
 
-
-
-
         let query = `UPDATE ${this.table} SET `;
         const id = values.split(",")[0]
         
         // Check if data with id exists
-        const check = await this.select("*", ` WHERE id=${id};`);
+        const check = await this.select("*", ` WHERE id=${id};`)
         
         if (check.rowCount === 0){
             return {rows: `Error: data with id: ${id} does not exists in database`};
@@ -87,7 +84,7 @@ export default class Model {
             
             //console.log(`Update data into ${this.table} with query: ${query}`)
             
-            return this.pool.query(query);
+            return this.pool.query(query)
         }
     }
 

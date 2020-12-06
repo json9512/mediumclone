@@ -1,7 +1,7 @@
-import { expect, server, BASE_URL, sample_document, sample_username } from './setup';
+import { expect, server, BASE_URL, sample_document, sample_username, setupBeforeAfter } from './setup';
 
 describe('Editor page test', () => {
-  it('GET editor page', done => {
+  it('GET /editor: Load editor page', done => {
     server
       .get(`${BASE_URL}/editor`)
       .end((err, res) => {

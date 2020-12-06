@@ -1,4 +1,3 @@
-import {testEnvVar} from '../settings';
 import Model from '../models/model';
 
 const postsModel = new Model('posts');
@@ -6,7 +5,7 @@ const postsModel = new Model('posts');
 export const editorPage = (req, res) => {
     
 
-    return res.render('editor', {title: testEnvVar})
+    return res.render('editor', {title: "Editor | M-Clone"})
 }
 
 
@@ -71,7 +70,7 @@ export const updatePost = async (req, res) => {
                 res.status(200).json({result: data.rows});
             }
         } catch (err) {
-            console.log(err)
+            //console.log(err)
             res.status(500).json({error: "Error updating data to database"});
         };
 

@@ -5,7 +5,7 @@ const postsModel = new Model('posts');
 
 export const myPostsPage = async (req, res) => {
 
-    // First check if posts exists for this usersname
+    // First check if posts exists 
     let check = await postsModel.checkIfRowExists();
     let dataArr = [];
 

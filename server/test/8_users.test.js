@@ -1,6 +1,6 @@
 import { expect, server, BASE_URL } from './setup';
 
-describe('Users page test', () => {
+describe('Users endpoint test', () => {
   it('Retrieve user information', done => {
     server
       .get(`${BASE_URL}/users`)
