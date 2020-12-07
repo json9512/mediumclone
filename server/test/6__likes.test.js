@@ -1,7 +1,7 @@
 import { expect, server, BASE_URL, sample_document, sample_username } from './setup';
 
 describe('/like endpoint test', () => {
-    it('PATCH/ increment like counter', done=>{
+    it('PATCH /like: increment like counter', done=>{
         // First create a post with 0 likes
         let id = "none";
         const document = sample_document;

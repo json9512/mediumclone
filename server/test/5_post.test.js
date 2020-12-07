@@ -1,7 +1,7 @@
 import { expect, server, BASE_URL, sample_document, sample_username } from './setup';
 
 describe('Post page test', () => {
-    it('GET/ Load empty post page', done=>{
+    it('GET /post: Load empty post page', done=>{
         server
             .get(`${BASE_URL}/post?id=1`)
             .end((err, res) => {
@@ -13,7 +13,7 @@ describe('Post page test', () => {
       });
     })
 
-    it('POST /post with post ID', done => {
+    it('POST /post: with post ID', done => {
         // Create new post with the username
         let id = "none";
         const document = sample_document;

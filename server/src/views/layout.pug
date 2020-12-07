@@ -6,8 +6,15 @@ html
     meta(name="viewport" content="width=device-width, initial-scale=1.0")
     link(rel='stylesheet', href='/stylesheets/style.css')
     link(rel='stylesheet', href='/stylesheets/prosemirror.css')
+    script(type='module' src='/javascripts/main.bundle.js')
     
   body
+    block modal
+      div(class='modal')
+        div(class='modal-content')
+          span(class='modal-message')
+          div(class='modal-buttons')
+
     block navbar
       div(class="navbar-container")
         div(class='navbar-logo') 
@@ -27,3 +34,5 @@ html
               a(href='/login') login
     
     block content
+      
+

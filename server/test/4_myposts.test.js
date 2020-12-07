@@ -2,7 +2,7 @@ import { expect, server, BASE_URL, sample_document, sample_username } from './se
 import cheerio from 'cheerio';
 
 describe('Myposts page test', () => {
-  it('GET myposts page', done => {
+  it('GET /myposts: render page with no content', done => {
     server
       .get(`${BASE_URL}/myposts`)
       .end((err, res) => {
@@ -16,7 +16,7 @@ describe('Myposts page test', () => {
       });
   });
 
-  it('GET myposts page render properly', done => {
+  it('GET /myposts: page render after content added', done => {
     // Add some data before loading my page
     // Create new post with the username
     let id = "none";

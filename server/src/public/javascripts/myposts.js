@@ -1,4 +1,4 @@
-import {attachPostClickedDynamic, URL} from './utils';
+import {attachPostClickedDynamic, URL} from './helper';
 
 /**
  * My posts

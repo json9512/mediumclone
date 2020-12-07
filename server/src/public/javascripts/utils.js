@@ -1,4 +1,4 @@
-'user strict';
+'use strict';
 
 // Import necessary modules
 import {EditorState} from 'prosemirror-state';
@@ -8,9 +8,14 @@ import {schema} from 'prosemirror-schema-basic';
 import {addListNodes} from 'prosemirror-schema-list';
 import {exampleSetup} from 'prosemirror-example-setup';
 import axios from 'axios';
-
-// State the current URL as the server's origin address
-export const URL = window.location.origin + "/";
+import {
+    URL, 
+    displayModal, 
+    attachEditButton, 
+    attachSupplementaryUI,
+    createEditButton, 
+    attachPostClicked, 
+    attachPostClickedDynamic} from './helper';
 
 // Export schema object for prosemirror editor
 export const mySchema = new Schema({
@@ -35,71 +40,6 @@ export const retrieveID = (substring) => {
 }
 
 /**
- * Create the "Edit" button on the post
- * 
- * @param {number || string} id - post id 
- */
-export const createEditButton = (id) => {
-    const editButton = document.createElement('span')
-    editButton.className = 'edit-post-container';
-    editButton.innerHTML = 'Edit';
-    editButton.addEventListener('click', () => {
-        window.location.href = `${URL}editor?id=${id}`
-    });
-
-    return editButton;
-}
-
-/**
- * Attach redirect on click event to relevent post with its post id
- * 
- * @param {object} item - HTML element to attach "click" event to
- * @param {number || string} id - post id 
- */
-export const attachPostClicked = (item, id) => {
-    item.addEventListener('click', ()=>{
-        window.location.href = `${URL}post?id=${id}`;
-    })
-}
-
-/**
- * Attach redirect on click event to the children of the given HTML element by its classname
- * 
- * @param {string} className - HTML element classname
- * @param {string} type - indicate the HTML container type
- */
-export const attachPostClickedDynamic = (className, type) => {
-    /**
-     * Dynamically attach onclick events to each article post 
-     * 
-     * type box = only one element to add event listener
-     * type other = 2 elements to add event listeners
-     * */ 
-    if (type === "box"){
-        if (document.getElementsByClassName(className).length > 0){
-            const items = document.getElementsByClassName(className)
-            for(let i = 0; i < items.length; i++){
-                attachPostClicked(items[i], items[i].id)
-            }
-        }
-    }else{
-        // Title, description type
-        const title = className+'-title';
-        const description = className+'-description'
-        if (document.getElementsByClassName(title).length > 0){
-            
-            const titleItems = document.getElementsByClassName(title)
-            const descriptionItems = document.getElementsByClassName(description)
-
-            for(let i = 0; i < titleItems.length; i++){
-                attachPostClicked(titleItems[i], titleItems[i].id)
-                attachPostClicked(descriptionItems[i], descriptionItems[i].id)
-            }
-        }
-    }
-}
-
-/**
  * Either Save or Update the post with given data
  * 
  * @param {function} func - axios function call: POST || PUT 
@@ -110,15 +50,17 @@ export const attachPostClickedDynamic = (className, type) => {
  * @param {string} endpoint - API endpoint to hit
  */
 const saveOrUpdate = (func, id, document, comments, likes, endpoint) => {
+
     func(`${URL}${endpoint}`, {
         id, document, comments, likes
     }).then((res) => {
         //console.log(res);
-        alert("Save complete")
-        window.location.href = `${URL}myposts`;
+        displayModal("Save complete", "success", [() => {window.location.href = `${URL}myposts`}])
     }).catch((err) => {
         //console.log(err);
-        alert("Save failed")
+        displayModal("Save failed", "error", [() => {
+            window.location.href = window.location.href.split(":3000")[0] + ":3000/";
+        }])
     })
 }
 
@@ -151,17 +93,7 @@ export const saveClickFunc = (id, comments, likes) => {
  * Helper functions for load editor
  */
 
- /**
-  * Attach edit button on HTML element
-  * 
-  * @param {string} classTag - HTML classname
-  * @param {number} id - post id
-  */
-const attachEditButton = (classTag, id) => {
-    if (classTag === ".post-viewer"){
-        document.querySelector(".right-main-container-editor").appendChild(createEditButton(id)) 
-    }
-}
+
 
 /**
  * Return data with given id from database
@@ -208,40 +140,6 @@ const attachEditor = (classTag, document_data, editable, schema) => {
             
         })
     }
-}
-
-/**
- * Attach additionaly HTML elements for given page
- * 
- * @param {string} classTag - HTML classname used to locate current page
- * @param {number} id - post id
- * @param {object} comments - post comments
- * @param {number} likes - post likes
- */
-const attachSupplementaryUI = (classTag, id, comments, likes) => {
-    // Disable menubar when called from /post
-    if (classTag === ".post-viewer"){
-        // Disable menu bar
-        document.querySelector(".ProseMirror-menubar").style.visibility = "hidden";
-    }
-
-    // Populate save button when called from /editor
-    if (classTag === ".editor"){
-        if (document.querySelector(".save-button")){
-            document.querySelector(".save-button").addEventListener('click', () => {
-                saveClickFunc(id, comments, likes);
-            });
-        }
-    }
-
-    // Populate number of likes
-    if (classTag === ".post-viewer"){
-        const likeCounter = document.createElement("span")
-        likeCounter.className = "like-counter"
-        likeCounter.innerHTML = likes;
-        document.querySelector(".left-main-container-editor").appendChild(likeCounter);
-    }
-
 }
 
 /**

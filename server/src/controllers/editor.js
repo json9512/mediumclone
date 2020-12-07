@@ -91,7 +91,7 @@ export const deletePost = async (req, res) => {
     const username = req.user._json.nickname;
     const {id} = req.body;
 
-    if (typeof id !== 'number') {
+    if (typeof parseInt(id) !== 'number') {
         res.status(500).json({error: "Given input not valid"})
         return;
     }
@@ -112,7 +112,6 @@ export const deletePost = async (req, res) => {
             
             
         }catch (err) {
-            console.log(err)
             res.status(500).json({error: "Error deleting data from database"})
         }
     }

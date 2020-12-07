@@ -1,4 +1,5 @@
-import {loadEditor, retrieveID, URL} from './utils'
+import {URL} from './helper';
+import {loadEditor, retrieveID} from './utils';
 import axios from 'axios';
 
 /** Posts */

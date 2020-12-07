@@ -1,7 +1,7 @@
 import { expect, server, BASE_URL } from './setup';
 
-describe('Index page test', () => {
-  it('gets base url', done => {
+describe('Home page test', () => {
+  it('GET /: render home page', done => {
     server
       .get(`${BASE_URL}/`)
       .end((err, res) => {
