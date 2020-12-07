@@ -14,8 +14,10 @@ export const isAuthenticated = (req, res, next) => {
 
 export const isSecured = (req, res, next) => {
     if (req.user) {
+      // Check token in header?
       return next();
     }
+    
     req.session.returnTo = req.originalUrl;
     res.redirect("/login");
   };

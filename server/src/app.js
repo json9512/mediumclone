@@ -18,6 +18,7 @@ import mypostsRouter from './routes/myposts';
 import editorRouter from './routes/editor';
 import postRouter from './routes/post';
 import likesRouter from './routes/likes';
+import Model from './models/model';
 
 const app = express();
 
@@ -65,10 +66,14 @@ passport.use(passportStrategy);
 app.use(passport.initialize());
 app.use(passport.session());
 
+// When logged in, runs only once
 passport.serializeUser((user, done)=>{
+    // check
+    console.log("from serialize", user)
     done(null, user);
 });
 
+// When logged in, runs every time it navigates 
 passport.deserializeUser((user, done)=>{
     done(null, user);
 })
