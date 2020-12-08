@@ -19,6 +19,7 @@ export const editorPage = (req, res) => {
 
 export const addPost = async (req, res) => {
     const username = req.user._json.nickname;
+    const profileImage = req.user._json.picture
     const {id, document, comments, likes} = req.body;
 
     if (!checkDataType(document, comments, likes)){
@@ -32,8 +33,8 @@ export const addPost = async (req, res) => {
     // if id is none -> create new data
     
     if (id === "none"){
-        columns = 'username, document, comments, likes';
-        values = `'${username}', '${JSON.stringify(document)}', '${JSON.stringify(comments)}', '${likes}'`;
+        columns = 'username, document, comments, likes, image';
+        values = `'${username}', '${JSON.stringify(document)}', '${JSON.stringify(comments)}', '${likes}', '${profileImage}'`;
     }else{
         res.status(500).json({error: "Given input not valid"})
         return;
@@ -54,6 +55,7 @@ export const addPost = async (req, res) => {
 
 export const updatePost = async (req, res) => {
     const username = req.user._json.nickname;
+    const profileImage = req.user._json.picture
     const {id, document, comments, likes} = req.body;
 
     if (!checkDataType(document, comments, likes)){
@@ -65,8 +67,8 @@ export const updatePost = async (req, res) => {
     let values = "";
     // Check if id exists
     if (id !== "none"){
-        columns = 'id, username, document, comments, likes';
-        values = `'${id}', '${username}', '${JSON.stringify(document)}', '${JSON.stringify(comments)}', '${likes}'`;
+        columns = 'id, username, document, comments, likes, image';
+        values = `'${id}', '${username}', '${JSON.stringify(document)}', '${JSON.stringify(comments)}', '${likes}', '${profileImage}'`;
 
         try{
             const data = await postsModel.updateData(columns, values);

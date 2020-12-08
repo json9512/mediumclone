@@ -6,7 +6,7 @@ export const isAuthenticated = (req, res, next) => {
     res.locals.isAuthenticated = req.isAuthenticated();
   }else{
     // For test mode
-    req.user = {_json: {nickname: TEST_USERNAME, email_verified: true}}
+    req.user = {_json: {nickname: TEST_USERNAME, email_verified: true, picture: "/images/profile/r2.png"}}
   }
 
   next();

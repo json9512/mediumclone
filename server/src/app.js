@@ -67,8 +67,6 @@ app.use(passport.session());
 
 // When logged in, runs only once
 passport.serializeUser((user, done)=>{
-    // check
-    console.log("from serialize", user)
     done(null, user);
 });
 
