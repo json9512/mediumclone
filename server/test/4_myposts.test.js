@@ -1,8 +1,7 @@
-import { expect, server, BASE_URL, sample_document, sample_username } from './setup';
-import cheerio from 'cheerio';
+import { expect, server, BASE_URL, sample_document} from './setup';
 
 describe('Myposts page test', () => {
-  it('GET myposts page', done => {
+  it('GET /myposts: render page with no content', done => {
     server
       .get(`${BASE_URL}/myposts`)
       .end((err, res) => {
@@ -10,13 +9,13 @@ describe('Myposts page test', () => {
         expect(res.status).to.equal(200);
         expect(res.headers['content-type']).to.equal('text/html; charset=utf-8');
         expect(res.text).to.contains(
-          'Write article', 
+          'New', 
         );
         done();
       });
   });
 
-  it('GET myposts page render properly', done => {
+  it('GET /myposts: page render after content added', done => {
     // Add some data before loading my page
     // Create new post with the username
     let id = "none";
@@ -39,10 +38,10 @@ describe('Myposts page test', () => {
           if (err) return done(err);
           expect(res.status).to.equal(200);
           expect(res.text).to.contains(
-            'Write article', 'posts-title', `id=${id}`
+            'New', 'posts-title', `id=${id}`
           );
           done();
         });
       })
-  });    
+    }); 
 });

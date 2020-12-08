@@ -7,7 +7,7 @@
 
 - Content-Security-Policy, HTTP header 등 helmet middleware를 쓰면서 웹의 기능들과 helmet의 기능에 대해 배웠습니다.
 
-- 서버에서 template engine으로 구축하는 웹 페이지의 복잡성과 React, Vue 와 같은 Framework이 왜 사용되는지 깨닫게 되었습니다.
+- 서버에서 template engine으로 구축하는 웹 페이지의 한계와 React, Vue 와 같은 Framework이 왜 사용되는지 깨닫게 되었습니다.
 
 - webpack으로 여러가지의 파일들을 하나의 번들로 압축하는 법을 배웠습니다.
 
@@ -24,3 +24,7 @@
 - Postgresql - MySQL, MongoDB, cloud database 등 여러가지를 고려 했지만 이미 여러차례 경험이 있었던 psql과 직접 SQL 코드 또한 작성하기 위해 postgresql을 사용했습니다.
 
 - ProseMirror - Medium 개발자가 추천한 오픈소스 에디터라서 사용해 보았습니다. 이전에 react-wysiwyg 와 같은 에디터를 사용해 보았지만 ProseMirror 만큼 자율성이 주어지는 에디터는 얼마 없는 것 같습니다.<br> 비록 이 프로젝트에서는 에디터에 필요한 기본적인 것들로만 구현 했지만, 추후에 더 다양한 기능들이 추가 된 에디터를 구현 할 때 ProseMirror가 유용 할 것 같습니다. 
+
+- Express-Session - passport 를 이용하기 위해서는 express-session을 사용해야 했습니다. passport를 통한 유저 authentication을 하게 되면 유저 정보가 session에 저장되고 서버 쪽에서 관리를 하게 됩니다. 그리고 user가 사용하는 frontend 또한 server-side rendering 하기 때문에 JWT를 이용한 access_token은 따로 client-side로 넘길 필요가 없다고 판단 했습니다. 이미 session_id 가 쿠키로 전해지기 때문입니다. <br>기본적으로 session을 사용하면 서버는 **stateful** 해지기 때문에 horizontal scale out에 문제가 발생 할 수 있습니다. 예를 들면 frontend 앱과 backend 앱이 나뉘어져있고 여러 개의 backend 앱이 load balancer를 통해서 작동 되고 있을 때 입니다.
+<br>위와 같은 경우에는 frontend가 session id를 가지고 있어도 처음 로그인 했던 backend와 연결을 하지 못하면 backend는 유저 정보를 알 수가 없기 때문입니다. (session이 저장소에 저장되어서 backend 앱들이 따로 불러오는 것이 아닌 이상)
+<br>하지만 이 medium-clone 같은 경우는 frontend 역시 서버 쪽에서 유저에게 제공하기 때문에 horizontal scale out 시에도 문제가 없을 것으로 사료됩니다.

@@ -1,4 +1,5 @@
-import {loadEditor, retrieveID} from './utils'
+import {URL} from './helper';
+import {loadEditor, retrieveID} from './utils';
 import axios from 'axios';
 
 /** Posts */
@@ -9,7 +10,7 @@ if (window.location.href.indexOf("/post") !== -1){
     // attach on click event for create post button
     if (document.querySelector('.create-post-container')){
         document.querySelector('.create-post-container').addEventListener('click', () => {
-            window.location.href = `http://localhost:3000/editor?id=${id}`;
+            window.location.href = `${process.env.API_URL}editor?id=${id}`;
         })
     }
 
@@ -23,7 +24,7 @@ if (window.location.href.indexOf("/post") !== -1){
         likeButton.className = "like-button";
 
         likeButton.addEventListener('click', async () => {
-            const q = await axios.patch("http://localhost:3000/like", {id})
+            const q = await axios.patch(`${URL}like`, {id})
             document.querySelector(".like-counter").innerHTML = q.data.result[0].likes
             
         })

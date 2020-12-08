@@ -8,7 +8,7 @@ export const logoutFunc = (req, res) => {
     };
 
     req.logOut();
-
+    
     let returnTo = req.protocol + "://" + req.hostname;
     const port = req.connection.localPort;
 
@@ -29,5 +29,9 @@ export const logoutFunc = (req, res) => {
     
     logoutUrl.search = searchString;
 
+    // destroy the session
+    req.session.destroy();
+    res.cookie("connect.sid", "", {expires: new Date()});
+    
     res.redirect(logoutUrl);
 }

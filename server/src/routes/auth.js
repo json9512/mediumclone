@@ -8,7 +8,7 @@ const router = express.Router();
 /* login */
 router.get('/login', 
     passport.authenticate('auth0', {
-        scope: "openid email profile"
+        scope: "openid email profile",
     }), (req, res) => {
         res.redirect('/')
     }
@@ -26,7 +26,7 @@ router.get('/callback', (req, res, next) => {
         if (!user){
             return res.redirect('/login');
         }
-
+        
         req.logIn(user, (err) => {
             if (err) {
                 return next(err);

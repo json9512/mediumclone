@@ -4,12 +4,12 @@ import {
     dropPostsTable,
     createTimeStampFunction,
     insertPosts,
-    createTimeStampTrigger
+    createTimeStampTrigger,
 } from './queries';
 
 export const dropTables = async() => {
     return await new Promise(async (resolve) => {
-        await pool.query(dropPostsTable)
+        await pool.query(dropPostsTable).catch(err => console.log(err));
         resolve();
     });
 } 

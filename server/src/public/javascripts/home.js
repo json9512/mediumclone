@@ -1,4 +1,4 @@
-import {attachPostClickedDynamic} from './utils';
+import {attachPostClickedDynamic} from './helper';
 
 /** For Index (home) Page */
 if (window.location.pathname === "/"){

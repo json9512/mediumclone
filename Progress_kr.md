@@ -22,7 +22,8 @@ Medium 클론 코딩을 하며 배운 것들을 주별로 정리 한 문서입�
 |1|12/03|<ul><li>Post별 like 기능 구현</li><li>Post 삭제 기능 구현</li></ul>|n/a|
 |2|12/04|<ul><li>home 페이지의 컨텐츠 dynamic하게 생성</li><li>웹 앱의 기능적인 부분을 완료</li><li>마지막 디자인 적용</li></ul>|n/a|
 |2|12/05|<ul><li>CI pipeline 에러 해결</li></ul>|n/a|
-|2|12/06|<ul><li>유닛 테스트 케이스 추가</li></ul>|n/a|
+|2|12/06|<ul><li>유닛 테스트 케이스 추가</li><li>Refactoring 시작</li></ul>|n/a|
+|2|12/07|<ul><li>커스텀 modal 구현</li></ul>|n/a|
 
 
 # 구현 할 기능

@@ -1,6 +1,5 @@
 import Model from '../models/model';
 import { isString } from '../utils/helper';
-import fs  from 'fs';
 
 const postsModel = new Model('posts');
 
@@ -18,17 +17,6 @@ export const indexPage = async (req, res) => {
     return res.render('home', {title: "M-Clone", data: finalJson})
 }
 
-const getRandomImage = (name, withAuthor=false) => {
-    let files = fs.readdirSync(name);
-    let filename = files[Math.floor(Math.random() * files.length)];
-    let creator = ""
-    if (withAuthor){
-        let temp = filename.split(" ")
-        creator += temp[0] + " " + temp[1] + " from Unsplash"
-    }
-    return {filename, creator}
-}
-
 const extractDataForPug = (data) => {
 
     if (data.rowCount > 0){
@@ -38,6 +26,7 @@ const extractDataForPug = (data) => {
             let temp = {};
             // Extract id, username, doc.content, created_at
             let content = []
+            let image = {}
             item.document.doc.content.forEach((node) =>{
                 // If node has a text extract it
                 if (node.type === 'paragraph' || node.type === 'heading'){
@@ -45,12 +34,14 @@ const extractDataForPug = (data) => {
                         node.content.map(item => {
                             if (isString(item.text)){
                                 content.push(item.text)
+                            }else if (item.type && item.type === 'image'){
+                                image = image ? item.attrs : image;
                             }
                         })
                     }
                 }
+                
             })
-
             // Create json to store data
             let tempDescr = content.slice(1, content.length < 3? content.length : 3)
             tempDescr.push(" . . .")
@@ -60,8 +51,10 @@ const extractDataForPug = (data) => {
                 title: content[0],
                 description: tempDescr.join(''),
                 created_at: item.created_at,
-                img: getRandomImage('./src/public/images/profile'),
-                content_img: getRandomImage('./src/public/images/background', true)
+                img: item.image ? item.image : '/images/profile/r2.png',
+                content_img: image && image.src 
+                    ? image.src 
+                    : '/images/profile/white.PNG'
             }
 
             arr.push(temp)

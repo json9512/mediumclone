@@ -6,6 +6,7 @@ CREATE TABLE IF NOT EXISTS posts (
     document jsonb,
     comments jsonb,
     likes INTEGER,
+    image VARCHAR,
     created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
     updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
@@ -20,6 +21,7 @@ export const createTimeStampFunction = `
     END;
     $$ LANGUAGE plpgsql;
     `
+
 export const createTimeStampTrigger = `
     CREATE TRIGGER set_timestamp
     BEFORE UPDATE ON posts
@@ -28,7 +30,7 @@ export const createTimeStampTrigger = `
 `
 
 export const insertPosts = `
-    INSERT INTO posts(username, document, comments, likes)
+    INSERT INTO posts(username, document, comments, likes, image)
     VALUES ('StormTrooper', '{
         "doc": {
             "type": "doc",
@@ -100,7 +102,7 @@ export const insertPosts = `
             "type": "text",
             "anchor": 119
         }
-    }', '{}', '3'),
+    }', '{}', '3', '/images/profile/storm.png'),
     ('theChild', '{
         "doc": {
             "type": "doc",
@@ -172,7 +174,7 @@ export const insertPosts = `
             "type": "text",
             "anchor": 104
         }
-    }', '{}', 66),
+    }', '{}', 66, '/images/profile/yoda.png'),
     ('iamMando', '{
         "doc": {
             "type": "doc",
@@ -231,7 +233,7 @@ export const insertPosts = `
             "type": "text",
             "anchor": 152
         }
-    }', '{}', 0),
+    }', '{}', 0, '/images/profile/mando.png'),
     ('iamMando', '{
         "doc": {
             "type": "doc",
@@ -325,7 +327,7 @@ export const insertPosts = `
             "type": "text",
             "anchor": 30
         }
-    }', '{}', 16)
+    }', '{}', 16, '/images/profile/mando.png')
 `
 
 export const dropPostsTable = `DROP TABLE posts;`;

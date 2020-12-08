@@ -2,22 +2,24 @@ import dotenv from 'dotenv';
 import Auth0Strategy from 'passport-auth0';
 dotenv.config()
 
+
 // setup strategy for passport
 const strategy = new Auth0Strategy(
     {
         domain: process.env.AUTH0_DOMAIN,
         clientID: process.env.AUTH0_CLIENT_ID,
         clientSecret: process.env.AUTH0_CLIENT_SECRET,
-        callbackURL: process.env.AUTH0_CALLBACK_URL
+        callbackURL: process.env.AUTH0_CALLBACK_URL,
     },
     function(accessToken, refreshToken, extraParams, profile, done){
+        profile.accessToken = accessToken;
+        // Check if user exists in database
         return done(null, profile);
     }
 );
 
 export const passportStrategy = strategy;
 
-export const testEnvVar = process.env.TEST_ENV_VAR;
 export const PSQL_CONNECTION_STRING = process.env.PSQL_CONNECTION_STRING;
 export const AUTH0_CLIENT_ID = process.env.AUTH0_CLIENT_ID;
 export const AUTH0_CLIENT_SECRET = process.env.AUTH0_CLIENT_SECRET;

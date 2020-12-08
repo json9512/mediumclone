@@ -15,7 +15,8 @@ This readme shows the weekly progress of the development
 |1|12/03|<ul><li>Like functionality for each post</li><li>Post deletion</li></ul>|n/a|
 |2|12/04|<ul><li>Dynamic content load on main page</li><li>Application functionality completed</li><li>Apply last design touches</li></ul>|n/a|
 |2|12/05|<ul><li>CI pipeline error fix</li></ul>|n/a|
-|2|12/06|<ul><li>Additional unit tests created</li></ul>|n/a|
+|2|12/06|<ul><li>Additional unit tests created</li><li>Started refactoring</li></ul>|n/a|
+|2|12/07|<ul><li>Custom modal created</li></ul>|n/a|
 
 
 # Set of features to implement

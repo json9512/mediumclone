@@ -65,10 +65,12 @@ passport.use(passportStrategy);
 app.use(passport.initialize());
 app.use(passport.session());
 
+// When logged in, runs only once
 passport.serializeUser((user, done)=>{
     done(null, user);
 });
 
+// When logged in, runs every time it navigates 
 passport.deserializeUser((user, done)=>{
     done(null, user);
 })
@@ -92,6 +94,11 @@ app.use('/like', likesRouter);
 // Catch Errors
 app.use((err, req, res, next) => {
     res.status(400).json({error: err.stack});
+});
+
+// Redirect other none existing routes to home
+app.get('*', (req, res, next) => {
+    res.redirect('/')
 });
 
 module.exports = app;

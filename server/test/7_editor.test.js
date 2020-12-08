@@ -46,7 +46,7 @@ describe('Editor page test', () => {
       })
   });
 
-  it('POST /editor: Add new post into database with invalid id', done => {
+  it('POST /editor: Add new post into database with only invalid id', done => {
     const id = 3;
     const document = sample_document;
     const comments = {msg: "Testing"};
@@ -194,7 +194,7 @@ describe('Editor page test', () => {
         if (err) return done(err);
         expect(res.status).equal(500)
         expect(res.body).to.have.property('error')
-        expect(res.body.error).to.equal(`Given input not valid`)
+        expect(res.body.error).to.equal(`Error deleting data from database`)
         done();
       })
   });
