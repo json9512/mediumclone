@@ -18,7 +18,6 @@ import mypostsRouter from './routes/myposts';
 import editorRouter from './routes/editor';
 import postRouter from './routes/post';
 import likesRouter from './routes/likes';
-import Model from './models/model';
 
 const app = express();
 

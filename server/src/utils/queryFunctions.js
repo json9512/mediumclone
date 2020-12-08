@@ -5,14 +5,11 @@ import {
     createTimeStampFunction,
     insertPosts,
     createTimeStampTrigger,
-    createUsersTable,
-    dropUsersTable
 } from './queries';
 
 export const dropTables = async() => {
     return await new Promise(async (resolve) => {
         await pool.query(dropPostsTable).catch(err => console.log(err));
-        await pool.query(dropUsersTable).catch(err => console.log(err));
         resolve();
     });
 } 
@@ -22,7 +19,6 @@ export const createTables = async() => {
         await pool.query(createPostTable).catch(err => console.log(err));
         await pool.query(createTimeStampFunction).catch(err => console.log(err));
         await pool.query(createTimeStampTrigger).catch(err => console.log(err));
-        await pool.query(createUsersTable).catch(err => console.log(err));
         resolve();
     })
 }

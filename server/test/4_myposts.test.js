@@ -1,5 +1,4 @@
-import { expect, server, BASE_URL, sample_document, sample_username } from './setup';
-import cheerio from 'cheerio';
+import { expect, server, BASE_URL, sample_document} from './setup';
 
 describe('Myposts page test', () => {
   it('GET /myposts: render page with no content', done => {
@@ -44,5 +43,5 @@ describe('Myposts page test', () => {
           done();
         });
       })
-  });    
+    }); 
 });

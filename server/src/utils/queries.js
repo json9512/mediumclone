@@ -10,14 +10,6 @@ CREATE TABLE IF NOT EXISTS posts (
     updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
 `
-export const createUsersTable = `
-DROP TABLE IF EXISTS mdusers;
-CREATE TABLE IF NOT EXISTS mdusers (
-    id SERIAL PRIMARY KEY,
-    username VARCHAR UNIQUE,
-    accesstoken VARCHAR UNIQUE
-)
-`
 
 export const createTimeStampFunction = `
     CREATE OR REPLACE FUNCTION public.trigger_set_timestamp()
@@ -338,4 +330,3 @@ export const insertPosts = `
 `
 
 export const dropPostsTable = `DROP TABLE posts;`;
-export const dropUsersTable = `DROP TABLE mdusers;`;

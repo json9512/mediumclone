@@ -31,6 +31,7 @@ export const logoutFunc = (req, res) => {
 
     // destroy the session
     req.session.destroy();
+    res.cookie("connect.sid", "", {expires: new Date()});
     
     res.redirect(logoutUrl);
 }
