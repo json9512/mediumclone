@@ -4,8 +4,10 @@ import Model from '../models/model';
 const postsModel = new Model('posts');
 
 export const postPage = (req, res) => {
+
+    // Setup render items for "more from odium part"
     
-    return res.render('post', {title: "Post | M-Clone"})
+    return res.render('post', {title: "Post | O d i u m"})
 }
 
 

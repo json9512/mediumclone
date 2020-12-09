@@ -14,7 +14,26 @@ export const indexPage = async (req, res) => {
         randomPosts
     }
     
-    return res.render('home', {title: "M-Clone", data: finalJson})
+    return res.render('home', {title: "O d i u m", data: finalJson})
+}
+
+const extractContentAndImage = (item) => {
+    let content = []
+    let image = {}
+    item.document.doc.content.forEach((node) =>{
+        // If node has a text extract it
+        if ((node.type === 'paragraph' || node.type === 'heading') && node.content){
+            node.content.map(item => {
+                if (isString(item.text)){
+                    content.push(item.text)
+                }else if (item.type && item.type === 'image'){
+                    image = image ? item.attrs : image;
+                }
+            })
+        }
+    })
+
+    return {content: content, image: image}
 }
 
 const extractDataForPug = (data) => {
@@ -25,35 +44,21 @@ const extractDataForPug = (data) => {
         data.rows.forEach((item) => {
             let temp = {};
             // Extract id, username, doc.content, created_at
-            let content = []
-            let image = {}
-            item.document.doc.content.forEach((node) =>{
-                // If node has a text extract it
-                if (node.type === 'paragraph' || node.type === 'heading'){
-                    if (node.content){
-                        node.content.map(item => {
-                            if (isString(item.text)){
-                                content.push(item.text)
-                            }else if (item.type && item.type === 'image'){
-                                image = image ? item.attrs : image;
-                            }
-                        })
-                    }
-                }
-                
-            })
+            
+            let data = extractContentAndImage(item);
+            
             // Create json to store data
-            let tempDescr = content.slice(1, content.length < 3? content.length : 3)
+            let tempDescr = data.content.slice(1, data.content.length < 3? data.content.length : 3)
             tempDescr.push(" . . .")
             temp = {
                 id: item.id,
                 username: item.username,
-                title: content[0],
+                title: data.content[0],
                 description: tempDescr.join(''),
                 created_at: item.created_at,
                 img: item.image ? item.image : '/images/profile/r2.png',
-                content_img: image && image.src 
-                    ? image.src 
+                content_img: data.image && data.image.src 
+                    ? data.image.src 
                     : '/images/profile/white.PNG'
             }
 
