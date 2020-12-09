@@ -17743,30 +17743,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-
-const checkIfTagExists = (list, value) => {
-    for (const item of list){
-        if (item.innerHTML === value){
-            return true
-        }
-    }
-    return false
-}
-
-const addTag = (tagContainer, value) => {
-    const tagChildren = tagContainer.children ? tagContainer.children : []
-
-    if (!checkIfTagExists(tagChildren, value)){
-        const tags = document.createElement('span')
-        tags.className = "post-tag-text"
-        tags.innerHTML = value
-        tags.addEventListener('click', () => {
-            tagContainer.removeChild(tags)
-        })
-        tagContainer.append(tags)
-    }
-}
-
 const convertStringWithSeperator = (string) => {
     const semi = new RegExp(";", 'gi');
     const comma = new RegExp(",", "gi");
@@ -17786,17 +17762,16 @@ const tagCreator = () => {
     input.addEventListener('keypress', async (event) => {
         if (event.key === 'Enter'){
             let inputTags = await convertStringWithSeperator(input)
-            console.log(inputTags)
             
             if (inputTags.includes(" ")){
                 inputTags = inputTags.split(" ")
                 inputTags.forEach(tag => {
-                    addTag(tagContainer, tag)
+                    ;(0,_helper__WEBPACK_IMPORTED_MODULE_0__.addTag)(tagContainer, tag.trim())
                     input.value = ""
                 })
 
             }else{
-                addTag(tagContainer, inputTags)
+                (0,_helper__WEBPACK_IMPORTED_MODULE_0__.addTag)(tagContainer, inputTags.trim())
                 input.value = ""
             }
         }
@@ -17873,12 +17848,14 @@ if (document.querySelector('.error')){
   \******************************************/
 /*! namespace exports */
 /*! export URL [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export addTag [provided] [no usage info] [missing usage info prevents renaming] */
 /*! export attachEditButton [provided] [no usage info] [missing usage info prevents renaming] */
 /*! export attachPostClicked [provided] [no usage info] [missing usage info prevents renaming] */
 /*! export attachPostClickedDynamic [provided] [no usage info] [missing usage info prevents renaming] */
 /*! export attachSupplementaryUI [provided] [no usage info] [missing usage info prevents renaming] */
 /*! export createEditButton [provided] [no usage info] [missing usage info prevents renaming] */
 /*! export displayModal [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export shuffleArray [provided] [no usage info] [missing usage info prevents renaming] */
 /*! other exports [not provided] [no usage info] */
 /*! runtime requirements: __webpack_require__, __webpack_require__.r, __webpack_exports__, __webpack_require__.d, __webpack_require__.* */
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
@@ -17887,12 +17864,14 @@ if (document.querySelector('.error')){
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "URL": () => /* binding */ URL,
+/* harmony export */   "addTag": () => /* binding */ addTag,
 /* harmony export */   "displayModal": () => /* binding */ displayModal,
 /* harmony export */   "createEditButton": () => /* binding */ createEditButton,
 /* harmony export */   "attachPostClicked": () => /* binding */ attachPostClicked,
 /* harmony export */   "attachPostClickedDynamic": () => /* binding */ attachPostClickedDynamic,
 /* harmony export */   "attachEditButton": () => /* binding */ attachEditButton,
-/* harmony export */   "attachSupplementaryUI": () => /* binding */ attachSupplementaryUI
+/* harmony export */   "attachSupplementaryUI": () => /* binding */ attachSupplementaryUI,
+/* harmony export */   "shuffleArray": () => /* binding */ shuffleArray
 /* harmony export */ });
 /* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./utils */ "./src/public/javascripts/utils.js");
 
@@ -17901,6 +17880,68 @@ __webpack_require__.r(__webpack_exports__);
 
 // State the current URL as the server's origin address
 const URL = window.location.origin + "/";
+
+
+const renderAuthorBadge = (author) => {
+    const img = author.img;
+    const name = author.username;
+
+    const container = document.querySelector(".badge-container")
+    const profile_image = document.createElement('img')
+    profile_image.alt = "profile_img"
+    profile_image.className = "badge-image"
+    profile_image.src = img
+
+    const text = document.createElement('span')
+    text.className = 'badge-text'
+    text.innerHTML = "Written by \n" + name
+
+    // Follow needs to be added here if implemented
+    container.appendChild(profile_image)
+    container.appendChild(text)
+}
+
+const checkIfTagExists = (list, value) => {
+    for (const item of list){
+        if (item.innerHTML === value){
+            return true
+        }
+    }
+    return false
+}
+
+const addTag = (tagContainer, value, canEdit=true) => {
+    const tagChildren = tagContainer.children ? tagContainer.children : []
+
+    if (!checkIfTagExists(tagChildren, value)){
+        const tags = document.createElement('span')
+        tags.className = "post-tag-text"
+        tags.innerHTML = value
+        if(canEdit){
+            tags.className += '-edit'
+            tags.addEventListener('click', () => {
+                tagContainer.removeChild(tags)
+            })
+        }else{
+            // Add event to -> list of posts with same tag
+        }
+        tagContainer.append(tags)
+    }
+}
+
+const renderTags = (className, tags) => {
+    if (document.querySelector(className)){
+        const container = document.querySelector(className)
+        const t = tags ? tags.split(",") : null
+        const con = className === ".post-tag-container" ? false : true
+        
+        if (t !== null){
+            for (const c of t){
+                addTag(container, c, con)
+            }
+        }
+    }
+}
 
 const createBasicButton = (title, type) => {
     const button = document.createElement('span')
@@ -18045,7 +18086,7 @@ const attachPostClickedDynamic = (className, type) => {
  * @param {object} comments - post comments
  * @param {number} likes - post likes
  */
-const attachSupplementaryUI = (classTag, id, comments, likes) => {
+const attachSupplementaryUI = (classTag, id, comments, likes, tags, author) => {
     // Disable menubar when called from /post
     if (classTag === ".post-viewer"){
         // Disable menu bar
@@ -18059,17 +18100,32 @@ const attachSupplementaryUI = (classTag, id, comments, likes) => {
                 (0,_utils__WEBPACK_IMPORTED_MODULE_0__.saveClickFunc)(id, comments, likes);
             });
         }
+
+        renderTags('.tag-container', tags)
     }
 
-    // Populate number of likes
+    
     if (classTag === ".post-viewer"){
+        // Populate number of likes
         const likeCounter = document.createElement("span")
         likeCounter.className = "like-counter"
         likeCounter.innerHTML = likes;
         document.querySelector(".left-main-container-editor").appendChild(likeCounter);
+
+        renderTags('.post-tag-container', tags)
+        renderAuthorBadge(author)
     }
 
 }
+
+const shuffleArray =(array) => {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+}
+
+
 
 /***/ }),
 
@@ -18192,10 +18248,65 @@ if (window.location.href.indexOf("/post") !== -1){
         document.querySelector('.left-main-container-editor').appendChild(likeButton);
     }
 
+    
+
     /**Check if post with id has content */
     //.post-viewer
 
-    (0,_utils__WEBPACK_IMPORTED_MODULE_1__.loadEditor)(id, '.post-viewer');
+    
+
+    (async() => {
+        await (0,_utils__WEBPACK_IMPORTED_MODULE_1__.loadEditor)(id, '.post-viewer');
+    
+        let q = await axios__WEBPACK_IMPORTED_MODULE_2___default().post(`${_helper__WEBPACK_IMPORTED_MODULE_0__.URL}post/tag`, {id, tags: (0,_utils__WEBPACK_IMPORTED_MODULE_1__.extractTags)('.post-tag-container')})
+        if (q.data.result === null){
+            q = await axios__WEBPACK_IMPORTED_MODULE_2___default().post(`${_helper__WEBPACK_IMPORTED_MODULE_0__.URL}post/list`, {id})
+        }
+        renderMorePosts(q.data.result)
+    
+    
+    })()
+}
+
+const createAuthorBadge = () => {
+
+}
+
+const renderMorePosts = (data) => {
+    ;(0,_helper__WEBPACK_IMPORTED_MODULE_0__.shuffleArray)(data)
+    const mainContainer = document.querySelector(".more-from-container");
+    const n = data.length < 3 ? data.length : 3
+    for (let i = 0; i < n; i++){
+        const container = document.createElement('a')
+        container.className = "more-post-container"
+        container.addEventListener('click', () => {
+            window.location.href = `${_helper__WEBPACK_IMPORTED_MODULE_0__.URL}post?id=${data[i].id}`
+        })
+
+        const img = document.createElement("img")
+        img.alt = "Post_picture"
+        img.src = data[i].content_img
+        img.draggable = false
+        img.className = "more-image"
+
+        container.appendChild(img)
+
+        const title = document.createElement('span')
+        title.className = "more-text"
+        title.innerHTML = data[i].title
+
+        container.appendChild(title)
+
+        const author = document.createElement('span')
+        author.className = "more-author"
+        author.innerHTML = data[i].username
+
+        container.appendChild(author)
+        mainContainer.appendChild(container);
+
+    }
+
+
 }
 
 /***/ }),
@@ -18242,6 +18353,7 @@ __webpack_require__.r(__webpack_exports__);
   !*** ./src/public/javascripts/utils.js ***!
   \*****************************************/
 /*! namespace exports */
+/*! export extractTags [provided] [no usage info] [missing usage info prevents renaming] */
 /*! export loadEditor [provided] [no usage info] [missing usage info prevents renaming] */
 /*! export mySchema [provided] [no usage info] [missing usage info prevents renaming] */
 /*! export retrieveID [provided] [no usage info] [missing usage info prevents renaming] */
@@ -18255,6 +18367,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "mySchema": () => /* binding */ mySchema,
 /* harmony export */   "retrieveID": () => /* binding */ retrieveID,
+/* harmony export */   "extractTags": () => /* binding */ extractTags,
 /* harmony export */   "saveClickFunc": () => /* binding */ saveClickFunc,
 /* harmony export */   "loadEditor": () => /* binding */ loadEditor
 /* harmony export */ });
@@ -18311,10 +18424,10 @@ const retrieveID = (substring) => {
  * @param {number} likes - post likes
  * @param {string} endpoint - API endpoint to hit
  */
-const saveOrUpdate = (func, id, document, comments, likes, endpoint) => {
+const saveOrUpdate = (func, id, document, comments, likes, tags, endpoint) => {
 
     func(`${_helper__WEBPACK_IMPORTED_MODULE_7__.URL}${endpoint}`, {
-        id, document, comments, likes
+        id, document, comments, likes, tags
     }).then((res) => {
         //console.log(res);
         ;(0,_helper__WEBPACK_IMPORTED_MODULE_7__.displayModal)("Save complete", "success", [() => {window.location.href = `${_helper__WEBPACK_IMPORTED_MODULE_7__.URL}myposts`}])
@@ -18324,6 +18437,18 @@ const saveOrUpdate = (func, id, document, comments, likes, endpoint) => {
             window.location.href = window.location.href.split(":3000")[0] + ":3000/";
         }])
     })
+}
+
+const extractTags = (className='.tag-container') => {
+    let tagContainer = document.querySelector(className)
+    tagContainer = tagContainer.children ? tagContainer.children : []
+    let stringified = ""
+    for (const item of tagContainer){
+        stringified += item.innerHTML + ","
+    }
+    stringified = stringified !== "," ? stringified.slice(0, -1) : null
+
+    return stringified
 }
 
 /**
@@ -18340,13 +18465,24 @@ const saveClickFunc = (id, comments, likes) => {
     }
     // Get editor information and turn into JSON 
     const document = window.view.state.toJSON();
+    console.log(document)
+    if (((document.doc.content[0].type === 'paragraph')
+        || document.doc.content[0].type === 'heading'
+        || document.doc.content[0].type === 'text' )
+        && !document.doc.content[0].content){
+            (0,_helper__WEBPACK_IMPORTED_MODULE_7__.displayModal)("You can't leave the first line blank", "error", [() => {}])
+            return;
+        }
+
+    // Extract tags
+    const tags = extractTags()
     
     if (id === "none"){
         // Create new post
-        saveOrUpdate((axios__WEBPACK_IMPORTED_MODULE_6___default().post), id, document, comments, likes, "editor")
+        saveOrUpdate((axios__WEBPACK_IMPORTED_MODULE_6___default().post), id, document, comments, likes, tags, "editor")
     }else{
         // Update exists post
-        saveOrUpdate((axios__WEBPACK_IMPORTED_MODULE_6___default().put), id, document, comments, likes, "editor/update")
+        saveOrUpdate((axios__WEBPACK_IMPORTED_MODULE_6___default().put), id, document, comments, likes, tags, "editor/update")
     } 
 
 }
@@ -18354,8 +18490,6 @@ const saveClickFunc = (id, comments, likes) => {
 /**
  * Helper functions for load editor
  */
-
-
 
 /**
  * Return data with given id from database
@@ -18439,6 +18573,8 @@ const loadEditor = async (id, classTag) => {
     let comments = "";
     let likes = 0;
     let editable = true;
+    let tags = "";
+    let author = {};
 
     // if id is not none: Load from database else: create new Editor
     if (id !== "none"){
@@ -18457,9 +18593,15 @@ const loadEditor = async (id, classTag) => {
             (0,_helper__WEBPACK_IMPORTED_MODULE_7__.attachEditButton)(classTag, dataObj.data.result[0].id);
         }
 
+        const item = dataObj.data.result[0]
         // Get content of the post
-        comments = dataObj.data.result[0].comments ? dataObj.data.result[0].comments : {};
-        likes = dataObj.data.result[0].likes ? dataObj.data.result[0].likes : 0;
+        author = {
+            img: item.image ? item.image : null,
+            username: item.username ? item.username : ""
+        }
+        comments = item.comments ? item.comments : {};
+        likes = item.likes ? item.likes : 0;
+        tags = item.tags ? item.tags : null;
 
         // Set the editor to disabled when this func is called from /post
         if (classTag === ".post-viewer"){
@@ -18470,7 +18612,7 @@ const loadEditor = async (id, classTag) => {
         attachEditor(classTag, dataObj.data.result[0].document.doc, editable, mySchema);
         
         // Attach supplementary UI
-        (0,_helper__WEBPACK_IMPORTED_MODULE_7__.attachSupplementaryUI)(classTag, id, comments, likes)
+        (0,_helper__WEBPACK_IMPORTED_MODULE_7__.attachSupplementaryUI)(classTag, id, comments, likes, tags, author)
     
     } else {
         // If id === none, it means the page is on editor
@@ -18479,7 +18621,6 @@ const loadEditor = async (id, classTag) => {
         }
     }
 }
-
 
 /***/ })
 

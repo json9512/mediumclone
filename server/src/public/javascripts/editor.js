@@ -1,30 +1,6 @@
-import {URL, displayModal} from './helper';
+import {URL, displayModal, addTag} from './helper';
 import {loadEditor, retrieveID} from "./utils";
 import axios from "axios";
-
-
-const checkIfTagExists = (list, value) => {
-    for (const item of list){
-        if (item.innerHTML === value){
-            return true
-        }
-    }
-    return false
-}
-
-const addTag = (tagContainer, value) => {
-    const tagChildren = tagContainer.children ? tagContainer.children : []
-
-    if (!checkIfTagExists(tagChildren, value)){
-        const tags = document.createElement('span')
-        tags.className = "post-tag-text"
-        tags.innerHTML = value
-        tags.addEventListener('click', () => {
-            tagContainer.removeChild(tags)
-        })
-        tagContainer.append(tags)
-    }
-}
 
 const convertStringWithSeperator = (string) => {
     const semi = new RegExp(";", 'gi');
@@ -45,7 +21,6 @@ const tagCreator = () => {
     input.addEventListener('keypress', async (event) => {
         if (event.key === 'Enter'){
             let inputTags = await convertStringWithSeperator(input)
-            console.log(inputTags)
             
             if (inputTags.includes(" ")){
                 inputTags = inputTags.split(" ")

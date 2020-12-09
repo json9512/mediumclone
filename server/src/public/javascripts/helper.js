@@ -5,6 +5,68 @@ import {saveClickFunc} from './utils';
 // State the current URL as the server's origin address
 export const URL = window.location.origin + "/";
 
+
+const renderAuthorBadge = (author) => {
+    const img = author.img;
+    const name = author.username;
+
+    const container = document.querySelector(".badge-container")
+    const profile_image = document.createElement('img')
+    profile_image.alt = "profile_img"
+    profile_image.className = "badge-image"
+    profile_image.src = img
+
+    const text = document.createElement('span')
+    text.className = 'badge-text'
+    text.innerHTML = "Written by \n" + name
+
+    // Follow needs to be added here if implemented
+    container.appendChild(profile_image)
+    container.appendChild(text)
+}
+
+const checkIfTagExists = (list, value) => {
+    for (const item of list){
+        if (item.innerHTML === value){
+            return true
+        }
+    }
+    return false
+}
+
+export const addTag = (tagContainer, value, canEdit=true) => {
+    const tagChildren = tagContainer.children ? tagContainer.children : []
+
+    if (!checkIfTagExists(tagChildren, value)){
+        const tags = document.createElement('span')
+        tags.className = "post-tag-text"
+        tags.innerHTML = value
+        if(canEdit){
+            tags.className += '-edit'
+            tags.addEventListener('click', () => {
+                tagContainer.removeChild(tags)
+            })
+        }else{
+            // Add event to -> list of posts with same tag
+        }
+        tagContainer.append(tags)
+    }
+}
+
+const renderTags = (className, tags) => {
+    if (document.querySelector(className)){
+        const container = document.querySelector(className)
+        const t = tags ? tags.split(",") : null
+        const con = className === ".post-tag-container" ? false : true
+        
+        if (t !== null){
+            for (const c of t){
+                addTag(container, c, con)
+            }
+        }
+    }
+}
+
 const createBasicButton = (title, type) => {
     const button = document.createElement('span')
     button.innerHTML = title
@@ -148,7 +210,7 @@ export const attachPostClickedDynamic = (className, type) => {
  * @param {object} comments - post comments
  * @param {number} likes - post likes
  */
-export const attachSupplementaryUI = (classTag, id, comments, likes) => {
+export const attachSupplementaryUI = (classTag, id, comments, likes, tags, author) => {
     // Disable menubar when called from /post
     if (classTag === ".post-viewer"){
         // Disable menu bar
@@ -162,14 +224,28 @@ export const attachSupplementaryUI = (classTag, id, comments, likes) => {
                 saveClickFunc(id, comments, likes);
             });
         }
+
+        renderTags('.tag-container', tags)
     }
 
-    // Populate number of likes
+    
     if (classTag === ".post-viewer"){
+        // Populate number of likes
         const likeCounter = document.createElement("span")
         likeCounter.className = "like-counter"
         likeCounter.innerHTML = likes;
         document.querySelector(".left-main-container-editor").appendChild(likeCounter);
+
+        renderTags('.post-tag-container', tags)
+        renderAuthorBadge(author)
     }
 
 }
+
+export const shuffleArray =(array) => {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+}
+

@@ -1,11 +1,9 @@
 import Model from '../models/model';
-
+import {removeDuplicates, extractDataForPug} from '../utils/helper';
 
 const postsModel = new Model('posts');
 
 export const postPage = (req, res) => {
-
-    // Setup render items for "more from odium part"
     
     return res.render('post', {title: "Post | O d i u m"})
 }
@@ -38,4 +36,55 @@ export const getPostWithID = async (req, res) => {
         res.status(500).json({error: "Data not found"})
     }
     
+}
+
+const checkTag = async(tag, results) => {
+    const result = await postsModel.select('*', ` WHERE position('${tag}' in tags ) > 0;`);
+    if (result.rowCount > 0){
+        results.push(...result.rows)
+    }
+}
+
+export const getPostByTag = async(req, res) => {
+    const {id, tags} = req.body;
+    const arr = tags.includes(",") ? tags.split(",") : []
+    try{
+        let results = []
+        if (arr.length > 0){
+            for (let tag of arr){
+                await checkTag(tag, results)
+            }
+            
+        }else{
+            await checkTag(tags, results)
+        }
+        
+        results = removeDuplicates(results, parseInt(id))
+        results = extractDataForPug({rowCount: results.length, rows: results})
+
+        res.status(200).json({result: results})
+
+    }catch (err){
+        console.log(err)
+        res.status(500).json({error: "Data not found"})
+    }
+}
+
+export const listPosts = async(req, res) => {
+    const {id} = req.body
+    try{
+        const q = await postsModel.select("*")
+        if (q.rowCount > 0){
+            let results = q.rows;
+            
+            results = removeDuplicates(results, parseInt(id))
+            results = extractDataForPug({rowCount: results.length, rows: results})
+            res.status(200).json({result: results})
+            return;
+        }
+        throw "No posts"
+    }catch (err) {
+        console.log(err)
+        res.status(500).json({error: "Data fetch failed"})
+    }
 }
