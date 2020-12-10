@@ -5,7 +5,7 @@ const postsModel = new Model('posts');
 
 export const postPage = (req, res) => {
     
-    return res.render('post', {title: "Post | O d i u m"})
+    return res.render('post', {title: "Post | i d i o m"})
 }
 
 const checkTag = async(tag, results) => {
@@ -17,7 +17,7 @@ const checkTag = async(tag, results) => {
 
 const sendResponse = (res, render, results) => {
     if (render){
-        res.status(200).render('list', {title: 'Posts | O d i u m',result: results})
+        res.status(200).render('list', {title: 'Posts | i d i o m',result: results})
     }else{
         res.status(200).json({result: results})
     }
@@ -122,7 +122,7 @@ export const getPostByAuthor = async (req, res) => {
             results = removeDuplicates(results, "none")
             results = extractDataForPug({rowCount: results.length, rows: results})
             
-            res.status(200).render('list', {title: 'Posts | O d i u m', result: results})
+            res.status(200).render('list', {title: 'Posts | i d i o m', result: results})
             
             return;
         }

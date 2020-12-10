@@ -45,5 +45,5 @@ export const myPostsPage = async (req, res) => {
         });
     }
     
-    return res.render('myposts',{data: dataArr, title: "My Posts | O d i u m"})
+    return res.render('myposts',{data: dataArr, title: "My Posts | i d i o m"})
 }

@@ -15,7 +15,7 @@ export const indexPage = async (req, res) => {
         randomPosts
     }
     
-    return res.render('home', {title: "O d i u m", data: finalJson})
+    return res.render('home', {title: "i d i o m", data: finalJson})
 }
 
 const getTrendingPosts = async () => {
