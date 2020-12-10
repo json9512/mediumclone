@@ -775,7 +775,7 @@ div {
   grid-template-rows: auto;
   background-color: rgb(24, 23, 23);
   width: 100%;
-  height: auto;
+  height: 45vh;
 }
 
 .footer-container{
