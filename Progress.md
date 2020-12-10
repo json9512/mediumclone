@@ -19,6 +19,7 @@ This readme shows the weekly progress of the development
 |2|12/07|<ul><li>Custom modal created</li></ul>|n/a|
 |2|12/08|<ul><li>Create check user email verified</li><li>Edit to use profile image, content image instead of random images</li><ul>|n/a|
 |2|12/09|<ul><li>Create tagging system</li><li>Create "More from Odium" contents on post page</li><ul>|n/a|
+|2|12/10|<ul><li>Create post list by tag, or author</li><li>Create tests for /list route</li><ul>|n/a|
 
 
 # Set of features to implement
