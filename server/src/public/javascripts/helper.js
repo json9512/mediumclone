@@ -5,9 +5,14 @@ import {saveClickFunc} from './utils';
 // State the current URL as the server's origin address
 export const URL = window.location.origin + "/";
 
-const attachAuthorClicked = (item, author) => {
-    item.addEventListener('click', () => {
-        window.location.href = `${URL}list/author?name=${author}`
+/**
+ * Attach redirect on click event to given path
+ * @param {object} item - HTML element to attach "click" event to
+ * @param {string} path - URL to redirect to
+ */
+export const attachClickEvent = (item, path) => {
+    item.addEventListener('click', ()=>{
+        window.location.href = path;
     })
 }
 
@@ -20,13 +25,13 @@ const renderAuthorBadge = (author) => {
     profile_image.alt = "profile_img"
     profile_image.className = "badge-image"
     profile_image.src = img
-    attachAuthorClicked(profile_image, name)
+    attachClickEvent(profile_image, `${URL}list/author?name=${name}`)
     
 
     const text = document.createElement('span')
     text.className = 'badge-text'
     text.innerHTML = "Written by \n" + name
-    attachAuthorClicked(text, name)
+    attachClickEvent(text, `${URL}list/author?name=${name}`)
 
     // Follow needs to be added here if implemented
     container.appendChild(profile_image)
@@ -151,17 +156,7 @@ export const createEditButton = (id) => {
     return editButton;
 }
 
-/**
- * Attach redirect on click event to relevent post with its post id
- * 
- * @param {object} item - HTML element to attach "click" event to
- * @param {number || string} id - post id 
- */
-export const attachPostClicked = (item, id) => {
-    item.addEventListener('click', ()=>{
-        window.location.href = `${URL}post?id=${id}`;
-    })
-}
+
 
 /**
  * Attach redirect on click event to the children of the given HTML element by its classname
@@ -180,7 +175,8 @@ export const attachPostClickedDynamic = (className, type) => {
         if (document.getElementsByClassName(className).length > 0){
             const items = document.getElementsByClassName(className)
             for(let i = 0; i < items.length; i++){
-                attachPostClicked(items[i], items[i].id)
+                
+                attachClickEvent(items[i], `${URL}post?id=${items[i].id}`)
             }
         }
     }else{
@@ -193,8 +189,8 @@ export const attachPostClickedDynamic = (className, type) => {
             const descriptionItems = document.getElementsByClassName(description)
 
             for(let i = 0; i < titleItems.length; i++){
-                attachPostClicked(titleItems[i], titleItems[i].id)
-                attachPostClicked(descriptionItems[i], descriptionItems[i].id)
+                attachClickEvent(titleItems[i], `${URL}post?id=${titleItems[i].id}`)
+                attachClickEvent(descriptionItems[i], `${URL}post?id=${descriptionItems[i].id}`)
             }
         }
     }

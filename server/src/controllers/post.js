@@ -8,6 +8,21 @@ export const postPage = (req, res) => {
     return res.render('post', {title: "Post | O d i u m"})
 }
 
+const checkTag = async(tag, results) => {
+    const result = await postsModel.select('*', ` WHERE position($1 in tags ) > 0;`, [tag]);
+    if (result.rowCount > 0){
+        results.push(...result.rows)
+    }
+}
+
+const sendResponse = (res, render, results) => {
+    if (render){
+        res.status(200).render('list', {title: 'Posts | O d i u m',result: results})
+    }else{
+        res.status(200).json({result: results})
+    }
+}
+
 
 export const getPostWithID = async (req, res) => {
     // User might not be present -> user not logged in from frontend
@@ -36,13 +51,6 @@ export const getPostWithID = async (req, res) => {
         res.status(500).json({error: "Data not found"})
     }
     
-}
-
-const checkTag = async(tag, results) => {
-    const result = await postsModel.select('*', ` WHERE position($1 in tags ) > 0;`, [tag]);
-    if (result.rowCount > 0){
-        results.push(...result.rows)
-    }
 }
 
 export const getPostByTag = async(req, res) => {
@@ -75,12 +83,8 @@ export const getPostByTag = async(req, res) => {
         results = removeDuplicates(results, parseInt(id))
         results = extractDataForPug({rowCount: results.length, rows: results})
 
-        if (render){
-            res.status(200).render('list', {title: 'Posts | O d i u ',result: results})
-        }else{
-            res.status(200).json({result: results})
-        }
-        
+
+        sendResponse(res, render, results);
 
     }catch (err){
         console.log(err)
@@ -98,11 +102,7 @@ export const retrieveAllPosts = async(req, res) => {
             
             results = removeDuplicates(results, parseInt(id))
             results = extractDataForPug({rowCount: results.length, rows: results})
-            if (render){
-                res.status(200).render('list', {title: 'Posts | O d i u m', result: results})
-            }else{
-                res.status(200).json({result: results})
-            }
+            sendResponse(res, render, results);
             return;
         }
         throw "No posts"

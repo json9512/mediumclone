@@ -29,3 +29,21 @@ Lists things I learnt, decisions I made throughout the project.
 <br>However, this medium-clone app may not face such problem since web pages are served from the server.
 
 - User table - mediumclone only stores the username and the associated image.  Since Auth0 manages the users for this application and the user data is saved on session once they login through Auth0, there is no users table in the mediumclone database.
+
+# Extra . . .
+
+## Load balancer User login problem
+
+After completing about 99% of the app, I tried to implement a load balancer locally with nginx. However, I found that the user could not login to the app sitting behind the nginx server.
+
+I launched the instances on ports 8000, 8001, 8002 and configured nginx to distribute requests from port 300 to theses ports.
+
+The result, login failure.
+
+This was because Auth0 relied on callback URLs. Since Auth0 requests the callback URL through port 3000, the request was distributed to other instances.
+
+For example, user sending a login request from port 8000 simply did not receive the user information through the callback request from Auth0 because nginx distributed the Auth0 callback request to port 8002.
+
+This is why I think real world services implement user authentication & authorization servers separately from their core backend.
+
+To mitigate this problem without launching the user authentication & authorization server, the session or JWT should be shared across the instances through cache or database.

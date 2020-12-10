@@ -13,7 +13,7 @@ A medium clone to learn how to make services like Medium
     - read posts
     - write posts
     - like posts
-    - comment posts
+    - ~~comment posts~~
 - Link with postgresql database
 - Use of Redis cache
 - Use of docker to create images and deploy service on docker hub

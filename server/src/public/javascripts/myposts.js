@@ -1,4 +1,4 @@
-import {attachPostClickedDynamic, URL} from './helper';
+import {attachPostClickedDynamic, URL, attachClickEvent} from './helper';
 
 /**
  * My posts
@@ -10,8 +10,6 @@ if (window.location.href.indexOf("/myposts") !== -1){
 
     // attach on click event for create post button
     if (document.querySelector('.create-post-container')){
-        document.querySelector('.create-post-container').addEventListener('click', () => {
-            window.location.href = `${URL}editor?id=none`;
-        })
+        attachClickEvent(document.querySelector('.create-post-container'), `${URL}editor?id=none`)
     }
 }

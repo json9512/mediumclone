@@ -30,3 +30,27 @@
 <br>하지만 이 medium-clone 같은 경우는 frontend 역시 서버 쪽에서 유저에게 제공하기 때문에 horizontal scale out 시에도 문제가 없을 것으로 사료됩니다.
 
 - User table - mediumclone은 유저 이름과 프로필 이미지를 제외한 정보가 따로 저장되지 않습니다.  Auth0를 통한 인증을 하게되면 필요한 정보는 세션에 저장 되고 Auth0측이 mediumclone의 유저들을 관리하고 있기 때문에 user 테이블을 따로 구축하지 않았습니다. user 정보가 저장 되는 유일한 곳은 post 테이블이며 어떤 유저가 이 글을 적었는가에 대한 정보를 위해 session에서 유저의 이름과 이미지만 저장 합니다.
+
+# 여담
+
+## Load balancer 로그인 문제
+
+앱을 어느정도 끝내고 nginx를 이용한 load balancing 테스트 중 로그인이 안되는 것을 확인 했습니다.
+
+3개의 인스턴스를 각각 다른 포트 8000, 8001, 8002로 실행 시킨 뒤, nginx로 포트 3000으로 들어오는 요청을 load balancing 하도록 설정을 했습니다. 
+
+하지만 그 결과, 유저가 로그인을 할 수가 없었습니다.
+
+이유는 Auth0를 이용한 유저 인증 방식이 callback URL을 활용하고 있었기 때문입니다. 
+
+유저가 포트 8000에 구동중인 mediumclone에서 /login으로 요청을 하게되면, Auth0 측 로그인 페이지로 이동하게 됩니다.
+
+그후 유저가 로그인을 하게 되면, Auth0가 인증된 유저의 정보를 mediumclone 에 정해진 callback 주소로 보내주게 됩니다.
+
+하지만 callback URL이 포트 3000으로 정해져있기 때문에 nginx를 통한 load balancing이 일어나게 되면 로그인을 요청한 포트 8000으로 callback이 호출되지 않고 8001, 8002의 callback이 호출되기 때문입니다. 
+
+이렇게 되면 유저는 무한 로그인 화면을 볼 수 있게 됩니다. 
+
+이러한 문제 때문에 실제로는 authentication, authorization 서버를 따로 두는 것 같습니다.
+
+유저 관리 서버를 따로 두지 않고 이 문제를 해결하려면 mediumclone 같은 경우는 session을 쓰기 때문에 session을 cache나 database에 저장하고 인스턴스들 사이에 공유를 해야됩니다.
