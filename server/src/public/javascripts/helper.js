@@ -5,6 +5,11 @@ import {saveClickFunc} from './utils';
 // State the current URL as the server's origin address
 export const URL = window.location.origin + "/";
 
+const attachAuthorClicked = (item, author) => {
+    item.addEventListener('click', () => {
+        window.location.href = `${URL}list/author?name=${author}`
+    })
+}
 
 const renderAuthorBadge = (author) => {
     const img = author.img;
@@ -15,10 +20,13 @@ const renderAuthorBadge = (author) => {
     profile_image.alt = "profile_img"
     profile_image.className = "badge-image"
     profile_image.src = img
+    attachAuthorClicked(profile_image, name)
+    
 
     const text = document.createElement('span')
     text.className = 'badge-text'
     text.innerHTML = "Written by \n" + name
+    attachAuthorClicked(text, name)
 
     // Follow needs to be added here if implemented
     container.appendChild(profile_image)
@@ -48,6 +56,9 @@ export const addTag = (tagContainer, value, canEdit=true) => {
             })
         }else{
             // Add event to -> list of posts with same tag
+            tags.addEventListener('click', () => {
+                window.location.href = `${URL}list/tags?tag=${value}`
+            })
         }
         tagContainer.append(tags)
     }

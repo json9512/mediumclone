@@ -290,7 +290,7 @@ export const insertPosts = `
                     "type": "paragraph",
                     "content": [
                         {
-                            "text": "Well, Let us relive some of its lines. ",
+                            "text": "Well, Let us recall some of its lines. ",
                             "type": "text"
                         }
                     ]

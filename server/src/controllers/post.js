@@ -19,7 +19,7 @@ export const getPostWithID = async (req, res) => {
     const {id} = req.body;
     
     try {
-        const result = await postsModel.select('*', ` WHERE id = ${id}`);
+        const result = await postsModel.select('*', ` WHERE id = $1`, [id]);
         let isAuthor = false;
         if (result.rows.length > 0){
             //Check if the author is user
@@ -39,15 +39,28 @@ export const getPostWithID = async (req, res) => {
 }
 
 const checkTag = async(tag, results) => {
-    const result = await postsModel.select('*', ` WHERE position('${tag}' in tags ) > 0;`);
+    const result = await postsModel.select('*', ` WHERE position($1 in tags ) > 0;`, [tag]);
     if (result.rowCount > 0){
         results.push(...result.rows)
     }
 }
 
 export const getPostByTag = async(req, res) => {
-    const {id, tags} = req.body;
-    const arr = tags.includes(",") ? tags.split(",") : []
+    // Different based on POST and GET
+    const render = req.method === "POST" ? false : true;
+    let id = req.body.id;
+    let tags = "";
+
+    // Extract tags based on HTTP method
+    if (render){
+        tags = req.query.tag;
+
+    }else{
+        tags = req.body.tags;
+    }
+
+    let arr = tags.includes(",") ? tags.split(",") : [];
+
     try{
         let results = []
         if (arr.length > 0){
@@ -62,7 +75,12 @@ export const getPostByTag = async(req, res) => {
         results = removeDuplicates(results, parseInt(id))
         results = extractDataForPug({rowCount: results.length, rows: results})
 
-        res.status(200).json({result: results})
+        if (render){
+            res.status(200).render('list', {title: 'Posts | O d i u ',result: results})
+        }else{
+            res.status(200).json({result: results})
+        }
+        
 
     }catch (err){
         console.log(err)
@@ -70,8 +88,9 @@ export const getPostByTag = async(req, res) => {
     }
 }
 
-export const listPosts = async(req, res) => {
+export const retrieveAllPosts = async(req, res) => {
     const {id} = req.body
+    const render = req.method === "POST" ? false : true
     try{
         const q = await postsModel.select("*")
         if (q.rowCount > 0){
@@ -79,7 +98,32 @@ export const listPosts = async(req, res) => {
             
             results = removeDuplicates(results, parseInt(id))
             results = extractDataForPug({rowCount: results.length, rows: results})
-            res.status(200).json({result: results})
+            if (render){
+                res.status(200).render('list', {title: 'Posts | O d i u m', result: results})
+            }else{
+                res.status(200).json({result: results})
+            }
+            return;
+        }
+        throw "No posts"
+    }catch (err) {
+        console.log(err)
+        res.status(500).json({error: "Data fetch failed"})
+    }
+}
+
+export const getPostByAuthor = async (req, res) => {
+    const author = req.query.name
+    try{
+        const q = await postsModel.select("*", ` WHERE username=$1`, [author])
+        if (q.rowCount > 0){
+            let results = q.rows;
+            
+            results = removeDuplicates(results, "none")
+            results = extractDataForPug({rowCount: results.length, rows: results})
+            
+            res.status(200).render('list', {title: 'Posts | O d i u m', result: results})
+            
             return;
         }
         throw "No posts"

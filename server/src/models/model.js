@@ -7,9 +7,12 @@ export default class Model {
         this.pool.on('error', (err, client) => `Error: ${err}, on idle client ${client}`);
     }
 
-    async select(columns, clause){
+    async select(columns, clause, values){
         let query = `SELECT ${columns} FROM ${this.table}`;
         if (clause) query += clause;
+        if (clause && values){
+            return this.pool.query(query, values)
+        }
         return this.pool.query(query);
     }
 

@@ -42,7 +42,7 @@ if (window.location.href.indexOf("/post") !== -1){
     (async() => {
         await loadEditor(id, '.post-viewer');
     
-        let q = await axios.post(`${URL}post/tag`, {id, tags: extractTags('.post-tag-container')})
+        let q = await axios.post(`${URL}post/tag`, {id, tags: extractTags('.post-tag-container'), render: false})
         if (q.data.result === null){
             q = await axios.post(`${URL}post/list`, {id})
         }
@@ -50,10 +50,6 @@ if (window.location.href.indexOf("/post") !== -1){
     
     
     })()
-}
-
-const createAuthorBadge = () => {
-
 }
 
 const renderMorePosts = (data) => {

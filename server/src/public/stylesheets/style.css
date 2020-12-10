@@ -400,7 +400,7 @@ div {
 }
 
 .item-post-meta{
-  font-size: 1.2vh;
+  font-size: .7vw;
 }
 
 /* right container */
@@ -828,20 +828,20 @@ div {
 
 .more-text{
   margin-top: 1vh;
-  font-size: x-large;
+  font-size: 1.5vw;
   grid-row: 2;
 }
 
 .more-author{
   margin-top: 2vh;
-  font-size: larger;
+  font-size: 1vw;
   margin-bottom: 1rem;
   grid-row: 3;
 }
 
 .editor-tag{
   width: 100%;
-  font-size: 1rem;
+  font-size: 1.5vw;
   font-family: var(--ui-font);
   display: flex;
   flex-direction: column;
@@ -874,7 +874,7 @@ div {
 .post-tag-text, .post-tag-text-edit{
   width: auto;
   font-weight: 400;
-  font-size: 1.1rem;
+  font-size: 1.1vw;
   padding: .5rem;
   margin-left: .5vw;
   background-color: rgba(240, 236, 236, 0.753);
@@ -894,6 +894,7 @@ div {
   display: block;
   border: 1px solid white;
   border-radius: 2.5vw;
+  cursor: pointer;
 }
 
 .badge-text{
@@ -901,4 +902,13 @@ div {
   font-size: x-large;
   font-weight: 500;
   margin: auto;
+  cursor: pointer;
+}
+
+.show-all{
+  font-family: var(--ui-font);
+  font-size: 1vw;
+  align-self: center;
+  margin-bottom: 5vh;
+  cursor: pointer;
 }

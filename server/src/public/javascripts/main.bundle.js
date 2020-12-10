@@ -17881,6 +17881,11 @@ __webpack_require__.r(__webpack_exports__);
 // State the current URL as the server's origin address
 const URL = window.location.origin + "/";
 
+const attachAuthorClicked = (item, author) => {
+    item.addEventListener('click', () => {
+        window.location.href = `${URL}list/author?name=${author}`
+    })
+}
 
 const renderAuthorBadge = (author) => {
     const img = author.img;
@@ -17891,10 +17896,13 @@ const renderAuthorBadge = (author) => {
     profile_image.alt = "profile_img"
     profile_image.className = "badge-image"
     profile_image.src = img
+    attachAuthorClicked(profile_image, name)
+    
 
     const text = document.createElement('span')
     text.className = 'badge-text'
     text.innerHTML = "Written by \n" + name
+    attachAuthorClicked(text, name)
 
     // Follow needs to be added here if implemented
     container.appendChild(profile_image)
@@ -17924,6 +17932,9 @@ const addTag = (tagContainer, value, canEdit=true) => {
             })
         }else{
             // Add event to -> list of posts with same tag
+            tags.addEventListener('click', () => {
+                window.location.href = `${URL}list/tags?tag=${value}`
+            })
         }
         tagContainer.append(tags)
     }
@@ -18147,6 +18158,9 @@ __webpack_require__.r(__webpack_exports__);
 if (window.location.pathname === "/"){
     (0,_helper__WEBPACK_IMPORTED_MODULE_0__.attachPostClickedDynamic)("trending-box", 'box')
     ;(0,_helper__WEBPACK_IMPORTED_MODULE_0__.attachPostClickedDynamic)("item-post", 'individual')
+    document.querySelector(".show-all").addEventListener("click", () => {
+        window.location.href = `${_helper__WEBPACK_IMPORTED_MODULE_0__.URL}list`
+    })
 }
 
 /***/ }),
@@ -18164,6 +18178,35 @@ if (window.location.pathname === "/"){
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _script__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./script */ "./src/public/javascripts/script.js");
 
+
+/***/ }),
+
+/***/ "./src/public/javascripts/list.js":
+/*!****************************************!*\
+  !*** ./src/public/javascripts/list.js ***!
+  \****************************************/
+/*! namespace exports */
+/*! exports [not provided] [no usage info] */
+/*! runtime requirements: __webpack_require__, __webpack_require__.r, __webpack_exports__, __webpack_require__.* */
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _helper__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./helper */ "./src/public/javascripts/helper.js");
+
+
+/**
+ * List of posts
+ */
+if (window.location.href.indexOf("/list") !== -1){
+    
+    (0,_helper__WEBPACK_IMPORTED_MODULE_0__.attachPostClickedDynamic)('posts', "individual");
+
+    if (window.location.href.indexOf("?tag=") !== -1){
+        const tagVal = window.location.href.split("?tag=")[1];
+        document.querySelector(".posts-maintitle").innerHTML = `Posts with tag: ${tagVal}`;
+    }
+}
 
 /***/ }),
 
@@ -18258,7 +18301,7 @@ if (window.location.href.indexOf("/post") !== -1){
     (async() => {
         await (0,_utils__WEBPACK_IMPORTED_MODULE_1__.loadEditor)(id, '.post-viewer');
     
-        let q = await axios__WEBPACK_IMPORTED_MODULE_2___default().post(`${_helper__WEBPACK_IMPORTED_MODULE_0__.URL}post/tag`, {id, tags: (0,_utils__WEBPACK_IMPORTED_MODULE_1__.extractTags)('.post-tag-container')})
+        let q = await axios__WEBPACK_IMPORTED_MODULE_2___default().post(`${_helper__WEBPACK_IMPORTED_MODULE_0__.URL}post/tag`, {id, tags: (0,_utils__WEBPACK_IMPORTED_MODULE_1__.extractTags)('.post-tag-container'), render: false})
         if (q.data.result === null){
             q = await axios__WEBPACK_IMPORTED_MODULE_2___default().post(`${_helper__WEBPACK_IMPORTED_MODULE_0__.URL}post/list`, {id})
         }
@@ -18268,12 +18311,8 @@ if (window.location.href.indexOf("/post") !== -1){
     })()
 }
 
-const createAuthorBadge = () => {
-
-}
-
 const renderMorePosts = (data) => {
-    ;(0,_helper__WEBPACK_IMPORTED_MODULE_0__.shuffleArray)(data)
+    (0,_helper__WEBPACK_IMPORTED_MODULE_0__.shuffleArray)(data)
     const mainContainer = document.querySelector(".more-from-container");
     const n = data.length < 3 ? data.length : 3
     for (let i = 0; i < n; i++){
@@ -18328,6 +18367,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _myposts__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./myposts */ "./src/public/javascripts/myposts.js");
 /* harmony import */ var _posts__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./posts */ "./src/public/javascripts/posts.js");
 /* harmony import */ var _error__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./error */ "./src/public/javascripts/error.js");
+/* harmony import */ var _list__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./list */ "./src/public/javascripts/list.js");
+
 
 
 

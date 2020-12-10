@@ -1,5 +1,5 @@
 import express from 'express';
-import {postPage, getPostWithID,getPostByTag, listPosts} from '../controllers';
+import {postPage, getPostWithID,getPostByTag, retrieveAllPosts} from '../controllers';
 
 const router = express.Router();
 
@@ -7,6 +7,6 @@ const router = express.Router();
 router.get('/', postPage);
 router.post('/id', getPostWithID);
 router.post('/tag', getPostByTag);
-router.post('/list', listPosts)
+router.post('/list', retrieveAllPosts);
 
 export default router;

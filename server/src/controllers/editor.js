@@ -100,7 +100,7 @@ export const deletePost = async (req, res) => {
 
     if (id !== "none"){
         try{
-            const check = await postsModel.select('COUNT(id)', ` WHERE username='${username}' AND id='${id}';`)
+            const check = await postsModel.select('COUNT(id)', ` WHERE username=$1 AND id=$2;`, [username, id])
             if (check.rowCount > 0){
                 const data = await postsModel.dropRowWithId('id', id)
                 if (data.rowCount == 1){

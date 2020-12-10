@@ -4,6 +4,7 @@ import "./editor";
 import "./myposts"
 import "./posts";
 import "./error";
+import './list';
 
 
 
