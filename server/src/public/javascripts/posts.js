@@ -1,5 +1,5 @@
-import {URL} from './helper';
-import {loadEditor, retrieveID} from './utils';
+import {URL, shuffleArray} from './helper';
+import {loadEditor, retrieveID, extractTags} from './utils';
 import axios from 'axios';
 
 /** Posts */
@@ -32,8 +32,59 @@ if (window.location.href.indexOf("/post") !== -1){
         document.querySelector('.left-main-container-editor').appendChild(likeButton);
     }
 
+    
+
     /**Check if post with id has content */
     //.post-viewer
 
-    loadEditor(id, '.post-viewer');
+    
+
+    (async() => {
+        await loadEditor(id, '.post-viewer');
+    
+        let q = await axios.post(`${URL}post/tag`, {id, tags: extractTags('.post-tag-container'), render: false})
+        if (q.data.result === null){
+            q = await axios.post(`${URL}post/list`, {id})
+        }
+        renderMorePosts(q.data.result)
+    
+    
+    })()
+}
+
+const renderMorePosts = (data) => {
+    shuffleArray(data)
+    const mainContainer = document.querySelector(".more-from-container");
+    const n = data.length < 3 ? data.length : 3
+    for (let i = 0; i < n; i++){
+        const container = document.createElement('a')
+        container.className = "more-post-container"
+        container.addEventListener('click', () => {
+            window.location.href = `${URL}post?id=${data[i].id}`
+        })
+
+        const img = document.createElement("img")
+        img.alt = "Post_picture"
+        img.src = data[i].content_img
+        img.draggable = false
+        img.className = "more-image"
+
+        container.appendChild(img)
+
+        const title = document.createElement('span')
+        title.className = "more-text"
+        title.innerHTML = data[i].title
+
+        container.appendChild(title)
+
+        const author = document.createElement('span')
+        author.className = "more-author"
+        author.innerHTML = data[i].username
+
+        container.appendChild(author)
+        mainContainer.appendChild(container);
+
+    }
+
+
 }

@@ -18,6 +18,7 @@ import mypostsRouter from './routes/myposts';
 import editorRouter from './routes/editor';
 import postRouter from './routes/post';
 import likesRouter from './routes/likes';
+import listRouter from './routes/list';
 
 const app = express();
 
@@ -90,6 +91,7 @@ app.use('/editor', isSecured, editorRouter);
 
 app.use('/post', postRouter);
 app.use('/like', likesRouter);
+app.use('/list', listRouter);
 
 // Catch Errors
 app.use((err, req, res, next) => {

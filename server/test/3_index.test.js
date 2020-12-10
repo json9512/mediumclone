@@ -8,7 +8,7 @@ describe('Home page test', () => {
         expect(res.status).to.equal(200);
         expect(res.headers['content-type']).to.equal('text/html; charset=utf-8')
         expect(res.text).to.contains(
-          'A long time ago in a galaxy far, far away . .'
+          'Share  your  story . . .'
         );
         done();
       });

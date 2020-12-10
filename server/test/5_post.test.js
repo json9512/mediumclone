@@ -46,4 +46,56 @@ describe('Post page test', () => {
             })   
         })
     });
+
+    it('POST /post/tag: with post tag', done => {
+        // Create new post with the username
+        let id = "none";
+        let tag = "";
+        const document = sample_document;
+        const comments = {msg: "Testing"};
+        const likes = 0;
+        const tags = "darthvader";
+        let data = {id, document, comments, likes, tags}
+
+        server
+        .post(`${BASE_URL}/editor`)
+        .send(data)
+        .expect(201)
+        .end((err, res) => {
+            if (err) return done(err);
+            expect(res.status).to.equal(201);
+            expect(res.body.result).to.be.instanceOf(Array);
+            // Retrieve the ID and fetch the post endpoint with the id
+            id = res.body.result[0].id
+            tag = res.body.result[0].tags
+
+            server.post(`${BASE_URL}/post/tag`)
+                .send({id: id, tags: tag})
+                .expect(200)
+                .end((err, res) => {
+                    if(err) return done(err);
+                    expect(res.status).to.equal(200);
+                    expect(res.body.result).to.be.a('array');
+                    expect(res.body.result[0]).to.have.property('tags');
+                    expect(res.body.result[0].tags).to.be.a('string');
+                    expect(res.body.result[0].tags).to.include(tags)
+                    done();
+            })   
+        })
+    });
+
+    it('POST /post/list: list posts', done => { 
+
+        server.post(`${BASE_URL}/post/list`)
+            .send({id: "none"})
+            .expect(200)
+            .end((err, res) => {
+                if(err) return done(err);
+                expect(res.status).to.equal(200);
+                expect(res.body.result).to.be.a('array');
+                expect(res.body.result.length).to.equal(4); // There are 4 sample documents on startup
+                done();
+        })   
+    })
+   
 });

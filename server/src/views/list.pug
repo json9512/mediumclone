@@ -1,0 +1,29 @@
+extends layout
+
+block content
+  div(class='main-container')
+    div(class='left-main-container')
+        
+    div(class='center-main-container')
+        div(class='posts-maintitle') Posts
+
+        if result.length > 0
+            each item in result
+                div(class='myposts-item-container') 
+
+                    div(class='posts-title' id=`${item.id}`) #{item.title}
+                    div(class='posts-description' id=`${item.id}`) #{item.description}
+                    div(class='posts-info') Written by #{item.username}
+                
+        else
+            div(class='myposts-item-container') 
+
+                div(class='posts-title-no-pointer') No posts yet ...
+
+        div(class='footer-myposts') End 
+
+    div(class='right-main-container-editor')
+        
+
+
+    

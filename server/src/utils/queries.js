@@ -7,6 +7,7 @@ CREATE TABLE IF NOT EXISTS posts (
     comments jsonb,
     likes INTEGER,
     image VARCHAR,
+    tags VARCHAR,
     created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
     updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
@@ -30,7 +31,7 @@ export const createTimeStampTrigger = `
 `
 
 export const insertPosts = `
-    INSERT INTO posts(username, document, comments, likes, image)
+    INSERT INTO posts(username, document, comments, likes, image, tags)
     VALUES ('StormTrooper', '{
         "doc": {
             "type": "doc",
@@ -102,7 +103,7 @@ export const insertPosts = `
             "type": "text",
             "anchor": 119
         }
-    }', '{}', '3', '/images/profile/storm.png'),
+    }', '{}', '3', '/images/profile/storm.png', 'starwars,mandalorian'),
     ('theChild', '{
         "doc": {
             "type": "doc",
@@ -174,7 +175,7 @@ export const insertPosts = `
             "type": "text",
             "anchor": 104
         }
-    }', '{}', 66, '/images/profile/yoda.png'),
+    }', '{}', 66, '/images/profile/yoda.png', 'starwars,fortnite,manadalorian'),
     ('iamMando', '{
         "doc": {
             "type": "doc",
@@ -233,7 +234,7 @@ export const insertPosts = `
             "type": "text",
             "anchor": 152
         }
-    }', '{}', 0, '/images/profile/mando.png'),
+    }', '{}', 0, '/images/profile/mando.png', 'starwars'),
     ('iamMando', '{
         "doc": {
             "type": "doc",
@@ -289,7 +290,7 @@ export const insertPosts = `
                     "type": "paragraph",
                     "content": [
                         {
-                            "text": "Well, Let us relive some of its lines. ",
+                            "text": "Well, Let us recall some of its lines. ",
                             "type": "text"
                         }
                     ]
@@ -327,7 +328,7 @@ export const insertPosts = `
             "type": "text",
             "anchor": 30
         }
-    }', '{}', 16, '/images/profile/mando.png')
+    }', '{}', 16, '/images/profile/mando.png', 'starwars,mandalorian,darthvader')
 `
 
 export const dropPostsTable = `DROP TABLE posts;`;

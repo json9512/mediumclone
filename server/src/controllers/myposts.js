@@ -10,7 +10,7 @@ export const myPostsPage = async (req, res) => {
     let dataArr = [];
 
     if (check === true){
-        const result = await postsModel.select('*', ` WHERE username='${req.user._json.nickname}'`)
+        const result = await postsModel.select('*', ` WHERE username=$1`, [req.user._json.nickname])
         // Create data for pug
         result.rows.forEach((item) => {
             const doc = item.document.doc.content;
@@ -45,5 +45,5 @@ export const myPostsPage = async (req, res) => {
         });
     }
     
-    return res.render('myposts',{data: dataArr, title: "My Posts | M-Clone"})
+    return res.render('myposts',{data: dataArr, title: "My Posts | O d i u m"})
 }

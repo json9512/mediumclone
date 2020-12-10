@@ -12,10 +12,8 @@ import {
     URL, 
     displayModal, 
     attachEditButton, 
-    attachSupplementaryUI,
-    createEditButton, 
-    attachPostClicked, 
-    attachPostClickedDynamic} from './helper';
+    attachSupplementaryUI
+} from './helper';
 
 // Export schema object for prosemirror editor
 export const mySchema = new Schema({
@@ -49,10 +47,10 @@ export const retrieveID = (substring) => {
  * @param {number} likes - post likes
  * @param {string} endpoint - API endpoint to hit
  */
-const saveOrUpdate = (func, id, document, comments, likes, endpoint) => {
+const saveOrUpdate = (func, id, document, comments, likes, tags, endpoint) => {
 
     func(`${URL}${endpoint}`, {
-        id, document, comments, likes
+        id, document, comments, likes, tags
     }).then((res) => {
         //console.log(res);
         displayModal("Save complete", "success", [() => {window.location.href = `${URL}myposts`}])
@@ -62,6 +60,18 @@ const saveOrUpdate = (func, id, document, comments, likes, endpoint) => {
             window.location.href = window.location.href.split(":3000")[0] + ":3000/";
         }])
     })
+}
+
+export const extractTags = (className='.tag-container') => {
+    let tagContainer = document.querySelector(className)
+    tagContainer = tagContainer.children ? tagContainer.children : []
+    let stringified = ""
+    for (const item of tagContainer){
+        stringified += item.innerHTML + ","
+    }
+    stringified = stringified !== "," ? stringified.slice(0, -1) : null
+
+    return stringified
 }
 
 /**
@@ -78,13 +88,24 @@ export const saveClickFunc = (id, comments, likes) => {
     }
     // Get editor information and turn into JSON 
     const document = window.view.state.toJSON();
+    console.log(document)
+    if (((document.doc.content[0].type === 'paragraph')
+        || document.doc.content[0].type === 'heading'
+        || document.doc.content[0].type === 'text' )
+        && !document.doc.content[0].content){
+            displayModal("You can't leave the first line blank", "error", [() => {}])
+            return;
+        }
+
+    // Extract tags
+    const tags = extractTags()
     
     if (id === "none"){
         // Create new post
-        saveOrUpdate(axios.post, id, document, comments, likes, "editor")
+        saveOrUpdate(axios.post, id, document, comments, likes, tags, "editor")
     }else{
         // Update exists post
-        saveOrUpdate(axios.put, id, document, comments, likes, "editor/update")
+        saveOrUpdate(axios.put, id, document, comments, likes, tags, "editor/update")
     } 
 
 }
@@ -92,8 +113,6 @@ export const saveClickFunc = (id, comments, likes) => {
 /**
  * Helper functions for load editor
  */
-
-
 
 /**
  * Return data with given id from database
@@ -177,6 +196,8 @@ export const loadEditor = async (id, classTag) => {
     let comments = "";
     let likes = 0;
     let editable = true;
+    let tags = "";
+    let author = {};
 
     // if id is not none: Load from database else: create new Editor
     if (id !== "none"){
@@ -195,9 +216,15 @@ export const loadEditor = async (id, classTag) => {
             attachEditButton(classTag, dataObj.data.result[0].id);
         }
 
+        const item = dataObj.data.result[0]
         // Get content of the post
-        comments = dataObj.data.result[0].comments ? dataObj.data.result[0].comments : {};
-        likes = dataObj.data.result[0].likes ? dataObj.data.result[0].likes : 0;
+        author = {
+            img: item.image ? item.image : null,
+            username: item.username ? item.username : ""
+        }
+        comments = item.comments ? item.comments : {};
+        likes = item.likes ? item.likes : 0;
+        tags = item.tags ? item.tags : null;
 
         // Set the editor to disabled when this func is called from /post
         if (classTag === ".post-viewer"){
@@ -208,7 +235,7 @@ export const loadEditor = async (id, classTag) => {
         attachEditor(classTag, dataObj.data.result[0].document.doc, editable, mySchema);
         
         // Attach supplementary UI
-        attachSupplementaryUI(classTag, id, comments, likes)
+        attachSupplementaryUI(classTag, id, comments, likes, tags, author)
     
     } else {
         // If id === none, it means the page is on editor
