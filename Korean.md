@@ -38,3 +38,38 @@ Medium 같은 서비스를 구현하는 방법을 배우고자 시작한 클론 
 개발일지는 [여기](https://www.github.com/json9512/mediumclone/blob/master/Progress_kr.md)에 있습니다.
 
 # 결과
+
+Heroku 앱 (부팅 시간이 좀 걸립니다): [Link](https://json9512-mediumclone.herokuapp.com/)
+
+## Main page
+![mainpage](https://www.github.com/json9512/mediumclone/blob/master/images/main.PNG)<br>
+![mainpage2](https://www.github.com/json9512/mediumclone/blob/master/images/main2.PNG)<br>
+![mainpage3](https://www.github.com/json9512/mediumclone/blob/master/images/main3.PNG)<br>
+
+## Login
+![auth0](https://www.github.com/json9512/mediumclone/blob/master/images/autho0.PNG)<br>
+![loggedin](https://www.github.com/json9512/mediumclone/blob/master/images/loggedin_main.PNG)<br>
+
+## Post list && myposts page
+
+![postlist](https://www.github.com/json9512/mediumclone/blob/master/images/postlist.PNG)<br>
+![myposts](https://www.github.com/json9512/mediumclone/blob/master/images/myposts.PNG)<br>
+
+## Editor
+
+![editor](https://www.github.com/json9512/mediumclone/blob/master/images/editor.PNG)<br>
+
+## Post
+![post_by_author](https://www.github.com/json9512/mediumclone/blob/master/images/post_by_me.PNG)<br>
+![post_by_author2](https://www.github.com/json9512/mediumclone/blob/master/images/post_by_me2.PNG)<br>
+![post_by_author3](https://www.github.com/json9512/mediumclone/blob/master/images/post_by_me3.PNG)<br>
+![post_by_another](https://www.github.com/json9512/mediumclone/blob/master/images/post.PNG)<br>
+
+
+![post](https://www.github.com/json9512/mediumclone/blob/master/images/post.PNG)<br>
+
+## Trending
+
+![trending](https://www.github.com/json9512/mediumclone/blob/master/images/trending.PNG)<br>
+![likes](https://www.github.com/json9512/mediumclone/blob/master/images/like_increase.PNG)<br>
+![trending_2](https://www.github.com/json9512/mediumclone/blob/master/images/trending_2.PNG)<br>
