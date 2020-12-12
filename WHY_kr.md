@@ -29,8 +29,6 @@
 <br>위와 같은 경우에는 frontend가 session id를 가지고 있어도 처음 로그인 했던 backend와 연결을 하지 못하면 backend는 유저 정보를 알 수가 없기 때문입니다. (session이 저장소에 저장되어서 backend 앱들이 따로 불러오는 것이 아닌 이상)
 <br>하지만 이 medium-clone 같은 경우는 frontend 역시 서버 쪽에서 유저에게 제공하기 때문에 horizontal scale out 시에도 문제가 없을 것으로 사료됩니다.
 
-- User table - mediumclone은 유저 이름과 프로필 이미지를 제외한 정보가 따로 저장되지 않습니다.  Auth0를 통한 인증을 하게되면 필요한 정보는 세션에 저장 되고 Auth0측이 mediumclone의 유저들을 관리하고 있기 때문에 user 테이블을 따로 구축하지 않았습니다. user 정보가 저장 되는 유일한 곳은 post 테이블이며 어떤 유저가 이 글을 적었는가에 대한 정보를 위해 session에서 유저의 이름과 이미지만 저장 합니다.
-
 # 여담
 
 ## Load balancer 로그인 문제
