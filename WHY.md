@@ -28,7 +28,6 @@ Lists things I learnt, decisions I made throughout the project.
 - Express-Session - to use passport, express-session is a requirement. User info is saved on session after authentication through passport and the session is stored on the server. The client will be assigned a session_id which is stored in the cookie. Hence, I did not see the necessity to implement auth_token with JWT. <br>Basically, the server becomes stateful when the application uses sessions to store information. Stateful servers tend to have difficulties when scaling out. Since the client is always required to access the server which holds the appropriate session information, stateful servers sitting behind a load balancer needs to share the session information through a storage of some sort(Cache, database, etc).
 <br>However, this medium-clone app may not face such problem since web pages are served from the server.
 
-- User table - mediumclone only stores the username and the associated image.  Since Auth0 manages the users for this application and the user data is saved on session once they login through Auth0, there is no users table in the mediumclone database.
 
 # Extra . . .
 
