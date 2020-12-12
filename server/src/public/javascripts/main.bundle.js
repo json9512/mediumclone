@@ -17849,8 +17849,8 @@ if (document.querySelector('.error')){
 /*! namespace exports */
 /*! export URL [provided] [no usage info] [missing usage info prevents renaming] */
 /*! export addTag [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export attachClickEvent [provided] [no usage info] [missing usage info prevents renaming] */
 /*! export attachEditButton [provided] [no usage info] [missing usage info prevents renaming] */
-/*! export attachPostClicked [provided] [no usage info] [missing usage info prevents renaming] */
 /*! export attachPostClickedDynamic [provided] [no usage info] [missing usage info prevents renaming] */
 /*! export attachSupplementaryUI [provided] [no usage info] [missing usage info prevents renaming] */
 /*! export createEditButton [provided] [no usage info] [missing usage info prevents renaming] */
@@ -17864,10 +17864,10 @@ if (document.querySelector('.error')){
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "URL": () => /* binding */ URL,
+/* harmony export */   "attachClickEvent": () => /* binding */ attachClickEvent,
 /* harmony export */   "addTag": () => /* binding */ addTag,
 /* harmony export */   "displayModal": () => /* binding */ displayModal,
 /* harmony export */   "createEditButton": () => /* binding */ createEditButton,
-/* harmony export */   "attachPostClicked": () => /* binding */ attachPostClicked,
 /* harmony export */   "attachPostClickedDynamic": () => /* binding */ attachPostClickedDynamic,
 /* harmony export */   "attachEditButton": () => /* binding */ attachEditButton,
 /* harmony export */   "attachSupplementaryUI": () => /* binding */ attachSupplementaryUI,
@@ -17881,9 +17881,14 @@ __webpack_require__.r(__webpack_exports__);
 // State the current URL as the server's origin address
 const URL = window.location.origin + "/";
 
-const attachAuthorClicked = (item, author) => {
-    item.addEventListener('click', () => {
-        window.location.href = `${URL}list/author?name=${author}`
+/**
+ * Attach redirect on click event to given path
+ * @param {object} item - HTML element to attach "click" event to
+ * @param {string} path - URL to redirect to
+ */
+const attachClickEvent = (item, path) => {
+    item.addEventListener('click', ()=>{
+        window.location.href = path;
     })
 }
 
@@ -17896,13 +17901,13 @@ const renderAuthorBadge = (author) => {
     profile_image.alt = "profile_img"
     profile_image.className = "badge-image"
     profile_image.src = img
-    attachAuthorClicked(profile_image, name)
+    attachClickEvent(profile_image, `${URL}list/author?name=${name}`)
     
 
     const text = document.createElement('span')
     text.className = 'badge-text'
     text.innerHTML = "Written by \n" + name
-    attachAuthorClicked(text, name)
+    attachClickEvent(text, `${URL}list/author?name=${name}`)
 
     // Follow needs to be added here if implemented
     container.appendChild(profile_image)
@@ -18027,17 +18032,7 @@ const createEditButton = (id) => {
     return editButton;
 }
 
-/**
- * Attach redirect on click event to relevent post with its post id
- * 
- * @param {object} item - HTML element to attach "click" event to
- * @param {number || string} id - post id 
- */
-const attachPostClicked = (item, id) => {
-    item.addEventListener('click', ()=>{
-        window.location.href = `${URL}post?id=${id}`;
-    })
-}
+
 
 /**
  * Attach redirect on click event to the children of the given HTML element by its classname
@@ -18056,7 +18051,8 @@ const attachPostClickedDynamic = (className, type) => {
         if (document.getElementsByClassName(className).length > 0){
             const items = document.getElementsByClassName(className)
             for(let i = 0; i < items.length; i++){
-                attachPostClicked(items[i], items[i].id)
+                
+                attachClickEvent(items[i], `${URL}post?id=${items[i].id}`)
             }
         }
     }else{
@@ -18069,8 +18065,8 @@ const attachPostClickedDynamic = (className, type) => {
             const descriptionItems = document.getElementsByClassName(description)
 
             for(let i = 0; i < titleItems.length; i++){
-                attachPostClicked(titleItems[i], titleItems[i].id)
-                attachPostClicked(descriptionItems[i], descriptionItems[i].id)
+                attachClickEvent(titleItems[i], `${URL}post?id=${titleItems[i].id}`)
+                attachClickEvent(descriptionItems[i], `${URL}post?id=${descriptionItems[i].id}`)
             }
         }
     }
@@ -18158,9 +18154,7 @@ __webpack_require__.r(__webpack_exports__);
 if (window.location.pathname === "/"){
     (0,_helper__WEBPACK_IMPORTED_MODULE_0__.attachPostClickedDynamic)("trending-box", 'box')
     ;(0,_helper__WEBPACK_IMPORTED_MODULE_0__.attachPostClickedDynamic)("item-post", 'individual')
-    document.querySelector(".show-all").addEventListener("click", () => {
-        window.location.href = `${_helper__WEBPACK_IMPORTED_MODULE_0__.URL}list`
-    })
+    ;(0,_helper__WEBPACK_IMPORTED_MODULE_0__.attachClickEvent)(document.querySelector(".show-all"), `${_helper__WEBPACK_IMPORTED_MODULE_0__.URL}list`)
 }
 
 /***/ }),
@@ -18234,9 +18228,7 @@ if (window.location.href.indexOf("/myposts") !== -1){
 
     // attach on click event for create post button
     if (document.querySelector('.create-post-container')){
-        document.querySelector('.create-post-container').addEventListener('click', () => {
-            window.location.href = `${_helper__WEBPACK_IMPORTED_MODULE_0__.URL}editor?id=none`;
-        })
+        (0,_helper__WEBPACK_IMPORTED_MODULE_0__.attachClickEvent)(document.querySelector('.create-post-container'), `${_helper__WEBPACK_IMPORTED_MODULE_0__.URL}editor?id=none`)
     }
 }
 

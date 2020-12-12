@@ -13,7 +13,7 @@ const checkDataType = (document, comments, likes) => {
 export const editorPage = (req, res) => {
     
 
-    return res.render('editor', {title: "Editor | O d i u m"})
+    return res.render('editor', {title: "Editor | i d i o m"})
 }
 
 

@@ -4,6 +4,7 @@ import {extractDataForPug } from '../utils/helper';
 const postsModel = new Model('posts');
 
 export const indexPage = async (req, res) => {
+    console.log(`Port: ${process.env.PORT}, PID: ${process.pid}`)
     let finalJson = {};
 
     let trending = await getTrendingPosts();
@@ -14,7 +15,7 @@ export const indexPage = async (req, res) => {
         randomPosts
     }
     
-    return res.render('home', {title: "O d i u m", data: finalJson})
+    return res.render('home', {title: "i d i o m", data: finalJson})
 }
 
 const getTrendingPosts = async () => {

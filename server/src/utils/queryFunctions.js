@@ -7,11 +7,15 @@ import {
     createTimeStampTrigger,
 } from './queries';
 
-export const dropTables = async() => {
+const createPromise = async(query) => {
     return await new Promise(async (resolve) => {
-        await pool.query(dropPostsTable).catch(err => console.log(err));
+        await pool.query(query).catch(err => console.log(err));
         resolve();
-    });
+    })
+}
+
+export const dropTables = async() => {
+    return await createPromise(dropPostsTable); 
 } 
 
 export const createTables = async() => {
@@ -24,7 +28,5 @@ export const createTables = async() => {
 }
 
 export const insertIntoTables = async() =>  {
-    return await new Promise(async(resolve) => {
-        await pool.query(insertPosts).catch(err => console.log(err));
-        resolve();
-})}
+    return await createPromise(insertPosts); 
+}
