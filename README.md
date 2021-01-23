@@ -15,16 +15,16 @@ A medium clone to learn how to make services like Medium
     - like posts
     - ~~comment posts~~
 - Link with postgresql database
-- Use of Redis cache
-- Use of docker to create images and deploy service on docker hub
+- ~~Use of Redis cache~~
+- ~~Use of docker to create images and deploy service on docker hub~~
 - Possibly deploy the application on public cloud
 
 # Use of technical frameworks
 
 - Express
-- Redis
+- ~~Redis~~
 - Psql
-- Docker
+- ~~Docker~~
 - Travis (CI, Linux testing)
 - Appveyor (CI, Windows testing)
 - mocha, sinon-chai, chai, nyc, supertest, coveralls for Testing and visualization
