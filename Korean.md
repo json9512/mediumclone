@@ -13,16 +13,16 @@ Medium 같은 서비스를 구현하는 방법을 배우고자 시작한 클론 
     - 블로그 like 하기
     - ~~블로그에 코멘트 하기~~
 - Postgresql 과 연동하기
-- Redis cache 연동하기
-- Docker 로 docker image를 만들고 docker hub에 이미지 배포하기
-- 클라우드에 배포 (아마도?)
+- ~~Redis cache 연동하기~~
+- ~~Docker 로 docker image를 만들고 docker hub에 이미지 배포하기~~
+- 클라우드에 배포
 
 # 사용 할 프레임워크 
 
 - Express
-- Redis
+- ~~Redis~~
 - Psql
-- Docker
+- ~~Docker~~
 - Travis (CI, Linux 환경 테스트)
 - Appveyor (CI, Windows 환경 테스트)
 - mocha, sinon-chai, chai, nyc, supertest, coveralls 테스트 및 visualization
