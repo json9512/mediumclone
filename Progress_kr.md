@@ -27,6 +27,8 @@ Medium 클론 코딩을 하며 배운 것들을 주별로 정리 한 문서입�
 |2|12/08|<ul><li>유저 email이 인증 됐는지 확인하는 코드 구현</li><li>랜덤 생성 이미지 대신 유저 프로필 이미지와 post 컨텐트 속에 있는 이미지를 사용</li><ul>|n/a|
 |2|12/09|<ul><li>tagging 시스템 구현</li><li>post 페이지에 "More from idiom" 구축</li><ul>|n/a|
 |2|12/10|<ul><li>tag, author 로 post 보기 구현</li><li>/list route 테스트 구축</li><ul>|n/a|
+|3|12/11|<ul><li>코드 리팩토링</li><li>마지막 스타일 수정</li><ul>|n/a|
+|3|12/12|<ul><li>완성한 MVP main으로 merge</li><ul>|n/a|
 
 
 # 구현 할 기능
